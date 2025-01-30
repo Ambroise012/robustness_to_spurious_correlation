@@ -11,7 +11,7 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI")
+MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/workspace/data/multinli_1.0")
 FEVER_DATA_PATH = os.getenv("FEVER_PATH", "~/mygit/jiant/data/FEVER/")
 PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/mygit/jiant/data/soroush_data/extra/datasets/glue/paws/paws-qqp")
 
@@ -24,7 +24,7 @@ class settings(type):
         return type.__new__(self, name, bases, classdict)
 
 class bert_defaults(metaclass=settings):
-    per_gpu_eval_batch_size = 32
+    per_gpu_eval_batch_size = 180
     per_gpu_train_batch_size = 32
     num_train_epochs = 10
     decay_learning_rate = 'True'
@@ -34,8 +34,8 @@ class bert_defaults(metaclass=settings):
     model_type = 'bert'
 
 class bert_large_defaults(metaclass=settings):
-    per_gpu_eval_batch_size = 32
-    per_gpu_train_batch_size = 32
+    per_gpu_eval_batch_size = 180
+    per_gpu_train_batch_size = 16
     num_train_epochs = 10
     decay_learning_rate = 'True'
     do_lower_case = 'True'
@@ -88,16 +88,16 @@ class bow_defaults(metaclass=settings):
 
 class mnli_defaults(metaclass=settings):
     data_dir = f'{MNLI_DATA_PATH}'
-    # fp16 = ''
+    fp16 = ''
     task_name = 'mnli'
     do_train = ''
     overwrite_output_dir = ''
-    per_gpu_eval_batch_size = 32
+    per_gpu_eval_batch_size = 128
     num_train_epochs = 4
 
 class pawsqqp_defaults(metaclass=settings):
     data_dir = f'{PAWSQQP_DATA_PATH}'
-    # fp16 = ''
+    fp16 = ''
     task_name = 'qqp'
     do_train = ''
     overwrite_output_dir = ''
@@ -105,12 +105,12 @@ class pawsqqp_defaults(metaclass=settings):
     learning_rate = '5e-5'
     num_train_epochs = 3
     weight_decay = 0.0
-    per_gpu_train_batch_size = 64
-    per_gpu_eval_batch_size = 64
+    per_gpu_train_batch_size = 32
+    per_gpu_eval_batch_size = 400
 
 class fever_defaults(metaclass=settings):
     data_dir = f'{FEVER_DATA_PATH}'
-    # fp16 = ''
+    fp16 = ''
     task_name = 'fever'
     do_train = ''
     overwrite_output_dir = ''
@@ -119,17 +119,17 @@ class fever_defaults(metaclass=settings):
     num_train_epochs = 2
     max_seq_length = 128
     weight_decay = 0.0
-    per_gpu_train_batch_size = 64
-    per_gpu_eval_batch_size = 64
+    per_gpu_train_batch_size = 32
+    per_gpu_eval_batch_size = 200
     warmup_proportion = 0.
 
 class fever_test_defaults(metaclass=settings):
     data_dir = f'{FEVER_DATA_PATH}'
-    # fp16 = ''
+    fp16 = ''
     task_name = 'fever'
     overwrite_output_dir = ''
     eval_tasks = 'fever fever-symmetric-r1 fever-symmetric-r2'
-    per_gpu_eval_batch_size = 64
+    per_gpu_eval_batch_size = 400
 
 def execute(entry_point, kwargs):
     pprint(kwargs)
@@ -167,7 +167,7 @@ class Main():
         from pathlib import Path
         import pandas as pd 
 
-        output_path = example_stats_path + 'important_examples_b.pkl'
+        output_path = example_stats_path + '/important_examples.pkl'
         examples_stats = pickle.load(open(example_stats_path + '/example_stats.pkl', 'rb'))
         n_epochs = examples_stats['accuracy'].shape[1]
         print("Loaded example stats,", examples_stats.keys())
@@ -182,8 +182,8 @@ class Main():
             if task == 'mnli':
                 df = pd.read_csv(
                         train_path,
-                        delimiter='\t',
-                        on_bad_lines='skip', 
+                        sep='\t',
+                        error_bad_lines=False,
                         skiprows=0,
                         quoting=3,
                         keep_default_na=False,
@@ -204,15 +204,16 @@ class Main():
             importance_scores = loss * (1 - accuracy)  # Example score formula
             return importance_scores
 
-        def select_examples_with_highest_score_diff(importance_scores, threshold=0.3):
+        def select_examples_with_highest_score_diff(importance_scores, threshold=0.1):
             """Selects examples with the highest score differences."""
             score_diff = np.abs(np.diff(importance_scores))  # Absolute difference in scores
             selected_indices = np.where(score_diff > threshold)[0]  # Indices with significant score differences
             return selected_indices
-        def balance_by_class(hard_ids, labels_dict):
-            """Balances the examples by class."""
+
+        def balance_by_class(selected_ids):
+            """Balances selected examples by their class."""
             by_label = dict()
-            for id in hard_ids:
+            for id in selected_ids:
                 label = labels_dict[id]
                 arr = by_label.get(label, [])
                 arr.append(id)
@@ -223,115 +224,124 @@ class Main():
                 balanced_ids.extend(arr[:min_num])
             return np.array(balanced_ids)
 
+        # Compute importance scores for each example
         importance_scores = compute_importance_scores(examples_stats)
 
         # Select examples with the highest score differences
         selected_indices = select_examples_with_highest_score_diff(importance_scores)
 
-        balanced_selected_indices = balance_by_class(selected_indices, labels_dict)
+        # Balance the selected examples by class
+        balanced_selected_indices = balance_by_class(selected_indices)
 
         # Save the results in a pickle file
         results = {
             'selected_examples': selected_indices,
-            'forgettables_b': balanced_selected_indices
+            'balanced_selected_examples': balanced_selected_indices
         }
 
         with open(output_path, "wb") as f:
             pickle.dump(results, f)
 
         print(f"Important examples saved to {output_path}")
-    
-    def extract_important_forget_ex(
-            self,
-            example_stats_path,
-            labels_file=None,
-            train_path=None,
-            task='mnli'
-        ):
-        
-        import pickle
-        import numpy as np
-        import pandas as pd 
 
-        output_path = example_stats_path + 'important_and_forget_examples.pkl'
-        examples_stats = pickle.load(open(example_stats_path + '/example_stats.pkl', 'rb'))
-        n_epochs = examples_stats['accuracy'].shape[1]
-        print("Loaded example stats,", examples_stats.keys())
+    # def extract_hard_examples(
+        #     self,
+        #     example_stats_path,
+        #     labels_file=None,
+        #     train_path=None,
+        #     task='mnli'
+        # ):
+        # """Given a model examples stats, filter all examples if unlearnt after epoch_num,
+        # and store an example file in the specified directory.
+        # """ 
+        # import pickle
+        # import numpy as np
+        # from pathlib import Path
+        # import pandas as pd 
 
-        if labels_file:
-            labels = open(labels_file, 'r').readlines()
-            labels_dict = {int(id): int(label) for id, label in (line.strip().split() for line in labels)}
-        elif train_path:
-            if task == 'mnli':
-                df = pd.read_csv(
-                    train_path,
-                    delimiter='\t',
-                    on_bad_lines='skip', 
-                    quoting=3,
-                    keep_default_na=False,
-                    encoding="utf-8",
-                )
-            elif task == 'fever':
-                import json
-                with open(train_path, 'r') as f:
-                    data = [json.loads(s.strip()) for s in f.readlines()]
-                df = pd.DataFrame(data)
-            labels_dict = {int(id): label for id, label in enumerate(df.gold_label)}
+        # output_path = example_stats_path + '/hard_examples.pkl'
+        # examples_stats = pickle.load(open(example_stats_path + '/example_stats.pkl', 'rb'))
+        # n_epochs = examples_stats['accuracy'].shape[1]
+        # print("Loaded example stats,", examples_stats.keys())
 
-        def balance_by_class(ids, labels_dict):
-            by_label = {}
-            for id in ids:
-                label = labels_dict[id]
-                by_label.setdefault(label, []).append(id)
-            min_count = min(len(arr) for arr in by_label.values())
-            balanced_ids = [id for arr in by_label.values() for id in arr[:min_count]]
-            return np.array(balanced_ids)
-        
-        ###############
-        ## important ##
-        ###############
-        def compute_importance_scores(examples_stats):
-            """Calculates an importance score for each example."""
-            loss = examples_stats['loss'][:, -1]
-            accuracy = examples_stats['accuracy'][:, -1]
-            return loss * (1 - accuracy)
+        # if labels_file:
+        #     labels = open(labels_file, 'r').readlines()
+        #     labels_dict = dict()
+        #     for line in labels:
+        #         id, label = line.strip().split()
+        #         labels_dict[int(id)] = int(label)
+        # if train_path:
+        #     if task == 'mnli':
+        #         df = pd.read_csv(
+        #                 train_path,
+        #                 sep='\t',
+        #                 error_bad_lines=False,
+        #                 skiprows=0,
+        #                 quoting=3,
+        #                 keep_default_na=False,
+        #                 encoding="utf-8",)
+        #     elif task == 'fever':
+        #         import json
+        #         with open(train_path, 'r') as f:
+        #             data = [json.loads(s.strip()) for s in f.readlines()]
+        #         df = pd.DataFrame(data)
+        #     labels_dict = dict()
+        #     for id, label in enumerate(df.gold_label):
+        #         labels_dict[int(id)] = label
 
-        def select_examples_with_highest_score_diff(importance_scores, threshold=0.3):
-            """Selects examples with the highest score differences."""
-            score_diff = np.abs(np.diff(importance_scores))
-            return np.where(score_diff > threshold)[0]
-        
-        # Compute important examples
-        importance_scores = compute_importance_scores(examples_stats)
-        important_indices = select_examples_with_highest_score_diff(importance_scores)
-        
-        ##############
-        ### forget ###
-        ##############  
-        def select_forgettables():
-            from utils_forgetting import compute_forgetting
-            forgetting, _, max_correct = compute_forgetting(examples_stats['accuracy'])
-            never_learnt = np.where(forgetting == max_correct)[0]
-            return forgetting, never_learnt
+        # def balance_by_class(hard_ids):
+        #     by_label = dict()
+        #     for id in hard_ids:
+        #         label = labels_dict[id]
+        #         arr = by_label.get(label, [])
+        #         arr.append(id)
+        #         by_label[label] = arr
+        #     min_num = np.min([len(arr) for arr in by_label.values()])
+        #     balanced_ids = []
+        #     for arr in by_label.values():
+        #         balanced_ids.extend(arr[:min_num])
+        #     return np.array(balanced_ids)
 
-        # Compute forgettables
-        forgettables, never_learnt = select_forgettables()
+        # def select_unlearnt_after_n_epochs(n_epoch):
+        #     accuracy = examples_stats['accuracy'][:, n_epoch:]
+        #     accuracy_min = np.min(accuracy, 1)
+        #     hard_indices = np.where(accuracy_min == 0)[0]
+        #     return hard_indices
 
-        ###############
-        ### Combine ###
-        ###############
-        combined_indices = np.union1d(important_indices, forgettables)
-        balanced_combined_indices = balance_by_class(combined_indices, labels_dict)
+        # def select_by_loss():
+        #     end_loss = examples_stats['loss'][:, -1]
+        #     indices_by_loss = np.argsort(end_loss)[::-1]
+        #     return indices_by_loss
 
-        results = {
-            'selected_examples': combined_indices,
-            'forgettables_b': balanced_combined_indices
-        }
+        # def select_forgettables():
+        #     from utils_forgetting import compute_forgetting
+        #     f, c, m = compute_forgetting(examples_stats['accuracy'])
+        #     never_learnt = np.where(c == m)[0]
+        #     forgettables = f
+        #     return forgettables, never_learnt
 
-        with open(output_path, "wb") as f:
-            pickle.dump(results, f)
+        # results = {}
+        # for n_epoch in range(n_epochs):
+        #     results[f'not_learnt_after_epc_{n_epoch}'] = select_unlearnt_after_n_epochs(n_epoch)
+        #     results[f'not_learnt_after_epc_{n_epoch}_b'] = balance_by_class(results[f'not_learnt_after_epc_{n_epoch}'])
 
-        print(f"Important and forgettable examples saved to {output_path}")
+        # f, u = select_forgettables()
+        # ordered_by_loss = select_by_loss()
+        # num_examples = len(ordered_by_loss)
+        # for perc in [1, 5, 10, 25, 50, 75]:
+        #     results[f'top_{perc}%_loss'] = ordered_by_loss[:int((float(perc) * num_examples) / 100)]
+        #     results[f'top_{perc}%_loss_b'] = balance_by_class(results[f'top_{perc}%_loss'])
+
+        # results['forgettables'] = f
+        # results['forgettables_b'] = balance_by_class(f)
+        # results['never_learnt'] = u
+        # results['never_learnt_b'] = balance_by_class(u)
+
+        # for key, ids in results.items():
+        #     print(key, '=', ids[:5], ',', len(ids))
+
+        # with open(output_path, "wb") as f:
+        #    pickle.dump(results, f)
 
     ###########
     #   MNLI  #
@@ -411,7 +421,7 @@ class Main():
         hard_type="forgettables_b",
         training_examples_ids=None,
         seed=0,
-        task='mnli'
+        task='fever'
     ):
         """Finetune a base model, e.g. bert, on hard examples
            from a weaker model, e.g. bow.
@@ -428,7 +438,7 @@ class Main():
         elif task == 'mnli':
             args.update(mnli_defaults.fields)
 
-        args.update(dict(num_train_epochs=4, learning_rate=5e-6, per_gpu_train_batch_size=32))
+        args.update(dict(num_train_epochs=4, learning_rate=5e-6, per_gpu_train_batch_size=100))
         args.update(dict(load_model=base_model_path))
         args.update(dict(output_dir=Path(output_dir) / base_model_type, seed=seed))
         args.update(dict(training_examples_ids=training_examples_ids))
@@ -471,7 +481,7 @@ class Main():
             args.pop('do_train')
         if not dev:
             args.update(dict(test=""))
-        args.update(dict(per_gpu_eval_batch_size="32"))
+        args.update(dict(per_gpu_eval_batch_size="100"))
 
         # train base model on hard examples
         execute("exp_glue.py", args)
