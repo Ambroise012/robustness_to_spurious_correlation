@@ -115,12 +115,12 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
     optimizer = AdamW(optimizer_grouped_parameters, betas=(args.adam_beta0, 0.999), lr=args.learning_rate, eps=args.adam_epsilon)
     scheduler = WarmupLinearSchedule(optimizer, warmup_steps=args.warmup_steps, t_total=t_total if args.decay_learning_rate else 1e10)
 
-    if args.fp16:
-        try:
-            from apex import amp
-        except ImportError:
-            raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
-        model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
+    # if args.fp16:
+    #     try:
+    #         from apex import amp
+    #     except ImportError:
+    #         raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
+    #     model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
 
     # multi-gpu training (should be after apex fp16 initialization)
     if args.n_gpu > 1:
@@ -227,13 +227,13 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
             if args.gradient_accumulation_steps > 1:
                 loss = loss / args.gradient_accumulation_steps
 
-            if args.fp16:
-                with amp.scale_loss(loss.float(), optimizer) as scaled_loss:
-                    scaled_loss.backward()
-                torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), args.max_grad_norm)
-            else:
-                loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
+            # if args.fp16:
+            #     with amp.scale_loss(loss.float(), optimizer) as scaled_loss:
+            #         scaled_loss.backward()
+            #     torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), args.max_grad_norm)
+            
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
 
             accuracy = (outputs[1].max(1)[1].detach().cpu() == inputs['labels'].detach().cpu()).float().mean()
             tb_writer.add_scalar('lr', scheduler.get_last_lr()[0], global_step)
@@ -636,6 +636,14 @@ def main():
             with open(args.hard_examples, 'rb') as f:
                 hard_examples_stats = pickle.load(f)
                 hard_examples_ids = hard_examples_stats[args.hard_type]
+                
+        # if args.hard_examples:
+        #     # Lecture du fichier .pkl
+        #     with open(args.hard_examples, 'rb') as f:
+        #         hard_examples_stats = pickle.load(f)
+        #         # Utilisation directe de tout le contenu
+        #         hard_examples_ids = np.array(hard_examples_stats, dtype='int64')
+                
         elif args.training_examples_ids:
             # other format of training examples ids
             with open(args.training_examples_ids, 'r') as f:

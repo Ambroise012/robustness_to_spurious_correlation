@@ -1,0 +1,410 @@
+nohup: ignoring input
+01/28/2025 09:59:44 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: False
+01/28/2025 09:59:44 - INFO - pytorch_transformers.configuration_utils -   loading configuration file mnli_bert_base/checkpoint-last/config.json
+01/28/2025 09:59:44 - INFO - pytorch_transformers.configuration_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "finetuning_task": "mnli",
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 3,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+01/28/2025 09:59:44 - INFO - pytorch_transformers.tokenization_utils -   Model name 'mnli_bert_base/checkpoint-last/' not found in model shortcut name list (bert-base-uncased, bert-large-uncased, bert-base-cased, bert-large-cased, bert-base-multilingual-uncased, bert-base-multilingual-cased, bert-base-chinese, bert-base-german-cased, bert-large-uncased-whole-word-masking, bert-large-cased-whole-word-masking, bert-large-uncased-whole-word-masking-finetuned-squad, bert-large-cased-whole-word-masking-finetuned-squad, bert-base-cased-finetuned-mrpc). Assuming 'mnli_bert_base/checkpoint-last/' is a path or url to a directory containing tokenizer files.
+01/28/2025 09:59:44 - INFO - pytorch_transformers.tokenization_utils -   loading file mnli_bert_base/checkpoint-last/vocab.txt
+01/28/2025 09:59:44 - INFO - pytorch_transformers.tokenization_utils -   loading file mnli_bert_base/checkpoint-last/added_tokens.json
+01/28/2025 09:59:44 - INFO - pytorch_transformers.tokenization_utils -   loading file mnli_bert_base/checkpoint-last/special_tokens_map.json
+01/28/2025 09:59:44 - INFO - pytorch_transformers.tokenization_utils -   loading file mnli_bert_base/checkpoint-last/tokenizer_config.json
+01/28/2025 09:59:44 - INFO - pytorch_transformers.modeling_utils -   loading weights file mnli_bert_base/checkpoint-last/pytorch_model.bin
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/pytorch_transformers/modeling_utils.py:333: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(resolved_archive_file, map_location='cpu')
+01/28/2025 09:59:46 - INFO - __main__ -   Training/evaluation parameters Namespace(data_dir='/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI', training_examples_ids='None', hard_examples='mnli_bert_base/important_examples_probs_threshold_10percent.pkl', hard_type='forgettables_b', model_type='bert', model_name_or_path='bert-base-uncased', do_lower_case=True, avg_models=None, load_model='mnli_bert_base/checkpoint-last/', proportion=0.0, adam_beta0=0.9, task_name='mnli', stress_subtask=None, output_dir='mnli_bert_base_fbert_important_samples/bert_base', config_name='', tokenizer_name='', cache_dir='', max_seq_length=128, do_train=True, do_eval=False, evaluate_during_training=False, per_gpu_train_batch_size=32, per_gpu_eval_batch_size=32, gradient_accumulation_steps=1, learning_rate=5e-06, weight_decay=0.0, adam_epsilon=1e-08, decay_learning_rate=True, max_grad_norm=1.0, num_train_epochs=6.0, max_steps=-1, warmup_proportion=0.0, logging_steps=50, save_steps=500, eval_all_checkpoints=False, no_cuda=False, overwrite_output_dir=True, overwrite_cache=False, seed=0, fp16=False, fp16_opt_level='O1', local_rank=-1, eval_tasks=['mnli', 'hans'], test=False, n_gpu=1, device=device(type='cuda'), output_mode='classification')
+01/28/2025 09:59:46 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_train_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:00:01 - INFO - utils_data -   Dataset length: 392702.
+01/28/2025 10:00:03 - INFO - __main__ -   Filtering dataset using hard examples: 23064
+01/28/2025 10:00:04 - INFO - __main__ -   ***** Running training *****
+01/28/2025 10:00:04 - INFO - __main__ -     Num examples = 23064
+01/28/2025 10:00:04 - INFO - __main__ -     Num Epochs = 6
+01/28/2025 10:00:04 - INFO - __main__ -     Instantaneous batch size per GPU = 32
+01/28/2025 10:00:04 - INFO - __main__ -     Total train batch size (w. parallel, distributed & accumulation) = 32
+01/28/2025 10:00:04 - INFO - __main__ -     Gradient Accumulation steps = 1
+01/28/2025 10:00:04 - INFO - __main__ -     Total optimization steps = 4326
+Epoch:   0%|          | 0/6 [00:00<?, ?it/s]01/28/2025 10:00:04 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:00:04 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:00:04 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:00:04 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:00:04 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:28<00:00, 10.71it/s]
+01/28/2025 10:00:33 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:00:34 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:00:34 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:00:34 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:00:34 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  68%|██████▊   | 641/938 [01:00<00:27, 10.68it/s][A
+Evaluating:  68%|██████▊   | 641/938 [01:10<00:27, 10.68it/s][AEvaluating: 100%|██████████| 938/938 [01:28<00:00, 10.63it/s]
+01/28/2025 10:02:02 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch--1
+   mnli.acc  hans.acc
+0  0.841977  0.695467
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/pytorch_transformers/optimization.py:166: UserWarning: This overload of add_ is deprecated:
+	add_(Number alpha, Tensor other)
+Consider using one of the following signatures instead:
+	add_(Tensor other, *, Number alpha = 1) (Triggered internally at ../torch/csrc/utils/python_arg_parser.cpp:1642.)
+  exp_avg.mul_(beta1).add_(1.0 - beta1, grad)
+
+Loss: 0.485, Acc: 0.875:   5%|▍         | 34/721 [00:10<03:24,  3.36it/s][A
+Loss: 0.346, Acc: 0.844:   9%|▉         | 68/721 [00:20<03:15,  3.34it/s][A
+Loss: 0.289, Acc: 0.906:  14%|█▍        | 102/721 [00:30<03:04,  3.36it/s][A
+Loss: 0.152, Acc: 0.938:  19%|█▉        | 136/721 [00:40<02:53,  3.37it/s][A
+Loss: 0.289, Acc: 0.875:  24%|██▎       | 170/721 [00:50<02:43,  3.38it/s][A
+Loss: 0.657, Acc: 0.781:  28%|██▊       | 204/721 [01:00<02:32,  3.38it/s][A
+Loss: 0.215, Acc: 0.938:  33%|███▎      | 238/721 [01:10<02:22,  3.39it/s][A
+Loss: 0.209, Acc: 0.906:  38%|███▊      | 272/721 [01:20<02:13,  3.37it/s][A
+Loss: 0.231, Acc: 0.906:  42%|████▏     | 306/721 [01:31<02:05,  3.31it/s][A
+Loss: 0.426, Acc: 0.844:  42%|████▏     | 306/721 [01:41<02:05,  3.31it/s][A
+Loss: 0.485, Acc: 0.812:  47%|████▋     | 339/721 [01:41<01:55,  3.30it/s][A
+Loss: 0.578, Acc: 0.750:  52%|█████▏    | 373/721 [01:51<01:44,  3.32it/s][A
+Loss: 0.620, Acc: 0.812:  56%|█████▋    | 407/721 [02:01<01:33,  3.34it/s][A
+Loss: 0.482, Acc: 0.750:  61%|██████    | 441/721 [02:11<01:23,  3.35it/s][A
+Loss: 0.627, Acc: 0.781:  66%|██████▌   | 475/721 [02:21<01:13,  3.36it/s][A
+Loss: 0.360, Acc: 0.938:  71%|███████   | 509/721 [02:31<01:02,  3.37it/s][A
+Loss: 0.559, Acc: 0.812:  75%|███████▌  | 543/721 [02:41<00:52,  3.37it/s][A
+Loss: 0.428, Acc: 0.844:  80%|████████  | 577/721 [02:51<00:42,  3.38it/s][A
+Loss: 0.358, Acc: 0.875:  85%|████████▍ | 611/721 [03:01<00:32,  3.38it/s][A
+Loss: 0.355, Acc: 0.875:  89%|████████▉ | 645/721 [03:11<00:22,  3.38it/s][A
+Loss: 0.263, Acc: 0.875:  94%|█████████▍| 679/721 [03:21<00:12,  3.39it/s][A
+Loss: 0.511, Acc: 0.844:  99%|█████████▉| 713/721 [03:31<00:02,  3.39it/s][ALoss: 0.245, Acc: 1.000: 100%|██████████| 721/721 [03:34<00:00,  3.37it/s]
+01/28/2025 10:05:37 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:05:38 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:05:38 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:05:38 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:05:38 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:29<00:00, 10.54it/s]
+01/28/2025 10:06:07 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:06:08 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:06:08 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:06:08 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:06:08 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  67%|██████▋   | 629/938 [01:00<00:29, 10.48it/s][A
+Evaluating:  67%|██████▋   | 629/938 [01:16<00:29, 10.48it/s][AEvaluating: 100%|██████████| 938/938 [01:30<00:00, 10.38it/s]
+01/28/2025 10:07:39 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch-0
+01/28/2025 10:07:39 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:07:39 - INFO - __main__ -   mnli/acc = 0.8300560366785532
+01/28/2025 10:07:39 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:07:39 - INFO - __main__ -   hans/acc = 0.7317666666666667
+Epoch:  17%|█▋        | 1/6 [07:34<37:53, 454.76s/it]   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A
+Loss: 0.148, Acc: 0.938:   5%|▍         | 34/721 [00:10<03:24,  3.35it/s][A
+Loss: 0.346, Acc: 0.875:   9%|▉         | 68/721 [00:20<03:14,  3.37it/s][A
+Loss: 0.114, Acc: 0.969:  14%|█▍        | 102/721 [00:30<03:03,  3.37it/s][A
+Loss: 0.299, Acc: 0.812:  19%|█▉        | 136/721 [00:40<02:53,  3.38it/s][A
+Loss: 0.279, Acc: 0.906:  24%|██▎       | 170/721 [00:50<02:43,  3.38it/s][A
+Loss: 0.143, Acc: 0.969:  28%|██▊       | 204/721 [01:00<02:32,  3.38it/s][A
+Loss: 0.379, Acc: 0.844:  33%|███▎      | 238/721 [01:10<02:22,  3.38it/s][A
+Loss: 0.350, Acc: 0.750:  38%|███▊      | 272/721 [01:20<02:12,  3.38it/s][A
+Loss: 0.258, Acc: 0.906:  42%|████▏     | 306/721 [01:30<02:02,  3.38it/s][A
+Loss: 0.258, Acc: 0.875:  47%|████▋     | 340/721 [01:40<01:52,  3.38it/s][A
+Loss: 0.486, Acc: 0.750:  52%|█████▏    | 374/721 [01:50<01:42,  3.38it/s][A
+Loss: 0.178, Acc: 0.969:  57%|█████▋    | 408/721 [02:00<01:32,  3.37it/s][A
+Loss: 0.293, Acc: 0.938:  61%|██████▏   | 442/721 [02:10<01:22,  3.36it/s][A
+Loss: 0.205, Acc: 0.938:  66%|██████▌   | 476/721 [02:21<01:12,  3.36it/s][A
+Loss: 0.258, Acc: 0.906:  71%|███████   | 510/721 [02:31<01:02,  3.36it/s][A
+Loss: 0.496, Acc: 0.844:  75%|███████▌  | 544/721 [02:41<00:52,  3.35it/s][A
+Loss: 0.532, Acc: 0.750:  80%|████████  | 578/721 [02:51<00:42,  3.35it/s][A
+Loss: 0.313, Acc: 0.875:  85%|████████▍ | 612/721 [03:01<00:32,  3.36it/s][A
+Loss: 0.404, Acc: 0.875:  90%|████████▉ | 646/721 [03:11<00:22,  3.36it/s][A
+Loss: 0.213, Acc: 0.938:  94%|█████████▍| 680/721 [03:22<00:12,  3.31it/s][A
+Loss: 0.364, Acc: 0.844:  99%|█████████▉| 713/721 [03:32<00:02,  3.30it/s][ALoss: 0.440, Acc: 0.833: 100%|██████████| 721/721 [03:34<00:00,  3.36it/s]
+01/28/2025 10:11:13 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:11:14 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:11:14 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:11:14 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:11:14 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:29<00:00, 10.49it/s]
+01/28/2025 10:11:43 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:11:44 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:11:44 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:11:44 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:11:44 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  67%|██████▋   | 627/938 [01:00<00:29, 10.44it/s][A
+Evaluating:  67%|██████▋   | 627/938 [01:19<00:29, 10.44it/s][AEvaluating: 100%|██████████| 938/938 [01:29<00:00, 10.43it/s]
+01/28/2025 10:13:14 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch-1
+01/28/2025 10:13:14 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:13:14 - INFO - __main__ -   mnli/acc = 0.8285277636271013
+01/28/2025 10:13:14 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:13:14 - INFO - __main__ -   hans/acc = 0.7317666666666667
+Epoch:  33%|███▎      | 2/6 [13:10<25:38, 384.73s/it]   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+2  0.828528  0.731767
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A
+Loss: 0.210, Acc: 0.906:   5%|▍         | 34/721 [00:10<03:24,  3.36it/s][A
+Loss: 0.122, Acc: 1.000:   9%|▉         | 68/721 [00:20<03:13,  3.37it/s][A
+Loss: 0.267, Acc: 0.875:  14%|█▍        | 102/721 [00:30<03:03,  3.37it/s][A
+Loss: 0.151, Acc: 0.938:  19%|█▉        | 136/721 [00:40<02:53,  3.38it/s][A
+Loss: 0.201, Acc: 0.938:  24%|██▎       | 170/721 [00:50<02:43,  3.38it/s][A
+Loss: 0.132, Acc: 0.969:  28%|██▊       | 204/721 [01:00<02:33,  3.36it/s][A
+Loss: 0.174, Acc: 0.906:  33%|███▎      | 238/721 [01:10<02:23,  3.37it/s][A
+Loss: 0.199, Acc: 0.938:  38%|███▊      | 272/721 [01:20<02:13,  3.36it/s][A
+Loss: 0.312, Acc: 0.906:  42%|████▏     | 306/721 [01:31<02:04,  3.33it/s][A
+Loss: 0.148, Acc: 0.938:  47%|████▋     | 340/721 [01:41<01:54,  3.32it/s][A
+Loss: 0.153, Acc: 0.938:  52%|█████▏    | 374/721 [01:51<01:45,  3.30it/s][A
+Loss: 0.222, Acc: 0.969:  56%|█████▋    | 407/721 [02:01<01:35,  3.30it/s][A
+Loss: 0.452, Acc: 0.906:  61%|██████    | 440/721 [02:12<01:25,  3.29it/s][A
+Loss: 0.301, Acc: 0.844:  66%|██████▌   | 474/721 [02:22<01:14,  3.30it/s][A
+Loss: 0.211, Acc: 0.906:  70%|███████   | 508/721 [02:32<01:04,  3.29it/s][A
+Loss: 0.247, Acc: 0.875:  75%|███████▌  | 542/721 [02:42<00:54,  3.30it/s][A
+Loss: 0.308, Acc: 0.875:  80%|███████▉  | 576/721 [02:53<00:44,  3.29it/s][A
+Loss: 0.719, Acc: 0.750:  84%|████████▍ | 609/721 [03:03<00:34,  3.25it/s][A
+Loss: 0.409, Acc: 0.812:  89%|████████▉ | 641/721 [03:15<00:25,  3.11it/s][A
+Loss: 0.330, Acc: 0.875:  89%|████████▉ | 641/721 [03:29<00:25,  3.11it/s][A
+Loss: 0.348, Acc: 0.875:  92%|█████████▏| 664/721 [03:29<00:22,  2.54it/s][A
+Loss: 0.256, Acc: 0.906:  94%|█████████▍| 680/721 [03:40<00:18,  2.26it/s][A
+Loss: 0.307, Acc: 0.875:  97%|█████████▋| 696/721 [03:50<00:12,  2.07it/s][A
+Loss: 0.305, Acc: 0.938:  99%|█████████▉| 712/721 [04:00<00:04,  1.92it/s][ALoss: 0.125, Acc: 0.958: 100%|██████████| 721/721 [04:06<00:00,  2.93it/s]
+01/28/2025 10:17:21 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:17:21 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:17:21 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:17:21 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:17:21 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][A
+Evaluating:  95%|█████████▍| 291/307 [01:00<00:03,  4.85it/s][AEvaluating: 100%|██████████| 307/307 [01:03<00:00,  4.84it/s]
+01/28/2025 10:18:24 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:18:26 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:18:26 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:18:26 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:18:26 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  30%|███       | 283/938 [01:00<02:19,  4.71it/s][A
+Evaluating:  30%|███       | 283/938 [01:17<02:19,  4.71it/s][A
+Evaluating:  60%|██████    | 565/938 [02:00<01:19,  4.70it/s][A
+Evaluating:  60%|██████    | 565/938 [02:17<01:19,  4.70it/s][AEvaluating: 100%|██████████| 938/938 [02:49<00:00,  5.54it/s]
+01/28/2025 10:21:16 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch-2
+01/28/2025 10:21:16 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:21:16 - INFO - __main__ -   mnli/acc = 0.8240448293428426
+01/28/2025 10:21:16 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:21:16 - INFO - __main__ -   hans/acc = 0.7331666666666666
+Epoch:  50%|█████     | 3/6 [21:12<21:27, 429.02s/it]   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+2  0.828528  0.731767
+3  0.824045  0.733167
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A
+Loss: 0.202, Acc: 0.938:   5%|▍         | 34/721 [00:10<03:27,  3.31it/s][A
+Loss: 0.199, Acc: 0.906:   9%|▉         | 68/721 [00:20<03:16,  3.33it/s][A
+Loss: 0.181, Acc: 0.969:  14%|█▍        | 102/721 [00:30<03:05,  3.34it/s][A
+Loss: 0.112, Acc: 0.969:  19%|█▉        | 136/721 [00:40<02:54,  3.36it/s][A
+Loss: 0.168, Acc: 0.969:  24%|██▎       | 170/721 [00:50<02:45,  3.34it/s][A
+Loss: 0.147, Acc: 0.969:  28%|██▊       | 204/721 [01:01<02:36,  3.31it/s][A
+Loss: 0.132, Acc: 0.938:  33%|███▎      | 238/721 [01:11<02:25,  3.33it/s][A
+Loss: 0.163, Acc: 0.969:  38%|███▊      | 272/721 [01:21<02:14,  3.33it/s][A
+Loss: 0.226, Acc: 0.938:  42%|████▏     | 306/721 [01:31<02:03,  3.35it/s][A
+Loss: 0.143, Acc: 0.938:  47%|████▋     | 340/721 [01:41<01:53,  3.36it/s][A
+Loss: 0.291, Acc: 0.844:  52%|█████▏    | 374/721 [01:51<01:43,  3.37it/s][A
+Loss: 0.089, Acc: 0.969:  57%|█████▋    | 408/721 [02:01<01:32,  3.37it/s][A
+Loss: 0.424, Acc: 0.906:  61%|██████▏   | 442/721 [02:11<01:22,  3.38it/s][A
+Loss: 0.377, Acc: 0.938:  66%|██████▌   | 476/721 [02:21<01:12,  3.38it/s][A
+Loss: 0.225, Acc: 0.938:  71%|███████   | 510/721 [02:31<01:02,  3.38it/s][A
+Loss: 0.114, Acc: 0.938:  75%|███████▌  | 544/721 [02:41<00:52,  3.38it/s][A
+Loss: 0.298, Acc: 0.906:  80%|████████  | 578/721 [02:52<00:42,  3.38it/s][A
+Loss: 0.240, Acc: 0.906:  85%|████████▍ | 612/721 [03:02<00:32,  3.38it/s][A
+Loss: 0.199, Acc: 0.906:  90%|████████▉ | 646/721 [03:12<00:22,  3.38it/s][A
+Loss: 0.506, Acc: 0.781:  94%|█████████▍| 680/721 [03:22<00:12,  3.38it/s][A
+Loss: 0.519, Acc: 0.812:  99%|█████████▉| 714/721 [03:32<00:02,  3.39it/s][ALoss: 0.198, Acc: 0.958: 100%|██████████| 721/721 [03:34<00:00,  3.37it/s]
+01/28/2025 10:24:50 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:24:51 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:24:51 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:24:51 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:24:51 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:29<00:00, 10.49it/s]
+01/28/2025 10:25:20 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:25:21 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:25:21 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:25:21 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:25:21 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  67%|██████▋   | 628/938 [01:00<00:29, 10.45it/s][A
+Evaluating:  67%|██████▋   | 628/938 [01:13<00:29, 10.45it/s][AEvaluating: 100%|██████████| 938/938 [01:29<00:00, 10.45it/s]
+01/28/2025 10:26:51 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch-3
+01/28/2025 10:26:51 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:26:51 - INFO - __main__ -   mnli/acc = 0.8245542536933266
+01/28/2025 10:26:51 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:26:51 - INFO - __main__ -   hans/acc = 0.7318666666666667
+Epoch:  67%|██████▋   | 4/6 [26:47<13:03, 391.88s/it]   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+2  0.828528  0.731767
+3  0.824045  0.733167
+4  0.824554  0.731867
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A
+Loss: 0.098, Acc: 0.969:   5%|▍         | 34/721 [00:10<03:23,  3.37it/s][A
+Loss: 0.146, Acc: 0.969:   9%|▉         | 68/721 [00:20<03:13,  3.38it/s][A
+Loss: 0.343, Acc: 0.906:  14%|█▍        | 102/721 [00:30<03:02,  3.38it/s][A
+Loss: 0.278, Acc: 0.875:  19%|█▉        | 136/721 [00:40<02:52,  3.39it/s][A
+Loss: 0.254, Acc: 0.938:  24%|██▎       | 170/721 [00:50<02:44,  3.36it/s][A
+Loss: 0.383, Acc: 0.875:  28%|██▊       | 204/721 [01:00<02:33,  3.37it/s][A
+Loss: 0.366, Acc: 0.906:  33%|███▎      | 239/721 [01:10<02:21,  3.41it/s][A
+Loss: 0.337, Acc: 0.875:  38%|███▊      | 274/721 [01:20<02:10,  3.43it/s][A
+Loss: 0.276, Acc: 0.938:  43%|████▎     | 309/721 [01:30<01:59,  3.45it/s][A
+Loss: 0.107, Acc: 0.938:  48%|████▊     | 344/721 [01:40<01:48,  3.46it/s][A
+Loss: 0.115, Acc: 0.969:  53%|█████▎    | 379/721 [01:50<01:38,  3.47it/s][A
+Loss: 0.371, Acc: 0.812:  57%|█████▋    | 414/721 [02:00<01:28,  3.48it/s][A
+Loss: 0.153, Acc: 0.938:  62%|██████▏   | 449/721 [02:10<01:18,  3.48it/s][A
+Loss: 0.228, Acc: 0.906:  67%|██████▋   | 484/721 [02:20<01:08,  3.48it/s][A
+Loss: 0.212, Acc: 0.938:  72%|███████▏  | 519/721 [02:30<00:58,  3.48it/s][A
+Loss: 0.201, Acc: 0.875:  77%|███████▋  | 554/721 [02:40<00:47,  3.48it/s][A
+Loss: 0.153, Acc: 0.969:  82%|████████▏ | 589/721 [02:50<00:37,  3.48it/s][A
+Loss: 0.312, Acc: 0.844:  87%|████████▋ | 624/721 [03:00<00:27,  3.48it/s][A
+Loss: 0.167, Acc: 0.906:  91%|█████████▏| 659/721 [03:10<00:17,  3.49it/s][A
+Loss: 0.152, Acc: 0.969:  96%|█████████▋| 694/721 [03:20<00:07,  3.49it/s][ALoss: 0.030, Acc: 1.000: 100%|██████████| 721/721 [03:28<00:00,  3.46it/s]
+01/28/2025 10:30:20 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:30:20 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:30:20 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:30:20 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:30:20 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:28<00:00, 10.81it/s]
+01/28/2025 10:30:48 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:30:49 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:30:49 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:30:49 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:30:49 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  69%|██████▉   | 646/938 [01:00<00:27, 10.76it/s][A
+Evaluating:  69%|██████▉   | 646/938 [01:14<00:27, 10.76it/s][AEvaluating: 100%|██████████| 938/938 [01:27<00:00, 10.76it/s]
+01/28/2025 10:32:17 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-epoch-4
+01/28/2025 10:32:17 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:32:17 - INFO - __main__ -   mnli/acc = 0.8231278655119715
+01/28/2025 10:32:17 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:32:17 - INFO - __main__ -   hans/acc = 0.7325666666666667
+Epoch:  83%|████████▎ | 5/6 [32:13<06:08, 368.11s/it]   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+2  0.828528  0.731767
+3  0.824045  0.733167
+4  0.824554  0.731867
+5  0.823128  0.732567
+
+Iteration:   0%|          | 0/721 [00:00<?, ?it/s][A
+Loss: 0.129, Acc: 0.969:   5%|▍         | 35/721 [00:10<03:17,  3.48it/s][A
+Loss: 0.236, Acc: 0.906:  10%|▉         | 70/721 [00:20<03:06,  3.48it/s][A
+Loss: 0.085, Acc: 0.969:  15%|█▍        | 105/721 [00:30<02:56,  3.48it/s][A
+Loss: 0.125, Acc: 0.969:  19%|█▉        | 140/721 [00:40<02:46,  3.49it/s][A
+Loss: 0.061, Acc: 0.969:  24%|██▍       | 175/721 [00:50<02:36,  3.49it/s][A
+Loss: 0.040, Acc: 1.000:  29%|██▉       | 210/721 [01:00<02:26,  3.49it/s][A
+Loss: 0.178, Acc: 0.906:  34%|███▍      | 245/721 [01:10<02:16,  3.49it/s][A
+Loss: 0.103, Acc: 0.969:  39%|███▉      | 280/721 [01:20<02:06,  3.49it/s][A
+Loss: 0.143, Acc: 0.969:  44%|████▎     | 315/721 [01:30<01:56,  3.49it/s][A
+Loss: 0.607, Acc: 0.844:  49%|████▊     | 350/721 [01:40<01:46,  3.49it/s][A
+Loss: 0.232, Acc: 0.906:  53%|█████▎    | 385/721 [01:50<01:36,  3.49it/s][A
+Loss: 0.226, Acc: 0.875:  58%|█████▊    | 420/721 [02:00<01:26,  3.49it/s][A
+Loss: 0.138, Acc: 0.938:  63%|██████▎   | 455/721 [02:10<01:16,  3.49it/s][A
+Loss: 0.143, Acc: 0.938:  68%|██████▊   | 490/721 [02:20<01:06,  3.49it/s][A
+Loss: 0.124, Acc: 0.938:  73%|███████▎  | 525/721 [02:30<00:56,  3.49it/s][A
+Loss: 0.171, Acc: 0.938:  78%|███████▊  | 560/721 [02:40<00:46,  3.49it/s][A
+Loss: 0.257, Acc: 0.906:  83%|████████▎ | 595/721 [02:50<00:36,  3.49it/s][A
+Loss: 0.161, Acc: 0.969:  87%|████████▋ | 630/721 [03:00<00:26,  3.49it/s][A
+Loss: 0.135, Acc: 0.969:  92%|█████████▏| 665/721 [03:10<00:16,  3.49it/s][A
+Loss: 0.183, Acc: 0.969:  97%|█████████▋| 700/721 [03:20<00:06,  3.49it/s][ALoss: 0.417, Acc: 0.833: 100%|██████████| 721/721 [03:26<00:00,  3.49it/s]
+01/28/2025 10:35:44 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_mnli
+/home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+01/28/2025 10:35:44 - INFO - utils_data -   Dataset length: 9815.
+01/28/2025 10:35:44 - INFO - __main__ -   ***** Running evaluation mnli *****
+01/28/2025 10:35:44 - INFO - __main__ -     Num examples = 9815
+01/28/2025 10:35:44 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/307 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 307/307 [00:28<00:00, 10.82it/s]
+01/28/2025 10:36:12 - INFO - utils_data -   Loading features from cached file /home/eleve/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/cached_dev_bert-base-uncased_128_hans
+01/28/2025 10:36:14 - INFO - utils_data -   Dataset length: 30000.
+01/28/2025 10:36:14 - INFO - __main__ -   ***** Running evaluation hans *****
+01/28/2025 10:36:14 - INFO - __main__ -     Num examples = 30000
+01/28/2025 10:36:14 - INFO - __main__ -     Batch size = 32
+
+Evaluating:   0%|          | 0/938 [00:00<?, ?it/s][A
+Evaluating:  69%|██████▉   | 648/938 [01:00<00:26, 10.79it/s][A
+Evaluating:  69%|██████▉   | 648/938 [01:19<00:26, 10.79it/s][AEvaluating: 100%|██████████| 938/938 [01:27<00:00, 10.78it/s]
+01/28/2025 10:37:42 - INFO - __main__ -   Saving model checkpoint to mnli_bert_base_fbert_important_samples/bert_base/checkpoint-last
+01/28/2025 10:37:42 - INFO - __main__ -   ***** Eval results mnli *****
+01/28/2025 10:37:42 - INFO - __main__ -   mnli/acc = 0.8225165562913908
+01/28/2025 10:37:42 - INFO - __main__ -   ***** Eval results hans *****
+01/28/2025 10:37:42 - INFO - __main__ -   hans/acc = 0.7315666666666667
+Epoch: 100%|██████████| 6/6 [37:37<00:00, 353.34s/it]Epoch: 100%|██████████| 6/6 [37:37<00:00, 376.30s/it]
+   mnli.acc  hans.acc
+0  0.841977  0.695467
+1  0.830056  0.731767
+2  0.828528  0.731767
+3  0.824045  0.733167
+4  0.824554  0.731867
+5  0.823128  0.732567
+6  0.822517  0.731567
+{'data_dir': '~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI',
+ 'decay_learning_rate': 'True',
+ 'do_lower_case': 'True',
+ 'do_train': '',
+ 'hard_examples': 'mnli_bert_base/important_examples_probs_threshold_10percent.pkl',
+ 'hard_type': 'forgettables_b',
+ 'learning_rate': 5e-06,
+ 'load_model': 'mnli_bert_base/checkpoint-last/',
+ 'model_name_or_path': 'bert-base-uncased',
+ 'model_type': 'bert',
+ 'num_train_epochs': 6,
+ 'output_dir': PosixPath('mnli_bert_base_fbert_important_samples/bert_base'),
+ 'overwrite_output_dir': '',
+ 'per_gpu_eval_batch_size': '32',
+ 'per_gpu_train_batch_size': 32,
+ 'seed': 0,
+ 'task_name': 'mnli',
+ 'training_examples_ids': None}
+python exp_glue.py --per_gpu_eval_batch_size 32 --per_gpu_train_batch_size 32 --num_train_epochs 6 --decay_learning_rate True --do_lower_case True --learning_rate 5e-06 --model_name_or_path bert-base-uncased --model_type bert --data_dir ~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI --task_name mnli --do_train  --overwrite_output_dir  --load_model mnli_bert_base/checkpoint-last/ --output_dir mnli_bert_base_fbert_important_samples/bert_base --seed 0 --training_examples_ids None --hard_examples mnli_bert_base/important_examples_probs_threshold_10percent.pkl --hard_type forgettables_b
