@@ -335,7 +335,7 @@ class Main():
 
         print(f"Important and forgettable examples saved to {output_path}")
     
-    def extract_important_examples_LID(
+    def extract_important_examples_with_LID(
             self,
             example_stats_path,
             labels_file=None,
@@ -428,6 +428,122 @@ class Main():
 
         print(f"Important examples saved to {output_path}")
 
+    def extract_imp_lid(
+        self,
+            example_stats_path,
+            labels_file=None,
+            train_path=None,
+            task='mnli'
+        ):
+        
+        """Given a model examples stats, compute importance scores based on probs, select examples
+        with the highest score differences, and store the example file in the specified directory.
+        """
+        import pickle
+        import numpy as np
+        from pathlib import Path
+        import pandas as pd 
+
+        output_path = example_stats_path + 'important_examples_imp_lid.pkl'
+        examples_stats = pickle.load(open(example_stats_path + '/example_stats.pkl', 'rb'))
+        n_epochs = examples_stats['accuracy'].shape[1]
+        print("Loaded example stats,", examples_stats.keys())
+
+        if labels_file:
+            labels = open(labels_file, 'r').readlines()
+            labels_dict = dict()
+            for line in labels:
+                id, label = line.strip().split()
+                labels_dict[int(id)] = int(label)
+        if train_path:
+            if task == 'mnli':
+                df = pd.read_csv(
+                        train_path,
+                        delimiter='\t',
+                        on_bad_lines='skip', 
+                        skiprows=0,
+                        quoting=3,
+                        keep_default_na=False,
+                        encoding="utf-8",)
+            elif task == 'fever':
+                import json
+                with open(train_path, 'r') as f:
+                    data = [json.loads(s.strip()) for s in f.readlines()]
+                df = pd.DataFrame(data)
+            labels_dict = dict()
+            for id, label in enumerate(df.gold_label):
+                labels_dict[int(id)] = label
+
+        def balance_by_class(hard_ids, labels_dict):
+            """Balances the examples by class."""
+            by_label = dict()
+            for id in hard_ids:
+                label = labels_dict[id]
+                arr = by_label.get(label, [])
+                arr.append(id)
+                by_label[label] = arr
+            min_num = np.min([len(arr) for arr in by_label.values()])
+            balanced_ids = []
+            for arr in by_label.values():
+                balanced_ids.extend(arr[:min_num])
+            return np.array(balanced_ids)
+        #############
+        ###  LID  ###
+        #############  
+
+        def compute_importance_scores(examples_stats):
+            """Calculates an importance score for each example based on probs."""
+            probs = examples_stats['probs'][:, -1]  # Last probability values
+            accuracy = examples_stats['accuracy'][:, -1]  # Last accuracy value
+            importance_scores = np.min(probs) * (1 - accuracy)  # Utiliser la probabilité minimale
+            return importance_scores
+
+        def select_examples_with_highest_score_diff(importance_scores, threshold):
+            """Selects examples with the highest score differences."""
+            score_diff = np.abs(np.diff(importance_scores))  # Absolute difference in scores
+            selected_indices = np.where(score_diff > threshold)[0]  # Indices with significant score differences
+            return selected_indices
+
+        importance_scores = compute_importance_scores(examples_stats)
+
+        # threshold = np.mean(importance_scores) - 2 * np.std(importance_scores) # select examples with scores significa less than means
+        threshold = np.percentile(importance_scores, 10)  # select 10% examples 
+        selected_indices = select_examples_with_highest_score_diff(importance_scores, threshold)
+        
+        ###############
+        ## important ##
+        ###############
+        def compute_importance_scores(examples_stats):
+            """Calculates an importance score for each example."""
+            loss = examples_stats['loss'][:, -1]
+            accuracy = examples_stats['accuracy'][:, -1]
+            return loss * (1 - accuracy)
+
+        def select_examples_with_highest_score_diff(importance_scores, threshold=0.3):
+            """Selects examples with the highest score differences."""
+            score_diff = np.abs(np.diff(importance_scores))
+            return np.where(score_diff > threshold)[0]
+        
+        # Compute important examples
+        importance_scores = compute_importance_scores(examples_stats)
+        important_indices = select_examples_with_highest_score_diff(importance_scores)
+
+        ###############
+        ### Combine ###
+        ###############
+        combined_indices = np.union1d(important_indices, selected_indices)
+        balanced_combined_indices = balance_by_class(combined_indices, labels_dict)
+
+        results = {
+            'selected_examples': combined_indices,
+            'forgettables_b': balanced_combined_indices
+        }
+
+        with open(output_path, "wb") as f:
+            pickle.dump(results, f)
+
+        print(f"Important and LID examples saved to {output_path}")
+        
     ###########
     #   MNLI  #
     ###########

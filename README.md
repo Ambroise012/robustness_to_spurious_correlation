@@ -37,7 +37,7 @@ $ nohup python spurious_bert_mnli.py finetune_hard_examples mnli_bert_base/check
 ### LID
 ```bash
 # extract important samples from bert model
-$ python spurious_bert_mnli.py extract_important_examples_LID mnli_bert_base/ --train_path mnli/MNLI/train.tsv --task mnli
+$ python spurious_bert_mnli.py extract_important_examples_with_LID mnli_bert_base/ --train_path mnli/MNLI/train.tsv --task mnli
 
 $ nohup python spurious_bert_mnli.py finetune_hard_examples mnli_bert_base/checkpoint-last/ mnli_bert_base_fbert_important_samples/ --hard_path mnli_bert_base/important_examples_lid.pkl &>output_log/out_fine_tune_bert_LID_10percent.log
 ```
@@ -56,9 +56,10 @@ $ nohup python spurious_bert_mnli.py finetune_hard_examples mnli_bert_base/check
 ```bash
 $ sh getdata.sh fever && export MNLI_PATH=fever/
 ```
+Download fever.train.jsonl at : https://fever.ai/dataset/fever.html (training task) and fever.dev.jsonl (label)
 ## 2. First Fine Tuning on MNLI
 ```bash
-$ python spurious_bert_fever.py train_mnli_bert_base --output_dir mnli_bert_base/
+$ python spurious_bert_fever.py train_fever_bert_base --output_dir fever_bert_base/
 ```
 ## 3. Second Fine Tuning on Spurious Correlation
 ### Forgettable examples
