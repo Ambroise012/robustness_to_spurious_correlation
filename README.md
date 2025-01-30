@@ -58,7 +58,7 @@ $ sh getdata.sh fever && export MNLI_PATH=fever/
 ```
 ## 2. First Fine Tuning on MNLI
 ```bash
-$ python spurious_bert_mnli.py train_mnli_bert_base --output_dir mnli_bert_base/
+$ python spurious_bert_fever.py train_mnli_bert_base --output_dir mnli_bert_base/
 ```
 ## 3. Second Fine Tuning on Spurious Correlation
 ### Forgettable examples
