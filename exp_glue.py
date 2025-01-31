@@ -435,7 +435,7 @@ def evaluate(
         results[eval_task] = dict()
         results[eval_task].update(result)
 
-        if eval_task in ["qqp-wang", "paws-qqp", "paws-wiki", "paws-qqp-all-val", "qqp-wang-test"]:
+        if eval_task in ["qqp", "qqp-wang", "paws-qqp", "paws-wiki", "paws-qqp-all-val", "qqp-wang-test"]:
             if args.output_mode == "classification":
                 # TODO: probabilities should be calculated exactly as is done in the model.
                 auc_pr = auc_binary_precison_recall_curve(probas_pred, out_label_ids, positive_label=1)
