@@ -59,7 +59,7 @@ Download train/dev/test.tsv (QQP) and shuffled_train/dev_and_test.tsv (PAWS) at 
 
 ## 2. First Fine Tuning on QQP
 ```bash
-$ python spurious_bert_qqp.py train_qqp_bert_base --output_dir qqp_bert_base/
+$ python spurious_bert_qqp.py train_qqp_bert_base --output_dir qqp_bert_base/ &>output_log/out_qpp/out_fine_tune_qqp.log
 ```
 ## 3. Second Fine Tuning on Spurious Correlation
 ### Forgettable examples
