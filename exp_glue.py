@@ -61,6 +61,7 @@ from utils_glue import (compute_metrics,
                         convert_examples_to_features_bert,
                         output_modes, processors, RandomPairedSampler, PairedDataset)
 
+from codecarbon import EmissionsTracker
 
 logger = logging.getLogger(__name__)
 
@@ -624,6 +625,10 @@ def main():
 
     model.to(args.device)
 
+    ### CodeCarbon ###
+    tracker = EmissionsTracker(project_name="Spurious_QQP") # or EmissionsTracker()
+    tracker.start()
+
     logger.info("Training/evaluation parameters %s", args)
 
     # Prepare training
@@ -661,6 +666,7 @@ def main():
             eval_output_dir=args.load_model,)
         all_results = [eval_results]
         print(to_pandas(all_results))
+    tracker.stop()
     return
 
 

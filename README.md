@@ -52,7 +52,7 @@ $ nohup python spurious_bert_mnli.py finetune_hard_examples mnli_bert_base/check
 ```
 
 
-# II- Task : QQP - PAWSc / PLM & Shallow Model : BERT 
+# II- Task : QQP - PAWS / PLM & Shallow Model : BERT 
 ## 1. Download QQP and PAWS data
 
 Download train/dev/test.tsv (QQP) and shuffled_train/dev_and_test.tsv (PAWS) at : https://drive.google.com/drive/folders/1egfbW0OSeRSOSZwQedFzN-m1RLLYUQs4?usp=drive_link
