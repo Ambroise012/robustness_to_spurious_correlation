@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI")
 FEVER_DATA_PATH = os.getenv("FEVER_PATH", "~/mygit/jiant/data/FEVER/")
-PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/projet_3A/robustness_to_spurious_correlation/paws-qqp")
+PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/paws-qqp")
 
 class settings(type):
     def __new__(self, name, bases, classdict):

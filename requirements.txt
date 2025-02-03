@@ -21,3 +21,5 @@ pandas
 sentencepiece
 # For XLM
 sacremoses
+# codecarbon
+codecarbon

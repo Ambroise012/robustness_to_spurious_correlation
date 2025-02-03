@@ -97,7 +97,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
 
     args.train_batch_size = args.per_gpu_train_batch_size * max(1, args.n_gpu)
     train_sampler = RandomSampler(train_dataset) if args.local_rank == -1 else DistributedSampler(train_dataset)
-    train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=args.train_batch_size)
+    train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=0)
 
     if args.max_steps > 0:
         t_total = args.max_steps
@@ -197,12 +197,12 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
                               disable=args.local_rank not in [-1, 0])
 
         for step, batch in enumerate(epoch_iterator):
-            # Filtrage des éléments None dans le batch
-            batch = [b for b in batch if b is not None]
+            # # Filtrage des éléments None dans le batch
+            # batch = [b for b in batch if b is not None]
             
-            # Si le batch est vide après le filtrage, on le saute
-            if not batch:
-                continue  
+            # # Si le batch est vide après le filtrage, on le saute
+            # if not batch:
+            #     continue  
 
             model.train()
 
