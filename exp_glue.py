@@ -197,6 +197,13 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
                               disable=args.local_rank not in [-1, 0])
 
         for step, batch in enumerate(epoch_iterator):
+            # Filtrage des éléments None dans le batch
+            batch = [b for b in batch if b is not None]
+            
+            # Si le batch est vide après le filtrage, on le saute
+            if not batch:
+                continue  
+
             model.train()
 
             #######################################
@@ -666,6 +673,7 @@ def main():
             eval_output_dir=args.load_model,)
         all_results = [eval_results]
         print(to_pandas(all_results))
+    # end code carbon
     tracker.stop()
     return
 

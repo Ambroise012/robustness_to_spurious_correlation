@@ -1,0 +1,359 @@
+nohup: ignoring input
+02/02/2025 23:33:20 - WARNING - __main__ -   Process rank: -1, device: cpu, n_gpu: 0, distributed training: False, 16-bits training: True
+02/02/2025 23:33:20 - INFO - pytorch_transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-config.json from cache at /home/ambroise012/.cache/torch/pytorch_transformers/4dad0251492946e18ac39290fcfe91b89d370fee250efe9521476438fe8ca185.7156163d5fdc189c3016baca0775ffce230789d7fa2a42ef516483e4ca884517
+02/02/2025 23:33:20 - INFO - pytorch_transformers.configuration_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "finetuning_task": "paws-qqp",
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+02/02/2025 23:33:20 - INFO - pytorch_transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt from cache at /home/ambroise012/.cache/torch/pytorch_transformers/26bc1ad6c0ac742e9b52263248f6d0f00068293b33709fae12320c0e35ccfbbb.542ce4285a40d23a559526243235df47c5f75c197f04f37d1a0c124c32c9a084
+02/02/2025 23:33:21 - INFO - pytorch_transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-pytorch_model.bin from cache at /home/ambroise012/.cache/torch/pytorch_transformers/aa1ef1aede4482d0dbcd4d52baad8ae300e60902e88fcb0bebdec09afd232066.36ca03ab34a1a5d5fa7bc3d03d55c4fa650fed07220e2eeebc06ce58d0e9a157
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/pytorch_transformers/modeling_utils.py:333: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(resolved_archive_file, map_location='cpu')
+02/02/2025 23:33:23 - INFO - pytorch_transformers.modeling_utils -   Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
+02/02/2025 23:33:23 - INFO - pytorch_transformers.modeling_utils -   Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+02/02/2025 23:33:23 - INFO - __main__ -   Training/evaluation parameters Namespace(data_dir='/home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp', training_examples_ids=None, hard_examples=None, hard_type=None, model_type='bert', model_name_or_path='bert-base-uncased', do_lower_case=True, avg_models=None, load_model=None, proportion=0.0, adam_beta0=0.9, task_name='paws-qqp', stress_subtask=None, output_dir='qqp_bert_base/', config_name='', tokenizer_name='', cache_dir='', max_seq_length=128, do_train=True, do_eval=False, evaluate_during_training=False, per_gpu_train_batch_size=32, per_gpu_eval_batch_size=400, gradient_accumulation_steps=1, learning_rate=5e-05, weight_decay=0.0, adam_epsilon=1e-08, decay_learning_rate=True, max_grad_norm=1.0, num_train_epochs=3.0, max_steps=-1, warmup_proportion=0.0, logging_steps=50, save_steps=500, eval_all_checkpoints=False, no_cuda=False, overwrite_output_dir=True, overwrite_cache=False, seed=0, fp16=True, fp16_opt_level='O1', local_rank=-1, eval_tasks=['qqp-wang', 'qqp-wang-test', 'paws-qqp', 'paws-wiki', 'paws-qqp-all-val'], test=False, n_gpu=0, device=device(type='cpu'), output_mode='classification')
+02/02/2025 23:33:23 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_train_bert-base-uncased_128_paws-qqp
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/02/2025 23:33:23 - INFO - utils_data -   Dataset length: 11988.
+02/02/2025 23:33:25 - INFO - __main__ -   ***** Running training *****
+02/02/2025 23:33:25 - INFO - __main__ -     Num examples = 11988
+02/02/2025 23:33:25 - INFO - __main__ -     Num Epochs = 3
+02/02/2025 23:33:25 - INFO - __main__ -     Instantaneous batch size per GPU = 32
+02/02/2025 23:33:25 - INFO - __main__ -     Total train batch size (w. parallel, distributed & accumulation) = 32
+02/02/2025 23:33:25 - INFO - __main__ -     Gradient Accumulation steps = 1
+02/02/2025 23:33:25 - INFO - __main__ -     Total optimization steps = 1125
+Initializing forgetting (11988, 3)
+Epoch:   0%|          | 0/3 [00:00<?, ?it/s]02/02/2025 23:33:25 - INFO - utils_data -   Creating features from dataset file at /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp
+02/02/2025 23:33:25 - INFO - utils_glue -   Writing example 0 of 677
+02/02/2025 23:33:25 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:33:25 - INFO - utils_glue -   guid: dev-0
+02/02/2025 23:33:25 - INFO - utils_glue -   tokens: [CLS] b ' what were the major effects of the cambodia earthquake , and how do these effects compare to the iq ##ui ##que earthquake in 1877 ? ' [SEP] b ' what were the major effects of the iq ##ui ##que earthquake , and how do these effects compare to the cambodia earthquake in 1877 ? ' [SEP]
+02/02/2025 23:33:25 - INFO - utils_glue -   input_ids: 101 1038 1005 2054 2020 1996 2350 3896 1997 1996 12899 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 26264 10179 4226 8372 1999 7557 1029 1005 102 1038 1005 2054 2020 1996 2350 3896 1997 1996 26264 10179 4226 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 12899 8372 1999 7557 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:33:25 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:33:25 - INFO - utils_glue -   guid: dev-1
+02/02/2025 23:33:25 - INFO - utils_glue -   tokens: [CLS] b " the guy i ' m dating never texts me and i feel like he does n ' t care about me but when i see him he shows me he likes me and wants me . why do i feel this way ? " [SEP] b " the guy i ' m dating never wants me and i feel like he does n ' t care about me but when i see him , he shows me he likes me and texts me . why do i feel this way ? " [SEP]
+02/02/2025 23:33:25 - INFO - utils_glue -   input_ids: 101 1038 1000 1996 3124 1045 1005 1049 5306 2196 6981 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 2002 3065 2033 2002 7777 2033 1998 4122 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 1038 1000 1996 3124 1045 1005 1049 5306 2196 4122 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 1010 2002 3065 2033 2002 7777 2033 1998 6981 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:33:25 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:33:25 - INFO - utils_glue -   guid: dev-2
+02/02/2025 23:33:25 - INFO - utils_glue -   tokens: [CLS] b " how do i make my new phone number as group ad ##min when i do n ' t have access to my old number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP] b " how do i make my old phone number as group ad ##min when i do n ' t have access to my new number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP]
+02/02/2025 23:33:25 - INFO - utils_glue -   input_ids: 101 1038 1000 2129 2079 1045 2191 2026 2047 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2214 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 1038 1000 2129 2079 1045 2191 2026 2214 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2047 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:33:25 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:33:25 - INFO - utils_glue -   guid: dev-3
+02/02/2025 23:33:25 - INFO - utils_glue -   tokens: [CLS] b " why ca n ' t countries afford high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP] b " why ca n ' t countries afford china ' s high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP]
+02/02/2025 23:33:25 - INFO - utils_glue -   input_ids: 101 1038 1000 2339 6187 1050 1005 1056 3032 8984 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 1038 1000 2339 6187 1050 1005 1056 3032 8984 2859 1005 1055 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:33:25 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:33:25 - INFO - utils_glue -   guid: dev-4
+02/02/2025 23:33:25 - INFO - utils_glue -   tokens: [CLS] b ' do mexican women like east asian men ( korean , japanese , chinese ) ? ' [SEP] b ' do east asian women like mexican men ( korean , japanese , chinese ) ? ' [SEP]
+02/02/2025 23:33:25 - INFO - utils_glue -   input_ids: 101 1038 1005 2079 4916 2308 2066 2264 4004 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 1038 1005 2079 2264 4004 2308 2066 4916 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:33:25 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:33:25 - INFO - utils_data -   Saving features into cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_qqp-wang
+02/02/2025 23:33:25 - INFO - utils_data -   Dataset length: 677.
+02/02/2025 23:33:25 - INFO - __main__ -   ***** Running evaluation qqp-wang *****
+02/02/2025 23:33:25 - INFO - __main__ -     Num examples = 677
+02/02/2025 23:33:25 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 2/2 [00:55<00:00, 27.58s/it]
+02/02/2025 23:34:20 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to qqp-wang)
+02/02/2025 23:34:20 - INFO - __main__ -     0f1 = 0.0
+02/02/2025 23:34:20 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/02/2025 23:34:20 - INFO - utils_data -   Creating features from dataset file at /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp
+02/02/2025 23:34:20 - INFO - utils_glue -   Writing example 0 of 677
+02/02/2025 23:34:20 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:34:20 - INFO - utils_glue -   guid: test-0
+02/02/2025 23:34:20 - INFO - utils_glue -   tokens: [CLS] b ' what were the major effects of the cambodia earthquake , and how do these effects compare to the iq ##ui ##que earthquake in 1877 ? ' [SEP] b ' what were the major effects of the iq ##ui ##que earthquake , and how do these effects compare to the cambodia earthquake in 1877 ? ' [SEP]
+02/02/2025 23:34:20 - INFO - utils_glue -   input_ids: 101 1038 1005 2054 2020 1996 2350 3896 1997 1996 12899 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 26264 10179 4226 8372 1999 7557 1029 1005 102 1038 1005 2054 2020 1996 2350 3896 1997 1996 26264 10179 4226 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 12899 8372 1999 7557 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:34:20 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:34:20 - INFO - utils_glue -   guid: test-1
+02/02/2025 23:34:20 - INFO - utils_glue -   tokens: [CLS] b " the guy i ' m dating never texts me and i feel like he does n ' t care about me but when i see him he shows me he likes me and wants me . why do i feel this way ? " [SEP] b " the guy i ' m dating never wants me and i feel like he does n ' t care about me but when i see him , he shows me he likes me and texts me . why do i feel this way ? " [SEP]
+02/02/2025 23:34:20 - INFO - utils_glue -   input_ids: 101 1038 1000 1996 3124 1045 1005 1049 5306 2196 6981 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 2002 3065 2033 2002 7777 2033 1998 4122 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 1038 1000 1996 3124 1045 1005 1049 5306 2196 4122 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 1010 2002 3065 2033 2002 7777 2033 1998 6981 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:34:20 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:34:20 - INFO - utils_glue -   guid: test-2
+02/02/2025 23:34:20 - INFO - utils_glue -   tokens: [CLS] b " how do i make my new phone number as group ad ##min when i do n ' t have access to my old number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP] b " how do i make my old phone number as group ad ##min when i do n ' t have access to my new number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP]
+02/02/2025 23:34:20 - INFO - utils_glue -   input_ids: 101 1038 1000 2129 2079 1045 2191 2026 2047 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2214 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 1038 1000 2129 2079 1045 2191 2026 2214 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2047 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:34:20 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:34:20 - INFO - utils_glue -   guid: test-3
+02/02/2025 23:34:20 - INFO - utils_glue -   tokens: [CLS] b " why ca n ' t countries afford high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP] b " why ca n ' t countries afford china ' s high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP]
+02/02/2025 23:34:20 - INFO - utils_glue -   input_ids: 101 1038 1000 2339 6187 1050 1005 1056 3032 8984 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 1038 1000 2339 6187 1050 1005 1056 3032 8984 2859 1005 1055 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:34:20 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:34:20 - INFO - utils_glue -   guid: test-4
+02/02/2025 23:34:20 - INFO - utils_glue -   tokens: [CLS] b ' do mexican women like east asian men ( korean , japanese , chinese ) ? ' [SEP] b ' do east asian women like mexican men ( korean , japanese , chinese ) ? ' [SEP]
+02/02/2025 23:34:20 - INFO - utils_glue -   input_ids: 101 1038 1005 2079 4916 2308 2066 2264 4004 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 1038 1005 2079 2264 4004 2308 2066 4916 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:34:20 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:34:20 - INFO - utils_data -   Saving features into cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_qqp-wang-test
+02/02/2025 23:34:20 - INFO - utils_data -   Dataset length: 677.
+02/02/2025 23:34:20 - INFO - __main__ -   ***** Running evaluation qqp-wang-test *****
+02/02/2025 23:34:20 - INFO - __main__ -     Num examples = 677
+02/02/2025 23:34:20 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 2/2 [00:56<00:00, 28.14s/it]
+02/02/2025 23:35:17 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to qqp-wang-test)
+02/02/2025 23:35:17 - INFO - __main__ -     0f1 = 0.0
+02/02/2025 23:35:17 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/02/2025 23:35:17 - INFO - utils_data -   Creating features from dataset file at /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp
+02/02/2025 23:35:17 - INFO - utils_glue -   Writing example 0 of 677
+02/02/2025 23:35:17 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:35:17 - INFO - utils_glue -   guid: dev-0
+02/02/2025 23:35:17 - INFO - utils_glue -   tokens: [CLS] b ' what were the major effects of the cambodia earthquake , and how do these effects compare to the iq ##ui ##que earthquake in 1877 ? ' [SEP] b ' what were the major effects of the iq ##ui ##que earthquake , and how do these effects compare to the cambodia earthquake in 1877 ? ' [SEP]
+02/02/2025 23:35:17 - INFO - utils_glue -   input_ids: 101 1038 1005 2054 2020 1996 2350 3896 1997 1996 12899 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 26264 10179 4226 8372 1999 7557 1029 1005 102 1038 1005 2054 2020 1996 2350 3896 1997 1996 26264 10179 4226 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 12899 8372 1999 7557 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:35:17 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:35:17 - INFO - utils_glue -   guid: dev-1
+02/02/2025 23:35:17 - INFO - utils_glue -   tokens: [CLS] b " the guy i ' m dating never texts me and i feel like he does n ' t care about me but when i see him he shows me he likes me and wants me . why do i feel this way ? " [SEP] b " the guy i ' m dating never wants me and i feel like he does n ' t care about me but when i see him , he shows me he likes me and texts me . why do i feel this way ? " [SEP]
+02/02/2025 23:35:17 - INFO - utils_glue -   input_ids: 101 1038 1000 1996 3124 1045 1005 1049 5306 2196 6981 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 2002 3065 2033 2002 7777 2033 1998 4122 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 1038 1000 1996 3124 1045 1005 1049 5306 2196 4122 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 1010 2002 3065 2033 2002 7777 2033 1998 6981 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:35:17 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:35:17 - INFO - utils_glue -   guid: dev-2
+02/02/2025 23:35:17 - INFO - utils_glue -   tokens: [CLS] b " how do i make my new phone number as group ad ##min when i do n ' t have access to my old number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP] b " how do i make my old phone number as group ad ##min when i do n ' t have access to my new number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP]
+02/02/2025 23:35:17 - INFO - utils_glue -   input_ids: 101 1038 1000 2129 2079 1045 2191 2026 2047 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2214 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 1038 1000 2129 2079 1045 2191 2026 2214 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2047 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:35:17 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:35:17 - INFO - utils_glue -   guid: dev-3
+02/02/2025 23:35:17 - INFO - utils_glue -   tokens: [CLS] b " why ca n ' t countries afford high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP] b " why ca n ' t countries afford china ' s high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP]
+02/02/2025 23:35:17 - INFO - utils_glue -   input_ids: 101 1038 1000 2339 6187 1050 1005 1056 3032 8984 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 1038 1000 2339 6187 1050 1005 1056 3032 8984 2859 1005 1055 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:35:17 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:35:17 - INFO - utils_glue -   guid: dev-4
+02/02/2025 23:35:17 - INFO - utils_glue -   tokens: [CLS] b ' do mexican women like east asian men ( korean , japanese , chinese ) ? ' [SEP] b ' do east asian women like mexican men ( korean , japanese , chinese ) ? ' [SEP]
+02/02/2025 23:35:17 - INFO - utils_glue -   input_ids: 101 1038 1005 2079 4916 2308 2066 2264 4004 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 1038 1005 2079 2264 4004 2308 2066 4916 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:35:17 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:35:17 - INFO - utils_data -   Saving features into cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-qqp
+02/02/2025 23:35:17 - INFO - utils_data -   Dataset length: 677.
+02/02/2025 23:35:17 - INFO - __main__ -   ***** Running evaluation paws-qqp *****
+02/02/2025 23:35:17 - INFO - __main__ -     Num examples = 677
+02/02/2025 23:35:17 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 2/2 [00:57<00:00, 28.55s/it]
+02/02/2025 23:36:14 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to paws-qqp)
+02/02/2025 23:36:14 - INFO - __main__ -     0f1 = 0.0
+02/02/2025 23:36:14 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/02/2025 23:36:14 - INFO - utils_data -   Creating features from dataset file at /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp
+02/02/2025 23:36:14 - INFO - utils_glue -   Writing example 0 of 677
+02/02/2025 23:36:14 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:36:14 - INFO - utils_glue -   guid: dev-0
+02/02/2025 23:36:14 - INFO - utils_glue -   tokens: [CLS] b ' what were the major effects of the cambodia earthquake , and how do these effects compare to the iq ##ui ##que earthquake in 1877 ? ' [SEP] b ' what were the major effects of the iq ##ui ##que earthquake , and how do these effects compare to the cambodia earthquake in 1877 ? ' [SEP]
+02/02/2025 23:36:14 - INFO - utils_glue -   input_ids: 101 1038 1005 2054 2020 1996 2350 3896 1997 1996 12899 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 26264 10179 4226 8372 1999 7557 1029 1005 102 1038 1005 2054 2020 1996 2350 3896 1997 1996 26264 10179 4226 8372 1010 1998 2129 2079 2122 3896 12826 2000 1996 12899 8372 1999 7557 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:36:14 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:36:14 - INFO - utils_glue -   guid: dev-1
+02/02/2025 23:36:14 - INFO - utils_glue -   tokens: [CLS] b " the guy i ' m dating never texts me and i feel like he does n ' t care about me but when i see him he shows me he likes me and wants me . why do i feel this way ? " [SEP] b " the guy i ' m dating never wants me and i feel like he does n ' t care about me but when i see him , he shows me he likes me and texts me . why do i feel this way ? " [SEP]
+02/02/2025 23:36:14 - INFO - utils_glue -   input_ids: 101 1038 1000 1996 3124 1045 1005 1049 5306 2196 6981 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 2002 3065 2033 2002 7777 2033 1998 4122 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 1038 1000 1996 3124 1045 1005 1049 5306 2196 4122 2033 1998 1045 2514 2066 2002 2515 1050 1005 1056 2729 2055 2033 2021 2043 1045 2156 2032 1010 2002 3065 2033 2002 7777 2033 1998 6981 2033 1012 2339 2079 1045 2514 2023 2126 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:36:14 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:36:14 - INFO - utils_glue -   guid: dev-2
+02/02/2025 23:36:14 - INFO - utils_glue -   tokens: [CLS] b " how do i make my new phone number as group ad ##min when i do n ' t have access to my old number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP] b " how do i make my old phone number as group ad ##min when i do n ' t have access to my new number ( which is the group ad ##min at present ) on what ##sa ##pp ? " [SEP]
+02/02/2025 23:36:14 - INFO - utils_glue -   input_ids: 101 1038 1000 2129 2079 1045 2191 2026 2047 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2214 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 1038 1000 2129 2079 1045 2191 2026 2214 3042 2193 2004 2177 4748 10020 2043 1045 2079 1050 1005 1056 2031 3229 2000 2026 2047 2193 1006 2029 2003 1996 2177 4748 10020 2012 2556 1007 2006 2054 3736 9397 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:36:14 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:36:14 - INFO - utils_glue -   guid: dev-3
+02/02/2025 23:36:14 - INFO - utils_glue -   tokens: [CLS] b " why ca n ' t countries afford high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP] b " why ca n ' t countries afford china ' s high quality products , but insist to buy low quality chinese products which chinese themselves do not want to buy ? " [SEP]
+02/02/2025 23:36:14 - INFO - utils_glue -   input_ids: 101 1038 1000 2339 6187 1050 1005 1056 3032 8984 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 1038 1000 2339 6187 1050 1005 1056 3032 8984 2859 1005 1055 2152 3737 3688 1010 2021 18292 2000 4965 2659 3737 2822 3688 2029 2822 3209 2079 2025 2215 2000 4965 1029 1000 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:36:14 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:36:14 - INFO - utils_glue -   guid: dev-4
+02/02/2025 23:36:14 - INFO - utils_glue -   tokens: [CLS] b ' do mexican women like east asian men ( korean , japanese , chinese ) ? ' [SEP] b ' do east asian women like mexican men ( korean , japanese , chinese ) ? ' [SEP]
+02/02/2025 23:36:14 - INFO - utils_glue -   input_ids: 101 1038 1005 2079 4916 2308 2066 2264 4004 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 1038 1005 2079 2264 4004 2308 2066 4916 2273 1006 4759 1010 2887 1010 2822 1007 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:36:14 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:36:14 - INFO - utils_data -   Saving features into cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-wiki
+02/02/2025 23:36:15 - INFO - utils_data -   Dataset length: 677.
+02/02/2025 23:36:15 - INFO - __main__ -   ***** Running evaluation paws-wiki *****
+02/02/2025 23:36:15 - INFO - __main__ -     Num examples = 677
+02/02/2025 23:36:15 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][AEvaluating: 100%|██████████| 2/2 [00:56<00:00, 28.22s/it]
+02/02/2025 23:37:11 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to paws-wiki)
+02/02/2025 23:37:11 - INFO - __main__ -     0f1 = 0.0
+02/02/2025 23:37:11 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/02/2025 23:37:11 - INFO - utils_data -   Creating features from dataset file at /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp
+02/02/2025 23:37:11 - INFO - utils_glue -   Writing example 0 of 11988
+02/02/2025 23:37:11 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:37:11 - INFO - utils_glue -   guid: dev-0
+02/02/2025 23:37:11 - INFO - utils_glue -   tokens: [CLS] b ' will a message still say blocked if you were delivered on an iphone ? ' [SEP] b ' will a message still say delivered if you were blocked on an iphone ? ' [SEP]
+02/02/2025 23:37:11 - INFO - utils_glue -   input_ids: 101 1038 1005 2097 1037 4471 2145 2360 8534 2065 2017 2020 5359 2006 2019 18059 1029 1005 102 1038 1005 2097 1037 4471 2145 2360 5359 2065 2017 2020 8534 2006 2019 18059 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:37:11 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:37:11 - INFO - utils_glue -   guid: dev-1
+02/02/2025 23:37:11 - INFO - utils_glue -   tokens: [CLS] b ' how can you treat o ##cd ? is there any helpful suggestions on how to keep your o ##cd on a way that you can control it ? ' [SEP] b ' how can you treat o ##cd ? is there any helpful suggestions on how to keep your o ##cd on a way that you can control it ? ' [SEP]
+02/02/2025 23:37:11 - INFO - utils_glue -   input_ids: 101 1038 1005 2129 2064 2017 7438 1051 19797 1029 2003 2045 2151 14044 15690 2006 2129 2000 2562 2115 1051 19797 2006 1037 2126 2008 2017 2064 2491 2009 1029 1005 102 1038 1005 2129 2064 2017 7438 1051 19797 1029 2003 2045 2151 14044 15690 2006 2129 2000 2562 2115 1051 19797 2006 1037 2126 2008 2017 2064 2491 2009 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   label: 1 (id = 1)
+02/02/2025 23:37:11 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:37:11 - INFO - utils_glue -   guid: dev-2
+02/02/2025 23:37:11 - INFO - utils_glue -   tokens: [CLS] b ' if you do not do anything how you are motivated to seek your daily works ? ' [SEP] b ' if you do not seek anything how you are motivated to do your daily works ? ' [SEP]
+02/02/2025 23:37:11 - INFO - utils_glue -   input_ids: 101 1038 1005 2065 2017 2079 2025 2079 2505 2129 2017 2024 12774 2000 6148 2115 3679 2573 1029 1005 102 1038 1005 2065 2017 2079 2025 6148 2505 2129 2017 2024 12774 2000 2079 2115 3679 2573 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:37:11 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:37:11 - INFO - utils_glue -   guid: dev-3
+02/02/2025 23:37:11 - INFO - utils_glue -   tokens: [CLS] b ' why is new in system ve ##rily construct ##or not a task ? ' [SEP] b ' why construct ##or new in system ve ##ril ##og is not a task ? ' [SEP]
+02/02/2025 23:37:11 - INFO - utils_glue -   input_ids: 101 1038 1005 2339 2003 2047 1999 2291 2310 11272 9570 2953 2025 1037 4708 1029 1005 102 1038 1005 2339 9570 2953 2047 1999 2291 2310 15928 8649 2003 2025 1037 4708 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:37:11 - INFO - utils_glue -   *** Example ***
+02/02/2025 23:37:11 - INFO - utils_glue -   guid: dev-4
+02/02/2025 23:37:11 - INFO - utils_glue -   tokens: [CLS] b ' what are the most common traffic convictions in arizona , and how does the severity of the convictions differ in arkansas ? ' [SEP] b ' what are the most common traffic convictions in arkansas , and how does the severity of the convictions differ in arizona ? ' [SEP]
+02/02/2025 23:37:11 - INFO - utils_glue -   input_ids: 101 1038 1005 2054 2024 1996 2087 2691 4026 20488 1999 5334 1010 1998 2129 2515 1996 18976 1997 1996 20488 11234 1999 6751 1029 1005 102 1038 1005 2054 2024 1996 2087 2691 4026 20488 1999 6751 1010 1998 2129 2515 1996 18976 1997 1996 20488 11234 1999 5334 1029 1005 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+02/02/2025 23:37:11 - INFO - utils_glue -   label: 0 (id = 0)
+02/02/2025 23:37:15 - INFO - utils_glue -   Writing example 10000 of 11988
+02/02/2025 23:37:16 - INFO - utils_data -   Saving features into cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-qqp-all-val
+02/02/2025 23:37:17 - INFO - utils_data -   Dataset length: 11988.
+02/02/2025 23:37:17 - INFO - __main__ -   ***** Running evaluation paws-qqp-all-val *****
+02/02/2025 23:37:17 - INFO - __main__ -     Num examples = 11988
+02/02/2025 23:37:17 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/30 [00:00<?, ?it/s][A
+Evaluating:   7%|▋         | 2/30 [01:06<15:27, 33.12s/it][A
+Evaluating:   7%|▋         | 2/30 [01:17<15:27, 33.12s/it][A
+Evaluating:  13%|█▎        | 4/30 [02:12<14:19, 33.06s/it][A
+Evaluating:  13%|█▎        | 4/30 [02:27<14:19, 33.06s/it][A
+Evaluating:  20%|██        | 6/30 [03:18<13:12, 33.03s/it][A
+Evaluating:  20%|██        | 6/30 [03:37<13:12, 33.03s/it][A
+Evaluating:  27%|██▋       | 8/30 [04:24<12:07, 33.08s/it][A
+Evaluating:  27%|██▋       | 8/30 [04:37<12:07, 33.08s/it][A
+Evaluating:  33%|███▎      | 10/30 [05:30<11:01, 33.07s/it][A
+Evaluating:  33%|███▎      | 10/30 [05:47<11:01, 33.07s/it][A
+Evaluating:  40%|████      | 12/30 [06:37<09:57, 33.19s/it][A
+Evaluating:  40%|████      | 12/30 [06:47<09:57, 33.19s/it][A
+Evaluating:  47%|████▋     | 14/30 [07:43<08:51, 33.19s/it][A
+Evaluating:  47%|████▋     | 14/30 [07:57<08:51, 33.19s/it][A
+Evaluating:  53%|█████▎    | 16/30 [08:50<07:45, 33.27s/it][A
+Evaluating:  53%|█████▎    | 16/30 [09:07<07:45, 33.27s/it][A
+Evaluating:  60%|██████    | 18/30 [09:57<06:39, 33.28s/it][A
+Evaluating:  60%|██████    | 18/30 [10:07<06:39, 33.28s/it][A
+Evaluating:  67%|██████▋   | 20/30 [11:04<05:33, 33.31s/it][A
+Evaluating:  67%|██████▋   | 20/30 [11:17<05:33, 33.31s/it][A
+Evaluating:  73%|███████▎  | 22/30 [12:10<04:26, 33.30s/it][A
+Evaluating:  73%|███████▎  | 22/30 [12:27<04:26, 33.30s/it][A
+Evaluating:  80%|████████  | 24/30 [13:21<03:23, 33.95s/it][A
+Evaluating:  80%|████████  | 24/30 [13:37<03:23, 33.95s/it][A
+Evaluating:  87%|████████▋ | 26/30 [14:27<02:14, 33.65s/it][A
+Evaluating:  87%|████████▋ | 26/30 [14:37<02:14, 33.65s/it][A
+Evaluating:  93%|█████████▎| 28/30 [15:33<01:06, 33.45s/it][A
+Evaluating:  93%|█████████▎| 28/30 [15:47<01:06, 33.45s/it][A
+Evaluating: 100%|██████████| 30/30 [16:37<00:00, 33.06s/it][AEvaluating: 100%|██████████| 30/30 [16:37<00:00, 33.26s/it]
+02/02/2025 23:53:55 - INFO - __main__ -     AUC = 0.32135299197345263	(specific to paws-qqp-all-val)
+02/02/2025 23:53:55 - INFO - __main__ -     0f1 = 0.0
+02/02/2025 23:53:55 - INFO - __main__ -     1f1 = 0.47906622684597816
+02/02/2025 23:53:55 - INFO - __main__ -   Saving model checkpoint to qqp_bert_base/checkpoint-epoch--1
+   qqp-wang.acc  qqp-wang.auc  ...  paws-qqp-all-val.acc  paws-qqp-all-val.auc
+0      0.282127      0.281897  ...              0.314982              0.321353
+
+[1 rows x 13 columns]
+
+Iteration:   0%|          | 0/375 [00:00<?, ?it/s][AIteration:   0%|          | 0/375 [00:00<?, ?it/s]
+Epoch:   0%|          | 0/3 [20:30<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 675, in <module>
+    main()
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 660, in main
+    train(args, train_dataset, model, tokenizer)
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 199, in train
+    for step, batch in enumerate(epoch_iterator):
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py", line 117, in __getitem__
+    example_row = self._ids_to_row[example_id]
+KeyError: np.int64(3660)
+{'data_dir': '~/projet_3A/robustness_to_spurious_correlation/paws-qqp',
+ 'decay_learning_rate': 'True',
+ 'do_lower_case': 'True',
+ 'do_train': '',
+ 'eval_tasks': 'qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val',
+ 'fp16': '',
+ 'learning_rate': '5e-5',
+ 'model_name_or_path': 'bert-base-uncased',
+ 'model_type': 'bert',
+ 'num_train_epochs': '3',
+ 'output_dir': 'qqp_bert_base/',
+ 'overwrite_output_dir': '',
+ 'per_gpu_eval_batch_size': '400',
+ 'per_gpu_train_batch_size': '32',
+ 'seed': 0,
+ 'task_name': 'paws-qqp',
+ 'weight_decay': '0.0'}
+python exp_glue.py --per_gpu_eval_batch_size 400 --per_gpu_train_batch_size 32 --num_train_epochs 3 --decay_learning_rate True --do_lower_case True --learning_rate 5e-5 --model_name_or_path bert-base-uncased --model_type bert --data_dir ~/projet_3A/robustness_to_spurious_correlation/paws-qqp --fp16  --task_name paws-qqp --do_train  --overwrite_output_dir  --eval_tasks qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val --weight_decay 0.0 --output_dir qqp_bert_base/ --seed 0

@@ -4,3 +4,4 @@ fever
 __pycache__
 qqp_bert_base/
 qqp
+paws-qqp/

@@ -1,0 +1,559 @@
+nohup: ignoring input
+02/03/2025 07:43:16 - WARNING - __main__ -   Process rank: -1, device: cpu, n_gpu: 0, distributed training: False, 16-bits training: True
+02/03/2025 07:43:16 - INFO - pytorch_transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-config.json from cache at /home/ambroise012/.cache/torch/pytorch_transformers/4dad0251492946e18ac39290fcfe91b89d370fee250efe9521476438fe8ca185.7156163d5fdc189c3016baca0775ffce230789d7fa2a42ef516483e4ca884517
+02/03/2025 07:43:16 - INFO - pytorch_transformers.configuration_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "finetuning_task": "paws-qqp",
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+02/03/2025 07:43:16 - INFO - pytorch_transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt from cache at /home/ambroise012/.cache/torch/pytorch_transformers/26bc1ad6c0ac742e9b52263248f6d0f00068293b33709fae12320c0e35ccfbbb.542ce4285a40d23a559526243235df47c5f75c197f04f37d1a0c124c32c9a084
+02/03/2025 07:43:17 - INFO - pytorch_transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-pytorch_model.bin from cache at /home/ambroise012/.cache/torch/pytorch_transformers/aa1ef1aede4482d0dbcd4d52baad8ae300e60902e88fcb0bebdec09afd232066.36ca03ab34a1a5d5fa7bc3d03d55c4fa650fed07220e2eeebc06ce58d0e9a157
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/pytorch_transformers/modeling_utils.py:333: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(resolved_archive_file, map_location='cpu')
+02/03/2025 07:43:20 - INFO - pytorch_transformers.modeling_utils -   Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
+02/03/2025 07:43:20 - INFO - pytorch_transformers.modeling_utils -   Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+[codecarbon INFO @ 07:43:20] [setup] RAM Tracking...
+[codecarbon INFO @ 07:43:20] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:43:20] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Linux OS detected: Please ensure RAPL files exist at \sys\class\powercap\intel-rapl to measure CPU
+
+[codecarbon WARNING @ 07:43:22] We saw that you have a AMD Ryzen 7 7735U with Radeon Graphics but we don't know it. Please contact us.
+[codecarbon INFO @ 07:43:22] CPU Model on constant consumption mode: AMD Ryzen 7 7735U with Radeon Graphics
+[codecarbon INFO @ 07:43:22] [setup] GPU Tracking...
+[codecarbon INFO @ 07:43:22] No GPU found.
+[codecarbon INFO @ 07:43:22] >>> Tracker's metadata:
+[codecarbon INFO @ 07:43:22]   Platform system: Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.35
+[codecarbon INFO @ 07:43:22]   Python version: 3.10.12
+[codecarbon INFO @ 07:43:22]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:43:22]   Available RAM : 7.387 GB
+[codecarbon INFO @ 07:43:22]   CPU count: 16
+[codecarbon INFO @ 07:43:22]   CPU model: AMD Ryzen 7 7735U with Radeon Graphics
+[codecarbon INFO @ 07:43:22]   GPU count: None
+[codecarbon INFO @ 07:43:22]   GPU model: None
+[codecarbon INFO @ 07:43:25] Saving emissions data to file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/emissions.csv
+02/03/2025 07:43:25 - INFO - __main__ -   Training/evaluation parameters Namespace(data_dir='/home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp', training_examples_ids=None, hard_examples=None, hard_type=None, model_type='bert', model_name_or_path='bert-base-uncased', do_lower_case=True, avg_models=None, load_model=None, proportion=0.0, adam_beta0=0.9, task_name='paws-qqp', stress_subtask=None, output_dir='qqp_bert_base/', config_name='', tokenizer_name='', cache_dir='', max_seq_length=128, do_train=True, do_eval=False, evaluate_during_training=False, per_gpu_train_batch_size=32, per_gpu_eval_batch_size=400, gradient_accumulation_steps=1, learning_rate=5e-05, weight_decay=0.0, adam_epsilon=1e-08, decay_learning_rate=True, max_grad_norm=1.0, num_train_epochs=3.0, max_steps=-1, warmup_proportion=0.0, logging_steps=50, save_steps=500, eval_all_checkpoints=False, no_cuda=False, overwrite_output_dir=True, overwrite_cache=False, seed=0, fp16=True, fp16_opt_level='O1', local_rank=-1, eval_tasks=['qqp-wang', 'qqp-wang-test', 'paws-qqp', 'paws-wiki', 'paws-qqp-all-val'], test=False, n_gpu=0, device=device(type='cpu'), output_mode='classification')
+02/03/2025 07:43:25 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_train_bert-base-uncased_128_paws-qqp
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:43:26 - INFO - utils_data -   Dataset length: 11988.
+02/03/2025 07:43:28 - INFO - __main__ -   ***** Running training *****
+02/03/2025 07:43:28 - INFO - __main__ -     Num examples = 11988
+02/03/2025 07:43:28 - INFO - __main__ -     Num Epochs = 3
+02/03/2025 07:43:28 - INFO - __main__ -     Instantaneous batch size per GPU = 32
+02/03/2025 07:43:28 - INFO - __main__ -     Total train batch size (w. parallel, distributed & accumulation) = 32
+02/03/2025 07:43:28 - INFO - __main__ -     Gradient Accumulation steps = 1
+02/03/2025 07:43:28 - INFO - __main__ -     Total optimization steps = 1125
+Initializing forgetting (11988, 3)
+Epoch:   0%|          | 0/3 [00:00<?, ?it/s]02/03/2025 07:43:28 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_qqp-wang
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:43:28 - INFO - utils_data -   Dataset length: 677.
+02/03/2025 07:43:28 - INFO - __main__ -   ***** Running evaluation qqp-wang *****
+02/03/2025 07:43:28 - INFO - __main__ -     Num examples = 677
+02/03/2025 07:43:28 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][A[codecarbon INFO @ 07:43:40] Energy consumed for RAM : 0.000012 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:43:40] Energy consumed for all CPUs : 0.000177 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:43:40] 0.000189 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:43:55] Energy consumed for RAM : 0.000023 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:43:55] Energy consumed for all CPUs : 0.000354 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:43:55] 0.000377 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:44:10] Energy consumed for RAM : 0.000035 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:44:10] Energy consumed for all CPUs : 0.000531 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:44:10] 0.000566 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:44:25] Energy consumed for RAM : 0.000046 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:44:25] Energy consumed for all CPUs : 0.000708 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:44:25] 0.000755 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:44:40] Energy consumed for RAM : 0.000058 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:44:40] Energy consumed for all CPUs : 0.000885 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:44:40] 0.000943 kWh of electricity used since the beginning.
+
+Evaluating: 100%|██████████| 2/2 [01:13<00:00, 36.69s/it][AEvaluating: 100%|██████████| 2/2 [01:13<00:00, 36.69s/it]
+02/03/2025 07:44:42 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to qqp-wang)
+02/03/2025 07:44:42 - INFO - __main__ -     0f1 = 0.0
+02/03/2025 07:44:42 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/03/2025 07:44:42 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_qqp-wang-test
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:44:42 - INFO - utils_data -   Dataset length: 677.
+02/03/2025 07:44:42 - INFO - __main__ -   ***** Running evaluation qqp-wang-test *****
+02/03/2025 07:44:42 - INFO - __main__ -     Num examples = 677
+02/03/2025 07:44:42 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][A[codecarbon INFO @ 07:44:55] Energy consumed for RAM : 0.000069 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:44:55] Energy consumed for all CPUs : 0.001063 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:44:55] 0.001132 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:45:10] Energy consumed for RAM : 0.000081 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:45:10] Energy consumed for all CPUs : 0.001240 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:45:10] 0.001320 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:45:25] Energy consumed for RAM : 0.000092 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:45:25] Energy consumed for all CPUs : 0.001417 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:45:25] 0.001509 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:45:25] 0.000705 g.CO2eq/s mean an estimation of 22.221873789523247 kg.CO2eq/year
+[codecarbon INFO @ 07:45:40] Energy consumed for RAM : 0.000104 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:45:40] Energy consumed for all CPUs : 0.001594 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:45:40] 0.001698 kWh of electricity used since the beginning.
+
+Evaluating: 100%|██████████| 2/2 [01:12<00:00, 36.33s/it][AEvaluating: 100%|██████████| 2/2 [01:12<00:00, 36.33s/it]
+02/03/2025 07:45:55 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to qqp-wang-test)
+02/03/2025 07:45:55 - INFO - __main__ -     0f1 = 0.0
+02/03/2025 07:45:55 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/03/2025 07:45:55 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-qqp
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:45:55 - INFO - utils_data -   Dataset length: 677.
+02/03/2025 07:45:55 - INFO - __main__ -   ***** Running evaluation paws-qqp *****
+02/03/2025 07:45:55 - INFO - __main__ -     Num examples = 677
+02/03/2025 07:45:55 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][A[codecarbon INFO @ 07:45:55] Energy consumed for RAM : 0.000115 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:45:55] Energy consumed for all CPUs : 0.001771 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:45:55] 0.001886 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:46:10] Energy consumed for RAM : 0.000127 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:46:10] Energy consumed for all CPUs : 0.001948 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:46:10] 0.002075 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:46:25] Energy consumed for RAM : 0.000138 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:46:25] Energy consumed for all CPUs : 0.002125 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:46:25] 0.002264 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:46:40] Energy consumed for RAM : 0.000150 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:46:40] Energy consumed for all CPUs : 0.002302 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:46:40] 0.002452 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:46:55] Energy consumed for RAM : 0.000162 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:46:55] Energy consumed for all CPUs : 0.002479 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:46:55] 0.002641 kWh of electricity used since the beginning.
+
+Evaluating: 100%|██████████| 2/2 [01:13<00:00, 36.54s/it][AEvaluating: 100%|██████████| 2/2 [01:13<00:00, 36.54s/it]
+02/03/2025 07:47:08 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to paws-qqp)
+02/03/2025 07:47:08 - INFO - __main__ -     0f1 = 0.0
+02/03/2025 07:47:08 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/03/2025 07:47:08 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-wiki
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:47:08 - INFO - utils_data -   Dataset length: 677.
+02/03/2025 07:47:08 - INFO - __main__ -   ***** Running evaluation paws-wiki *****
+02/03/2025 07:47:08 - INFO - __main__ -     Num examples = 677
+02/03/2025 07:47:08 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s][A[codecarbon INFO @ 07:47:10] Energy consumed for RAM : 0.000173 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:47:10] Energy consumed for all CPUs : 0.002657 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:47:10] 0.002830 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:47:25] Energy consumed for RAM : 0.000185 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:47:25] Energy consumed for all CPUs : 0.002833 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:47:25] 0.003018 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:47:25] 0.000705 g.CO2eq/s mean an estimation of 22.22229668579686 kg.CO2eq/year
+[codecarbon INFO @ 07:47:40] Energy consumed for RAM : 0.000196 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:47:40] Energy consumed for all CPUs : 0.003011 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:47:40] 0.003207 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:47:55] Energy consumed for RAM : 0.000208 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:47:55] Energy consumed for all CPUs : 0.003188 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:47:55] 0.003395 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:48:10] Energy consumed for RAM : 0.000219 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:48:10] Energy consumed for all CPUs : 0.003365 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:48:10] 0.003584 kWh of electricity used since the beginning.
+
+Evaluating: 100%|██████████| 2/2 [01:16<00:00, 38.25s/it][AEvaluating: 100%|██████████| 2/2 [01:16<00:00, 38.25s/it]
+02/03/2025 07:48:24 - INFO - __main__ -     AUC = 0.2818973570817991	(specific to paws-wiki)
+02/03/2025 07:48:24 - INFO - __main__ -     0f1 = 0.0
+02/03/2025 07:48:24 - INFO - __main__ -     1f1 = 0.4400921658986175
+02/03/2025 07:48:24 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/paws-qqp/cached_dev_bert-base-uncased_128_paws-qqp-all-val
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/03/2025 07:48:26 - INFO - utils_data -   Dataset length: 11988.
+[codecarbon INFO @ 07:48:26] Energy consumed for RAM : 0.000232 kWh. RAM Power : 2.770139694213867 W
+02/03/2025 07:48:26 - INFO - __main__ -   ***** Running evaluation paws-qqp-all-val *****
+02/03/2025 07:48:26 - INFO - __main__ -     Num examples = 11988
+02/03/2025 07:48:26 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/30 [00:00<?, ?it/s][A[codecarbon INFO @ 07:48:26] Energy consumed for all CPUs : 0.003557 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:48:26] 0.003788 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:48:41] Energy consumed for RAM : 0.000243 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:48:41] Energy consumed for all CPUs : 0.003730 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:48:41] 0.003973 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:48:56] Energy consumed for RAM : 0.000254 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:48:56] Energy consumed for all CPUs : 0.003907 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:48:56] 0.004162 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:49:11] Energy consumed for RAM : 0.000266 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:49:11] Energy consumed for all CPUs : 0.004084 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:49:11] 0.004350 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:49:26] Energy consumed for RAM : 0.000278 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:49:26] Energy consumed for all CPUs : 0.004261 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:49:26] 0.004539 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:49:26] 0.000705 g.CO2eq/s mean an estimation of 22.22077739912498 kg.CO2eq/year
+[codecarbon INFO @ 07:49:41] Energy consumed for RAM : 0.000289 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:49:41] Energy consumed for all CPUs : 0.004438 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:49:41] 0.004728 kWh of electricity used since the beginning.
+
+Evaluating:   7%|▋         | 2/30 [01:26<20:13, 43.32s/it][A[codecarbon INFO @ 07:49:56] Energy consumed for RAM : 0.000301 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:49:56] Energy consumed for all CPUs : 0.004616 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:49:56] 0.004916 kWh of electricity used since the beginning.
+
+Evaluating:   7%|▋         | 2/30 [01:42<20:13, 43.32s/it][A[codecarbon INFO @ 07:50:11] Energy consumed for RAM : 0.000312 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:50:11] Energy consumed for all CPUs : 0.004793 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:50:11] 0.005105 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:50:26] Energy consumed for RAM : 0.000324 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:50:26] Energy consumed for all CPUs : 0.004970 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:50:26] 0.005294 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:50:41] Energy consumed for RAM : 0.000335 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:50:41] Energy consumed for all CPUs : 0.005147 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:50:41] 0.005482 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:50:56] Energy consumed for RAM : 0.000347 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:50:56] Energy consumed for all CPUs : 0.005324 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:50:56] 0.005671 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:51:11] Energy consumed for RAM : 0.000358 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:51:11] Energy consumed for all CPUs : 0.005501 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:51:11] 0.005859 kWh of electricity used since the beginning.
+
+Evaluating:  13%|█▎        | 4/30 [02:54<18:52, 43.57s/it][A[codecarbon INFO @ 07:51:26] Energy consumed for RAM : 0.000370 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:51:26] Energy consumed for all CPUs : 0.005678 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:51:26] 0.006048 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:51:26] 0.000705 g.CO2eq/s mean an estimation of 22.219197161417124 kg.CO2eq/year
+
+Evaluating:  13%|█▎        | 4/30 [03:12<18:52, 43.57s/it][A[codecarbon INFO @ 07:51:41] Energy consumed for RAM : 0.000381 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:51:41] Energy consumed for all CPUs : 0.005855 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:51:41] 0.006237 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:51:56] Energy consumed for RAM : 0.000393 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:51:56] Energy consumed for all CPUs : 0.006032 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:51:56] 0.006425 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:52:11] Energy consumed for RAM : 0.000405 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:52:11] Energy consumed for all CPUs : 0.006209 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:52:11] 0.006614 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:52:26] Energy consumed for RAM : 0.000416 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:52:26] Energy consumed for all CPUs : 0.006387 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:52:26] 0.006803 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:52:41] Energy consumed for RAM : 0.000428 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:52:41] Energy consumed for all CPUs : 0.006563 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:52:41] 0.006991 kWh of electricity used since the beginning.
+
+Evaluating:  20%|██        | 6/30 [04:20<17:18, 43.28s/it][A[codecarbon INFO @ 07:52:56] Energy consumed for RAM : 0.000439 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:52:56] Energy consumed for all CPUs : 0.006741 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:52:56] 0.007180 kWh of electricity used since the beginning.
+
+Evaluating:  20%|██        | 6/30 [04:32<17:18, 43.28s/it][A[codecarbon INFO @ 07:53:11] Energy consumed for RAM : 0.000451 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:53:11] Energy consumed for all CPUs : 0.006918 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:53:11] 0.007369 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:53:26] Energy consumed for RAM : 0.000462 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:53:26] Energy consumed for all CPUs : 0.007095 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:53:26] 0.007557 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:53:26] 0.000705 g.CO2eq/s mean an estimation of 22.222136374853047 kg.CO2eq/year
+[codecarbon INFO @ 07:53:41] Energy consumed for RAM : 0.000474 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:53:41] Energy consumed for all CPUs : 0.007272 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:53:41] 0.007746 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:53:56] Energy consumed for RAM : 0.000485 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:53:56] Energy consumed for all CPUs : 0.007449 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:53:56] 0.007934 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:54:11] Energy consumed for RAM : 0.000497 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:54:11] Energy consumed for all CPUs : 0.007626 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:54:11] 0.008123 kWh of electricity used since the beginning.
+
+Evaluating:  27%|██▋       | 8/30 [05:46<15:50, 43.21s/it][A[codecarbon INFO @ 07:54:26] Energy consumed for RAM : 0.000508 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:54:26] Energy consumed for all CPUs : 0.007803 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:54:26] 0.008311 kWh of electricity used since the beginning.
+
+Evaluating:  27%|██▋       | 8/30 [06:02<15:50, 43.21s/it][A[codecarbon INFO @ 07:54:41] Energy consumed for RAM : 0.000520 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:54:41] Energy consumed for all CPUs : 0.007980 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:54:41] 0.008500 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:54:56] Energy consumed for RAM : 0.000531 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:54:56] Energy consumed for all CPUs : 0.008157 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:54:56] 0.008689 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:55:11] Energy consumed for RAM : 0.000543 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:55:11] Energy consumed for all CPUs : 0.008334 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:55:11] 0.008877 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:55:26] Energy consumed for RAM : 0.000555 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:55:26] Energy consumed for all CPUs : 0.008511 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:55:26] 0.009066 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:55:26] 0.000705 g.CO2eq/s mean an estimation of 22.219107422052982 kg.CO2eq/year
+
+Evaluating:  33%|███▎      | 10/30 [07:10<14:16, 42.84s/it][A[codecarbon INFO @ 07:55:41] Energy consumed for RAM : 0.000566 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:55:41] Energy consumed for all CPUs : 0.008688 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:55:41] 0.009255 kWh of electricity used since the beginning.
+
+Evaluating:  33%|███▎      | 10/30 [07:22<14:16, 42.84s/it][A[codecarbon INFO @ 07:55:56] Energy consumed for RAM : 0.000578 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:55:56] Energy consumed for all CPUs : 0.008866 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:55:56] 0.009443 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:56:11] Energy consumed for RAM : 0.000589 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:56:11] Energy consumed for all CPUs : 0.009043 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:56:11] 0.009632 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:56:26] Energy consumed for RAM : 0.000601 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:56:26] Energy consumed for all CPUs : 0.009220 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:56:26] 0.009821 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:56:41] Energy consumed for RAM : 0.000612 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:56:41] Energy consumed for all CPUs : 0.009397 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:56:41] 0.010009 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:56:56] Energy consumed for RAM : 0.000624 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:56:56] Energy consumed for all CPUs : 0.009574 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:56:56] 0.010198 kWh of electricity used since the beginning.
+
+Evaluating:  40%|████      | 12/30 [08:36<12:52, 42.91s/it][A[codecarbon INFO @ 07:57:11] Energy consumed for RAM : 0.000635 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:57:11] Energy consumed for all CPUs : 0.009751 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:57:11] 0.010386 kWh of electricity used since the beginning.
+
+Evaluating:  40%|████      | 12/30 [08:52<12:52, 42.91s/it][A[codecarbon INFO @ 07:57:26] Energy consumed for RAM : 0.000647 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:57:26] Energy consumed for all CPUs : 0.009928 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:57:26] 0.010575 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:57:26] 0.000705 g.CO2eq/s mean an estimation of 22.2220361120481 kg.CO2eq/year
+[codecarbon INFO @ 07:57:41] Energy consumed for RAM : 0.000658 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:57:41] Energy consumed for all CPUs : 0.010105 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:57:41] 0.010764 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:57:56] Energy consumed for RAM : 0.000670 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:57:56] Energy consumed for all CPUs : 0.010282 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:57:56] 0.010952 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:58:11] Energy consumed for RAM : 0.000681 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:58:11] Energy consumed for all CPUs : 0.010459 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:58:11] 0.011141 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:58:26] Energy consumed for RAM : 0.000693 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:58:26] Energy consumed for all CPUs : 0.010636 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:58:26] 0.011329 kWh of electricity used since the beginning.
+
+Evaluating:  47%|████▋     | 14/30 [10:02<11:27, 42.96s/it][A[codecarbon INFO @ 07:58:41] Energy consumed for RAM : 0.000705 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:58:41] Energy consumed for all CPUs : 0.010814 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:58:41] 0.011518 kWh of electricity used since the beginning.
+
+Evaluating:  47%|████▋     | 14/30 [10:22<11:27, 42.96s/it][A[codecarbon INFO @ 07:58:56] Energy consumed for RAM : 0.000716 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:58:56] Energy consumed for all CPUs : 0.010991 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:58:56] 0.011707 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:59:11] Energy consumed for RAM : 0.000728 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:59:11] Energy consumed for all CPUs : 0.011168 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:59:11] 0.011895 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:59:26] Energy consumed for RAM : 0.000739 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:59:26] Energy consumed for all CPUs : 0.011345 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:59:26] 0.012084 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:59:26] 0.000705 g.CO2eq/s mean an estimation of 22.222633809376724 kg.CO2eq/year
+[codecarbon INFO @ 07:59:41] Energy consumed for RAM : 0.000751 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:59:41] Energy consumed for all CPUs : 0.011522 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:59:41] 0.012273 kWh of electricity used since the beginning.
+
+Evaluating:  53%|█████▎    | 16/30 [11:28<10:02, 43.00s/it][A[codecarbon INFO @ 07:59:56] Energy consumed for RAM : 0.000762 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 07:59:56] Energy consumed for all CPUs : 0.011699 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 07:59:56] 0.012461 kWh of electricity used since the beginning.
+
+Evaluating:  53%|█████▎    | 16/30 [11:42<10:02, 43.00s/it][A[codecarbon INFO @ 08:00:11] Energy consumed for RAM : 0.000774 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:00:11] Energy consumed for all CPUs : 0.011876 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:00:11] 0.012650 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:00:26] Energy consumed for RAM : 0.000785 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:00:26] Energy consumed for all CPUs : 0.012053 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:00:26] 0.012839 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:00:41] Energy consumed for RAM : 0.000797 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:00:41] Energy consumed for all CPUs : 0.012230 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:00:41] 0.013027 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:00:56] Energy consumed for RAM : 0.000808 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:00:56] Energy consumed for all CPUs : 0.012407 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:00:56] 0.013216 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:01:11] Energy consumed for RAM : 0.000820 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:01:11] Energy consumed for all CPUs : 0.012584 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:01:11] 0.013404 kWh of electricity used since the beginning.
+
+Evaluating:  60%|██████    | 18/30 [12:54<08:35, 42.93s/it][A[codecarbon INFO @ 08:01:26] Energy consumed for RAM : 0.000832 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:01:26] Energy consumed for all CPUs : 0.012762 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:01:26] 0.013593 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:01:26] 0.000705 g.CO2eq/s mean an estimation of 22.219389746768105 kg.CO2eq/year
+
+Evaluating:  60%|██████    | 18/30 [13:12<08:35, 42.93s/it][A[codecarbon INFO @ 08:01:41] Energy consumed for RAM : 0.000843 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:01:41] Energy consumed for all CPUs : 0.012938 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:01:41] 0.013781 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:01:56] Energy consumed for RAM : 0.000855 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:01:56] Energy consumed for all CPUs : 0.013116 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:01:56] 0.013970 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:02:11] Energy consumed for RAM : 0.000866 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:02:11] Energy consumed for all CPUs : 0.013293 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:02:11] 0.014159 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:02:26] Energy consumed for RAM : 0.000878 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:02:26] Energy consumed for all CPUs : 0.013470 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:02:26] 0.014347 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:02:41] Energy consumed for RAM : 0.000889 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:02:41] Energy consumed for all CPUs : 0.013647 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:02:41] 0.014536 kWh of electricity used since the beginning.
+
+Evaluating:  67%|██████▋   | 20/30 [14:21<07:10, 43.09s/it][A[codecarbon INFO @ 08:02:56] Energy consumed for RAM : 0.000901 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:02:56] Energy consumed for all CPUs : 0.013824 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:02:56] 0.014725 kWh of electricity used since the beginning.
+
+Evaluating:  67%|██████▋   | 20/30 [14:32<07:10, 43.09s/it][A[codecarbon INFO @ 08:03:11] Energy consumed for RAM : 0.000912 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:03:11] Energy consumed for all CPUs : 0.014001 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:03:11] 0.014913 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:03:26] Energy consumed for RAM : 0.000924 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:03:26] Energy consumed for all CPUs : 0.014178 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:03:26] 0.015102 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:03:26] 0.000705 g.CO2eq/s mean an estimation of 22.22247748693575 kg.CO2eq/year
+[codecarbon INFO @ 08:03:41] Energy consumed for RAM : 0.000935 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:03:41] Energy consumed for all CPUs : 0.014355 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:03:41] 0.015291 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:03:56] Energy consumed for RAM : 0.000947 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:03:56] Energy consumed for all CPUs : 0.014532 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:03:56] 0.015479 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:04:11] Energy consumed for RAM : 0.000958 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:04:11] Energy consumed for all CPUs : 0.014709 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:04:11] 0.015668 kWh of electricity used since the beginning.
+
+Evaluating:  73%|███████▎  | 22/30 [15:46<05:43, 42.96s/it][A[codecarbon INFO @ 08:04:26] Energy consumed for RAM : 0.000970 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:04:26] Energy consumed for all CPUs : 0.014886 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:04:26] 0.015856 kWh of electricity used since the beginning.
+
+Evaluating:  73%|███████▎  | 22/30 [16:02<05:43, 42.96s/it][A[codecarbon INFO @ 08:04:41] Energy consumed for RAM : 0.000982 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:04:41] Energy consumed for all CPUs : 0.015064 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:04:41] 0.016045 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:04:56] Energy consumed for RAM : 0.000993 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:04:56] Energy consumed for all CPUs : 0.015241 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:04:56] 0.016234 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:05:11] Energy consumed for RAM : 0.001005 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:05:11] Energy consumed for all CPUs : 0.015418 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:05:11] 0.016422 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:05:26] Energy consumed for RAM : 0.001016 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:05:26] Energy consumed for all CPUs : 0.015595 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:05:26] 0.016611 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:05:26] 0.000705 g.CO2eq/s mean an estimation of 22.221819956771565 kg.CO2eq/year
+
+Evaluating:  80%|████████  | 24/30 [17:12<04:17, 42.96s/it][A[codecarbon INFO @ 08:05:41] Energy consumed for RAM : 0.001028 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:05:41] Energy consumed for all CPUs : 0.015772 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:05:41] 0.016800 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:05:56] Energy consumed for RAM : 0.001039 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:05:56] Energy consumed for all CPUs : 0.015949 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:05:56] 0.016988 kWh of electricity used since the beginning.
+
+Evaluating:  80%|████████  | 24/30 [17:32<04:17, 42.96s/it][A[codecarbon INFO @ 08:06:11] Energy consumed for RAM : 0.001051 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:06:11] Energy consumed for all CPUs : 0.016126 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:06:11] 0.017177 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:06:26] Energy consumed for RAM : 0.001062 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:06:26] Energy consumed for all CPUs : 0.016303 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:06:26] 0.017365 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:06:41] Energy consumed for RAM : 0.001074 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:06:41] Energy consumed for all CPUs : 0.016480 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:06:41] 0.017554 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:06:56] Energy consumed for RAM : 0.001085 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:06:56] Energy consumed for all CPUs : 0.016657 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:06:56] 0.017743 kWh of electricity used since the beginning.
+
+Evaluating:  87%|████████▋ | 26/30 [18:38<02:51, 42.98s/it][A[codecarbon INFO @ 08:07:11] Energy consumed for RAM : 0.001097 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:07:11] Energy consumed for all CPUs : 0.016834 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:07:11] 0.017931 kWh of electricity used since the beginning.
+
+Evaluating:  87%|████████▋ | 26/30 [18:52<02:51, 42.98s/it][A[codecarbon INFO @ 08:07:26] Energy consumed for RAM : 0.001109 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:07:26] Energy consumed for all CPUs : 0.017012 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:07:26] 0.018120 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:07:26] 0.000705 g.CO2eq/s mean an estimation of 22.222763464435953 kg.CO2eq/year
+[codecarbon INFO @ 08:07:41] Energy consumed for RAM : 0.001120 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:07:41] Energy consumed for all CPUs : 0.017189 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:07:41] 0.018309 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:07:56] Energy consumed for RAM : 0.001132 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:07:56] Energy consumed for all CPUs : 0.017366 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:07:56] 0.018497 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:08:11] Energy consumed for RAM : 0.001143 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:08:11] Energy consumed for all CPUs : 0.017543 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:08:11] 0.018686 kWh of electricity used since the beginning.
+
+Evaluating:  93%|█████████▎| 28/30 [19:52<01:22, 41.18s/it][A[codecarbon INFO @ 08:08:26] Energy consumed for RAM : 0.001155 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:08:26] Energy consumed for all CPUs : 0.017720 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:08:26] 0.018875 kWh of electricity used since the beginning.
+
+Evaluating:  93%|█████████▎| 28/30 [20:12<01:22, 41.18s/it][A[codecarbon INFO @ 08:08:41] Energy consumed for RAM : 0.001166 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:08:41] Energy consumed for all CPUs : 0.017897 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:08:41] 0.019063 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:08:56] Energy consumed for RAM : 0.001178 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:08:56] Energy consumed for all CPUs : 0.018074 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:08:56] 0.019252 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:09:11] Energy consumed for RAM : 0.001189 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 08:09:11] Energy consumed for all CPUs : 0.018251 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 08:09:11] 0.019440 kWh of electricity used since the beginning.
+
+Evaluating: 100%|██████████| 30/30 [20:55<00:00, 38.27s/it][AEvaluating: 100%|██████████| 30/30 [20:55<00:00, 41.86s/it]
+02/03/2025 08:09:22 - INFO - __main__ -     AUC = 0.32135299197345263	(specific to paws-qqp-all-val)
+02/03/2025 08:09:22 - INFO - __main__ -     0f1 = 0.0
+02/03/2025 08:09:22 - INFO - __main__ -     1f1 = 0.47906622684597816
+02/03/2025 08:09:23 - INFO - __main__ -   Saving model checkpoint to qqp_bert_base/checkpoint-epoch--1
+   qqp-wang.acc  qqp-wang.auc  ...  paws-qqp-all-val.acc  paws-qqp-all-val.auc
+0      0.282127      0.281897  ...              0.314982              0.321353
+
+[1 rows x 13 columns]
+
+Iteration:   0%|          | 0/375 [00:00<?, ?it/s][AIteration:   0%|          | 0/375 [00:00<?, ?it/s]
+Epoch:   0%|          | 0/3 [25:55<?, ?it/s]
+Warning: example_id 3660 is missing. Skipping...
+Warning: example_id 9924 is missing. Skipping...
+Warning: example_id 1890 is missing. Skipping...
+Warning: example_id 9182 is missing. Skipping...
+Warning: example_id 1920 is missing. Skipping...
+Warning: example_id 10046 is missing. Skipping...
+Warning: example_id 2992 is missing. Skipping...
+Warning: example_id 4448 is missing. Skipping...
+Warning: example_id 3127 is missing. Skipping...
+Warning: example_id 10562 is missing. Skipping...
+Warning: example_id 7413 is missing. Skipping...
+Warning: example_id 3511 is missing. Skipping...
+Warning: example_id 7368 is missing. Skipping...
+Warning: example_id 4823 is missing. Skipping...
+Warning: example_id 1213 is missing. Skipping...
+Warning: example_id 2302 is missing. Skipping...
+Warning: example_id 32 is missing. Skipping...
+Warning: example_id 4116 is missing. Skipping...
+Warning: example_id 67 is missing. Skipping...
+Warning: example_id 10064 is missing. Skipping...
+Warning: example_id 354 is missing. Skipping...
+Warning: example_id 10808 is missing. Skipping...
+Warning: example_id 8379 is missing. Skipping...
+Warning: example_id 7810 is missing. Skipping...
+Warning: example_id 8863 is missing. Skipping...
+Warning: example_id 577 is missing. Skipping...
+Warning: example_id 3848 is missing. Skipping...
+Warning: example_id 1383 is missing. Skipping...
+Warning: example_id 3610 is missing. Skipping...
+Warning: example_id 220 is missing. Skipping...
+Warning: example_id 3678 is missing. Skipping...
+Warning: example_id 1420 is missing. Skipping...
+Traceback (most recent call last):
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 675, in <module>
+    main()
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 660, in main
+    train(args, train_dataset, model, tokenizer)
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 199, in train
+    for step, batch in enumerate(epoch_iterator):
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/_utils/collate.py", line 398, in default_collate
+    return collate(batch, collate_fn_map=default_collate_fn_map)
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/torch/utils/data/_utils/collate.py", line 240, in collate
+    raise TypeError(default_collate_err_msg_format.format(elem_type))
+TypeError: default_collate: batch must contain tensors, numpy arrays, numbers, dicts or lists; found <class 'NoneType'>
+{'data_dir': '~/projet_3A/robustness_to_spurious_correlation/paws-qqp',
+ 'decay_learning_rate': 'True',
+ 'do_lower_case': 'True',
+ 'do_train': '',
+ 'eval_tasks': 'qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val',
+ 'fp16': '',
+ 'learning_rate': '5e-5',
+ 'model_name_or_path': 'bert-base-uncased',
+ 'model_type': 'bert',
+ 'num_train_epochs': '3',
+ 'output_dir': 'qqp_bert_base/',
+ 'overwrite_output_dir': '',
+ 'per_gpu_eval_batch_size': '400',
+ 'per_gpu_train_batch_size': '32',
+ 'seed': 0,
+ 'task_name': 'paws-qqp',
+ 'weight_decay': '0.0'}
+python exp_glue.py --per_gpu_eval_batch_size 400 --per_gpu_train_batch_size 32 --num_train_epochs 3 --decay_learning_rate True --do_lower_case True --learning_rate 5e-5 --model_name_or_path bert-base-uncased --model_type bert --data_dir ~/projet_3A/robustness_to_spurious_correlation/paws-qqp --fp16  --task_name paws-qqp --do_train  --overwrite_output_dir  --eval_tasks qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val --weight_decay 0.0 --output_dir qqp_bert_base/ --seed 0

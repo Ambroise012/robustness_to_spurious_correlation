@@ -1,0 +1,915 @@
+nohup: ignoring input
+02/02/2025 10:02:13 - WARNING - __main__ -   Process rank: -1, device: cpu, n_gpu: 0, distributed training: False, 16-bits training: True
+02/02/2025 10:02:14 - INFO - pytorch_transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-config.json from cache at /home/ambroise012/.cache/torch/pytorch_transformers/4dad0251492946e18ac39290fcfe91b89d370fee250efe9521476438fe8ca185.7156163d5fdc189c3016baca0775ffce230789d7fa2a42ef516483e4ca884517
+02/02/2025 10:02:14 - INFO - pytorch_transformers.configuration_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "finetuning_task": "qqp",
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+02/02/2025 10:02:14 - INFO - pytorch_transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt from cache at /home/ambroise012/.cache/torch/pytorch_transformers/26bc1ad6c0ac742e9b52263248f6d0f00068293b33709fae12320c0e35ccfbbb.542ce4285a40d23a559526243235df47c5f75c197f04f37d1a0c124c32c9a084
+02/02/2025 10:02:15 - INFO - pytorch_transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-pytorch_model.bin from cache at /home/ambroise012/.cache/torch/pytorch_transformers/aa1ef1aede4482d0dbcd4d52baad8ae300e60902e88fcb0bebdec09afd232066.36ca03ab34a1a5d5fa7bc3d03d55c4fa650fed07220e2eeebc06ce58d0e9a157
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/pytorch_transformers/modeling_utils.py:333: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(resolved_archive_file, map_location='cpu')
+02/02/2025 10:02:19 - INFO - pytorch_transformers.modeling_utils -   Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
+02/02/2025 10:02:19 - INFO - pytorch_transformers.modeling_utils -   Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+[codecarbon INFO @ 10:02:19] [setup] RAM Tracking...
+[codecarbon INFO @ 10:02:19] [setup] CPU Tracking...
+[codecarbon WARNING @ 10:02:19] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Linux OS detected: Please ensure RAPL files exist at \sys\class\powercap\intel-rapl to measure CPU
+
+[codecarbon WARNING @ 10:02:20] We saw that you have a AMD Ryzen 7 7735U with Radeon Graphics but we don't know it. Please contact us.
+[codecarbon INFO @ 10:02:20] CPU Model on constant consumption mode: AMD Ryzen 7 7735U with Radeon Graphics
+[codecarbon INFO @ 10:02:20] [setup] GPU Tracking...
+[codecarbon INFO @ 10:02:20] No GPU found.
+[codecarbon INFO @ 10:02:20] >>> Tracker's metadata:
+[codecarbon INFO @ 10:02:20]   Platform system: Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.35
+[codecarbon INFO @ 10:02:20]   Python version: 3.10.12
+[codecarbon INFO @ 10:02:20]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 10:02:20]   Available RAM : 7.387 GB
+[codecarbon INFO @ 10:02:20]   CPU count: 16
+[codecarbon INFO @ 10:02:20]   CPU model: AMD Ryzen 7 7735U with Radeon Graphics
+[codecarbon INFO @ 10:02:20]   GPU count: None
+[codecarbon INFO @ 10:02:20]   GPU model: None
+[codecarbon INFO @ 10:02:23] Saving emissions data to file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/emissions.csv
+02/02/2025 10:02:23 - INFO - __main__ -   Training/evaluation parameters Namespace(data_dir='/home/ambroise012/projet_3A/robustness_to_spurious_correlation/qqp', training_examples_ids=None, hard_examples=None, hard_type=None, model_type='bert', model_name_or_path='bert-base-uncased', do_lower_case=True, avg_models=None, load_model=None, proportion=0.0, adam_beta0=0.9, task_name='qqp', stress_subtask=None, output_dir='qqp_bert_base/', config_name='', tokenizer_name='', cache_dir='', max_seq_length=128, do_train=True, do_eval=False, evaluate_during_training=False, per_gpu_train_batch_size=32, per_gpu_eval_batch_size=400, gradient_accumulation_steps=1, learning_rate=5e-05, weight_decay=0.0, adam_epsilon=1e-08, decay_learning_rate=True, max_grad_norm=1.0, num_train_epochs=3.0, max_steps=-1, warmup_proportion=0.0, logging_steps=50, save_steps=500, eval_all_checkpoints=False, no_cuda=False, overwrite_output_dir=True, overwrite_cache=False, seed=0, fp16=True, fp16_opt_level='O1', local_rank=-1, eval_tasks=['qqp', 'qqp-wang', 'qqp-wang-test', 'paws-qqp', 'paws-wiki', 'paws-qqp-all-val'], test=False, n_gpu=0, device=device(type='cpu'), output_mode='classification')
+02/02/2025 10:02:23 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/qqp/cached_train_bert-base-uncased_128_qqp
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+[codecarbon INFO @ 10:02:42] Energy consumed for RAM : 0.000014 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:02:44] Energy consumed for all CPUs : 0.000246 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:02:46] 0.000260 kWh of electricity used since the beginning.
+02/02/2025 10:02:49 - INFO - utils_data -   Dataset length: 363846.
+02/02/2025 10:02:54 - INFO - __main__ -   ***** Running training *****
+02/02/2025 10:02:54 - INFO - __main__ -     Num examples = 363846
+02/02/2025 10:02:54 - INFO - __main__ -     Num Epochs = 3
+02/02/2025 10:02:54 - INFO - __main__ -     Instantaneous batch size per GPU = 32
+02/02/2025 10:02:54 - INFO - __main__ -     Total train batch size (w. parallel, distributed & accumulation) = 32
+02/02/2025 10:02:54 - INFO - __main__ -     Gradient Accumulation steps = 1
+02/02/2025 10:02:54 - INFO - __main__ -     Total optimization steps = 34113
+Initializing forgetting (363846, 3)
+Epoch:   0%|          | 0/3 [00:00<?, ?it/s]02/02/2025 10:02:54 - INFO - utils_data -   Loading features from cached file /home/ambroise012/projet_3A/robustness_to_spurious_correlation/qqp/cached_dev_bert-base-uncased_128_qqp
+/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_data.py:36: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  features = torch.load(cached_features_file)
+02/02/2025 10:02:56 - INFO - utils_data -   Dataset length: 40430.
+02/02/2025 10:02:56 - INFO - __main__ -   ***** Running evaluation qqp *****
+02/02/2025 10:02:56 - INFO - __main__ -     Num examples = 40430
+02/02/2025 10:02:56 - INFO - __main__ -     Batch size = 400
+
+Evaluating:   0%|          | 0/102 [00:00<?, ?it/s][A[codecarbon INFO @ 10:02:57] Energy consumed for RAM : 0.000022 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:02:57] Energy consumed for all CPUs : 0.000369 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:02:57] 0.000391 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:03:12] Energy consumed for RAM : 0.000034 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:03:12] Energy consumed for all CPUs : 0.000546 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:03:12] 0.000579 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:03:27] Energy consumed for RAM : 0.000045 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:03:27] Energy consumed for all CPUs : 0.000723 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:03:27] 0.000768 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:03:42] Energy consumed for RAM : 0.000057 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:03:42] Energy consumed for all CPUs : 0.000900 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:03:42] 0.000957 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:03:57] Energy consumed for RAM : 0.000068 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:03:57] Energy consumed for all CPUs : 0.001077 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:03:57] 0.001145 kWh of electricity used since the beginning.
+
+Evaluating:   2%|▏         | 2/102 [01:11<59:54, 35.94s/it][A[codecarbon INFO @ 10:04:12] Energy consumed for RAM : 0.000080 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:04:12] Energy consumed for all CPUs : 0.001254 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:04:12] 0.001334 kWh of electricity used since the beginning.
+
+Evaluating:   2%|▏         | 2/102 [01:27<59:54, 35.94s/it][A[codecarbon INFO @ 10:04:27] Energy consumed for RAM : 0.000091 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:04:27] Energy consumed for all CPUs : 0.001431 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:04:27] 0.001523 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:04:27] 0.000691 g.CO2eq/s mean an estimation of 21.778625774832715 kg.CO2eq/year
+[codecarbon INFO @ 10:04:42] Energy consumed for RAM : 0.000103 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:04:42] Energy consumed for all CPUs : 0.001608 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:04:42] 0.001711 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:04:57] Energy consumed for RAM : 0.000115 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:04:57] Energy consumed for all CPUs : 0.001785 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:04:57] 0.001900 kWh of electricity used since the beginning.
+
+Evaluating:   4%|▍         | 4/102 [02:15<54:53, 33.61s/it][A[codecarbon INFO @ 10:05:12] Energy consumed for RAM : 0.000126 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:05:12] Energy consumed for all CPUs : 0.001962 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:05:12] 0.002088 kWh of electricity used since the beginning.
+
+Evaluating:   4%|▍         | 4/102 [02:27<54:53, 33.61s/it][A[codecarbon INFO @ 10:05:27] Energy consumed for RAM : 0.000138 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:05:27] Energy consumed for all CPUs : 0.002139 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:05:27] 0.002277 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:05:42] Energy consumed for RAM : 0.000149 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:05:42] Energy consumed for all CPUs : 0.002317 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:05:42] 0.002466 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:05:57] Energy consumed for RAM : 0.000161 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:05:57] Energy consumed for all CPUs : 0.002494 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:05:57] 0.002654 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:06:12] Energy consumed for RAM : 0.000172 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:06:12] Energy consumed for all CPUs : 0.002671 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:06:12] 0.002843 kWh of electricity used since the beginning.
+
+Evaluating:   6%|▌         | 6/102 [03:20<52:50, 33.03s/it][A[codecarbon INFO @ 10:06:27] Energy consumed for RAM : 0.000184 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:06:27] Energy consumed for all CPUs : 0.002848 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:06:27] 0.003032 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:06:27] 0.000705 g.CO2eq/s mean an estimation of 22.222879740689123 kg.CO2eq/year
+
+Evaluating:   6%|▌         | 6/102 [03:37<52:50, 33.03s/it][A[codecarbon INFO @ 10:06:42] Energy consumed for RAM : 0.000195 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:06:42] Energy consumed for all CPUs : 0.003025 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:06:42] 0.003220 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:06:57] Energy consumed for RAM : 0.000207 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:06:57] Energy consumed for all CPUs : 0.003202 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:06:57] 0.003409 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:07:12] Energy consumed for RAM : 0.000218 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:07:12] Energy consumed for all CPUs : 0.003379 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:07:12] 0.003598 kWh of electricity used since the beginning.
+
+Evaluating:   8%|▊         | 8/102 [04:25<51:28, 32.86s/it][A[codecarbon INFO @ 10:07:27] Energy consumed for RAM : 0.000230 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:07:27] Energy consumed for all CPUs : 0.003556 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:07:27] 0.003786 kWh of electricity used since the beginning.
+
+Evaluating:   8%|▊         | 8/102 [04:37<51:28, 32.86s/it][A[codecarbon INFO @ 10:07:42] Energy consumed for RAM : 0.000242 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:07:42] Energy consumed for all CPUs : 0.003733 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:07:42] 0.003975 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:07:57] Energy consumed for RAM : 0.000253 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:07:57] Energy consumed for all CPUs : 0.003910 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:07:57] 0.004163 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:08:12] Energy consumed for RAM : 0.000265 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:08:12] Energy consumed for all CPUs : 0.004087 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:08:12] 0.004352 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:08:27] Energy consumed for RAM : 0.000276 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:08:27] Energy consumed for all CPUs : 0.004264 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:08:27] 0.004541 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:08:27] 0.000705 g.CO2eq/s mean an estimation of 22.21895039978542 kg.CO2eq/year
+
+Evaluating:  10%|▉         | 10/102 [05:31<50:28, 32.92s/it][A[codecarbon INFO @ 10:08:42] Energy consumed for RAM : 0.000288 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:08:42] Energy consumed for all CPUs : 0.004441 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:08:42] 0.004729 kWh of electricity used since the beginning.
+
+Evaluating:  10%|▉         | 10/102 [05:47<50:28, 32.92s/it][A[codecarbon INFO @ 10:08:57] Energy consumed for RAM : 0.000299 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:08:57] Energy consumed for all CPUs : 0.004619 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:08:57] 0.004918 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:09:12] Energy consumed for RAM : 0.000311 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:09:12] Energy consumed for all CPUs : 0.004796 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:09:12] 0.005106 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:09:27] Energy consumed for RAM : 0.000322 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:09:27] Energy consumed for all CPUs : 0.004973 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:09:27] 0.005295 kWh of electricity used since the beginning.
+
+Evaluating:  12%|█▏        | 12/102 [06:38<49:29, 32.99s/it][A[codecarbon INFO @ 10:09:42] Energy consumed for RAM : 0.000334 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:09:42] Energy consumed for all CPUs : 0.005150 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:09:42] 0.005484 kWh of electricity used since the beginning.
+
+Evaluating:  12%|█▏        | 12/102 [06:57<49:29, 32.99s/it][A[codecarbon INFO @ 10:09:57] Energy consumed for RAM : 0.000345 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:09:57] Energy consumed for all CPUs : 0.005327 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:09:57] 0.005672 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:10:12] Energy consumed for RAM : 0.000357 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:10:12] Energy consumed for all CPUs : 0.005504 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:10:12] 0.005861 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:10:27] Energy consumed for RAM : 0.000368 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:10:27] Energy consumed for all CPUs : 0.005681 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:10:27] 0.006050 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:10:27] 0.000705 g.CO2eq/s mean an estimation of 22.222593477704038 kg.CO2eq/year
+
+Evaluating:  14%|█▎        | 14/102 [07:44<48:24, 33.01s/it][A[codecarbon INFO @ 10:10:42] Energy consumed for RAM : 0.000380 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:10:42] Energy consumed for all CPUs : 0.005858 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:10:42] 0.006238 kWh of electricity used since the beginning.
+
+Evaluating:  14%|█▎        | 14/102 [07:57<48:24, 33.01s/it][A[codecarbon INFO @ 10:10:57] Energy consumed for RAM : 0.000392 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:10:57] Energy consumed for all CPUs : 0.006035 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:10:57] 0.006427 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:11:12] Energy consumed for RAM : 0.000403 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:11:12] Energy consumed for all CPUs : 0.006212 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:11:12] 0.006616 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:11:27] Energy consumed for RAM : 0.000415 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:11:27] Energy consumed for all CPUs : 0.006389 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:11:27] 0.006804 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:11:42] Energy consumed for RAM : 0.000426 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:11:42] Energy consumed for all CPUs : 0.006567 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:11:42] 0.006993 kWh of electricity used since the beginning.
+
+Evaluating:  16%|█▌        | 16/102 [08:49<47:14, 32.96s/it][A[codecarbon INFO @ 10:11:57] Energy consumed for RAM : 0.000438 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:11:57] Energy consumed for all CPUs : 0.006744 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:11:57] 0.007181 kWh of electricity used since the beginning.
+
+Evaluating:  16%|█▌        | 16/102 [09:07<47:14, 32.96s/it][A[codecarbon INFO @ 10:12:12] Energy consumed for RAM : 0.000449 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:12:12] Energy consumed for all CPUs : 0.006921 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:12:12] 0.007370 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:12:27] Energy consumed for RAM : 0.000461 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:12:27] Energy consumed for all CPUs : 0.007098 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:12:27] 0.007559 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:12:27] 0.000705 g.CO2eq/s mean an estimation of 22.22242416218291 kg.CO2eq/year
+[codecarbon INFO @ 10:12:42] Energy consumed for RAM : 0.000472 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:12:42] Energy consumed for all CPUs : 0.007275 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:12:42] 0.007747 kWh of electricity used since the beginning.
+
+Evaluating:  18%|█▊        | 18/102 [09:54<45:54, 32.80s/it][A[codecarbon INFO @ 10:12:57] Energy consumed for RAM : 0.000484 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:12:57] Energy consumed for all CPUs : 0.007452 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:12:57] 0.007936 kWh of electricity used since the beginning.
+
+Evaluating:  18%|█▊        | 18/102 [10:07<45:54, 32.80s/it][A[codecarbon INFO @ 10:13:12] Energy consumed for RAM : 0.000495 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:13:12] Energy consumed for all CPUs : 0.007629 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:13:12] 0.008124 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:13:27] Energy consumed for RAM : 0.000507 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:13:27] Energy consumed for all CPUs : 0.007806 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:13:27] 0.008313 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:13:42] Energy consumed for RAM : 0.000519 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:13:42] Energy consumed for all CPUs : 0.007983 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:13:42] 0.008502 kWh of electricity used since the beginning.
+
+Evaluating:  20%|█▉        | 20/102 [11:00<44:52, 32.83s/it][A[codecarbon INFO @ 10:13:57] Energy consumed for RAM : 0.000530 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:13:57] Energy consumed for all CPUs : 0.008160 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:13:57] 0.008690 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:14:12] Energy consumed for RAM : 0.000542 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:14:12] Energy consumed for all CPUs : 0.008337 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:14:12] 0.008879 kWh of electricity used since the beginning.
+
+Evaluating:  20%|█▉        | 20/102 [11:17<44:52, 32.83s/it][A[codecarbon INFO @ 10:14:27] Energy consumed for RAM : 0.000553 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:14:27] Energy consumed for all CPUs : 0.008514 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:14:27] 0.009068 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:14:27] 0.000705 g.CO2eq/s mean an estimation of 22.21891348472472 kg.CO2eq/year
+[codecarbon INFO @ 10:14:42] Energy consumed for RAM : 0.000565 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:14:42] Energy consumed for all CPUs : 0.008691 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:14:42] 0.009256 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:14:57] Energy consumed for RAM : 0.000576 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:14:57] Energy consumed for all CPUs : 0.008869 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:14:57] 0.009445 kWh of electricity used since the beginning.
+
+Evaluating:  22%|██▏       | 22/102 [12:06<43:50, 32.88s/it][A[codecarbon INFO @ 10:15:12] Energy consumed for RAM : 0.000588 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:15:12] Energy consumed for all CPUs : 0.009046 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:15:12] 0.009633 kWh of electricity used since the beginning.
+
+Evaluating:  22%|██▏       | 22/102 [12:17<43:50, 32.88s/it][A[codecarbon INFO @ 10:15:27] Energy consumed for RAM : 0.000599 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:15:27] Energy consumed for all CPUs : 0.009223 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:15:27] 0.009822 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:15:42] Energy consumed for RAM : 0.000611 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:15:42] Energy consumed for all CPUs : 0.009400 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:15:42] 0.010011 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:15:57] Energy consumed for RAM : 0.000622 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:15:57] Energy consumed for all CPUs : 0.009577 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:15:57] 0.010199 kWh of electricity used since the beginning.
+
+Evaluating:  24%|██▎       | 24/102 [13:12<42:44, 32.88s/it][A[codecarbon INFO @ 10:16:12] Energy consumed for RAM : 0.000634 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:16:12] Energy consumed for all CPUs : 0.009754 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:16:12] 0.010388 kWh of electricity used since the beginning.
+
+Evaluating:  24%|██▎       | 24/102 [13:28<42:44, 32.88s/it][A[codecarbon INFO @ 10:16:27] Energy consumed for RAM : 0.000645 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:16:27] Energy consumed for all CPUs : 0.009931 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:16:27] 0.010577 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:16:27] 0.000705 g.CO2eq/s mean an estimation of 22.222990948138435 kg.CO2eq/year
+[codecarbon INFO @ 10:16:42] Energy consumed for RAM : 0.000657 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:16:42] Energy consumed for all CPUs : 0.010108 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:16:42] 0.010765 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:16:57] Energy consumed for RAM : 0.000669 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:16:57] Energy consumed for all CPUs : 0.010285 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:16:57] 0.010954 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:17:12] Energy consumed for RAM : 0.000680 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:17:12] Energy consumed for all CPUs : 0.010462 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:17:12] 0.011142 kWh of electricity used since the beginning.
+
+Evaluating:  25%|██▌       | 26/102 [14:18<41:42, 32.92s/it][A[codecarbon INFO @ 10:17:27] Energy consumed for RAM : 0.000692 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:17:27] Energy consumed for all CPUs : 0.010639 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:17:27] 0.011331 kWh of electricity used since the beginning.
+
+Evaluating:  25%|██▌       | 26/102 [14:38<41:42, 32.92s/it][A[codecarbon INFO @ 10:17:42] Energy consumed for RAM : 0.000703 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:17:42] Energy consumed for all CPUs : 0.010817 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:17:42] 0.011520 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:17:57] Energy consumed for RAM : 0.000715 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:17:57] Energy consumed for all CPUs : 0.010994 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:17:57] 0.011708 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:18:12] Energy consumed for RAM : 0.000726 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:18:12] Energy consumed for all CPUs : 0.011171 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:18:12] 0.011897 kWh of electricity used since the beginning.
+
+Evaluating:  27%|██▋       | 28/102 [15:23<40:32, 32.88s/it][A[codecarbon INFO @ 10:18:27] Energy consumed for RAM : 0.000738 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:18:27] Energy consumed for all CPUs : 0.011348 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:18:27] 0.012086 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:18:27] 0.000705 g.CO2eq/s mean an estimation of 22.222790933908858 kg.CO2eq/year
+
+Evaluating:  27%|██▋       | 28/102 [15:38<40:32, 32.88s/it][A[codecarbon INFO @ 10:18:42] Energy consumed for RAM : 0.000749 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:18:42] Energy consumed for all CPUs : 0.011525 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:18:42] 0.012274 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:18:57] Energy consumed for RAM : 0.000761 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:18:57] Energy consumed for all CPUs : 0.011702 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:18:57] 0.012463 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:19:12] Energy consumed for RAM : 0.000772 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:19:12] Energy consumed for all CPUs : 0.011879 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:19:12] 0.012652 kWh of electricity used since the beginning.
+
+Evaluating:  29%|██▉       | 30/102 [16:30<39:33, 32.97s/it][A[codecarbon INFO @ 10:19:27] Energy consumed for RAM : 0.000784 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:19:27] Energy consumed for all CPUs : 0.012056 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:19:27] 0.012840 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:19:42] Energy consumed for RAM : 0.000796 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:19:42] Energy consumed for all CPUs : 0.012233 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:19:42] 0.013029 kWh of electricity used since the beginning.
+
+Evaluating:  29%|██▉       | 30/102 [16:48<39:33, 32.97s/it][A[codecarbon INFO @ 10:19:57] Energy consumed for RAM : 0.000807 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:19:57] Energy consumed for all CPUs : 0.012410 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:19:57] 0.013217 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:20:12] Energy consumed for RAM : 0.000819 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:20:12] Energy consumed for all CPUs : 0.012587 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:20:12] 0.013406 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:20:27] Energy consumed for RAM : 0.000830 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:20:27] Energy consumed for all CPUs : 0.012765 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:20:27] 0.013595 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:20:27] 0.000705 g.CO2eq/s mean an estimation of 22.22270873759302 kg.CO2eq/year
+
+Evaluating:  31%|███▏      | 32/102 [17:35<38:22, 32.90s/it][A[codecarbon INFO @ 10:20:42] Energy consumed for RAM : 0.000842 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:20:42] Energy consumed for all CPUs : 0.012942 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:20:42] 0.013783 kWh of electricity used since the beginning.
+
+Evaluating:  31%|███▏      | 32/102 [17:48<38:22, 32.90s/it][A[codecarbon INFO @ 10:20:57] Energy consumed for RAM : 0.000853 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:20:57] Energy consumed for all CPUs : 0.013119 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:20:57] 0.013972 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:21:12] Energy consumed for RAM : 0.000865 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:21:12] Energy consumed for all CPUs : 0.013296 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:21:12] 0.014161 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:21:27] Energy consumed for RAM : 0.000876 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:21:27] Energy consumed for all CPUs : 0.013473 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:21:27] 0.014349 kWh of electricity used since the beginning.
+
+Evaluating:  33%|███▎      | 34/102 [18:41<37:20, 32.95s/it][A[codecarbon INFO @ 10:21:42] Energy consumed for RAM : 0.000888 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:21:42] Energy consumed for all CPUs : 0.013650 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:21:42] 0.014538 kWh of electricity used since the beginning.
+
+Evaluating:  33%|███▎      | 34/102 [18:58<37:20, 32.95s/it][A[codecarbon INFO @ 10:21:57] Energy consumed for RAM : 0.000899 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:21:57] Energy consumed for all CPUs : 0.013827 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:21:57] 0.014726 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:22:12] Energy consumed for RAM : 0.000911 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:22:12] Energy consumed for all CPUs : 0.014004 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:22:12] 0.014915 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:22:27] Energy consumed for RAM : 0.000922 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:22:27] Energy consumed for all CPUs : 0.014181 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:22:27] 0.015104 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:22:27] 0.000705 g.CO2eq/s mean an estimation of 22.22291515934955 kg.CO2eq/year
+[codecarbon INFO @ 10:22:42] Energy consumed for RAM : 0.000934 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:22:42] Energy consumed for all CPUs : 0.014358 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:22:42] 0.015292 kWh of electricity used since the beginning.
+
+Evaluating:  35%|███▌      | 36/102 [19:48<36:22, 33.08s/it][A[codecarbon INFO @ 10:22:57] Energy consumed for RAM : 0.000946 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:22:57] Energy consumed for all CPUs : 0.014535 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:22:57] 0.015481 kWh of electricity used since the beginning.
+
+Evaluating:  35%|███▌      | 36/102 [20:08<36:22, 33.08s/it][A[codecarbon INFO @ 10:23:12] Energy consumed for RAM : 0.000957 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:23:12] Energy consumed for all CPUs : 0.014713 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:23:12] 0.015670 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:23:27] Energy consumed for RAM : 0.000969 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:23:27] Energy consumed for all CPUs : 0.014890 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:23:27] 0.015858 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:23:42] Energy consumed for RAM : 0.000980 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:23:42] Energy consumed for all CPUs : 0.015067 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:23:42] 0.016047 kWh of electricity used since the beginning.
+
+Evaluating:  37%|███▋      | 38/102 [20:54<35:13, 33.02s/it][A[codecarbon INFO @ 10:23:57] Energy consumed for RAM : 0.000992 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:23:57] Energy consumed for all CPUs : 0.015244 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:23:57] 0.016236 kWh of electricity used since the beginning.
+
+Evaluating:  37%|███▋      | 38/102 [21:08<35:13, 33.02s/it][A[codecarbon INFO @ 10:24:12] Energy consumed for RAM : 0.001003 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:24:12] Energy consumed for all CPUs : 0.015421 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:24:12] 0.016424 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:24:27] Energy consumed for RAM : 0.001015 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:24:27] Energy consumed for all CPUs : 0.015598 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:24:27] 0.016613 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:24:27] 0.000705 g.CO2eq/s mean an estimation of 22.222956498027962 kg.CO2eq/year
+[codecarbon INFO @ 10:24:42] Energy consumed for RAM : 0.001026 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:24:42] Energy consumed for all CPUs : 0.015775 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:24:42] 0.016801 kWh of electricity used since the beginning.
+
+Evaluating:  39%|███▉      | 40/102 [21:59<34:01, 32.92s/it][A[codecarbon INFO @ 10:24:57] Energy consumed for RAM : 0.001038 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:24:57] Energy consumed for all CPUs : 0.015952 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:24:57] 0.016990 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:25:12] Energy consumed for RAM : 0.001049 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:25:12] Energy consumed for all CPUs : 0.016129 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:25:12] 0.017179 kWh of electricity used since the beginning.
+
+Evaluating:  39%|███▉      | 40/102 [22:18<34:01, 32.92s/it][A[codecarbon INFO @ 10:25:27] Energy consumed for RAM : 0.001061 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:25:27] Energy consumed for all CPUs : 0.016306 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:25:27] 0.017367 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:25:42] Energy consumed for RAM : 0.001073 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:25:42] Energy consumed for all CPUs : 0.016483 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:25:42] 0.017556 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:25:57] Energy consumed for RAM : 0.001084 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:25:57] Energy consumed for all CPUs : 0.016661 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:25:57] 0.017745 kWh of electricity used since the beginning.
+
+Evaluating:  41%|████      | 42/102 [23:06<32:59, 33.00s/it][A[codecarbon INFO @ 10:26:12] Energy consumed for RAM : 0.001096 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:26:12] Energy consumed for all CPUs : 0.016838 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:26:12] 0.017933 kWh of electricity used since the beginning.
+
+Evaluating:  41%|████      | 42/102 [23:18<32:59, 33.00s/it][A[codecarbon INFO @ 10:26:27] Energy consumed for RAM : 0.001107 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:26:27] Energy consumed for all CPUs : 0.017015 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:26:27] 0.018122 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:26:27] 0.000705 g.CO2eq/s mean an estimation of 22.222713881853863 kg.CO2eq/year
+[codecarbon INFO @ 10:26:42] Energy consumed for RAM : 0.001119 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:26:42] Energy consumed for all CPUs : 0.017192 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:26:42] 0.018310 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:26:57] Energy consumed for RAM : 0.001130 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:26:57] Energy consumed for all CPUs : 0.017369 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:26:57] 0.018499 kWh of electricity used since the beginning.
+
+Evaluating:  43%|████▎     | 44/102 [24:12<31:56, 33.05s/it][A[codecarbon INFO @ 10:27:12] Energy consumed for RAM : 0.001142 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:27:12] Energy consumed for all CPUs : 0.017546 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:27:12] 0.018688 kWh of electricity used since the beginning.
+
+Evaluating:  43%|████▎     | 44/102 [24:28<31:56, 33.05s/it][A[codecarbon INFO @ 10:27:27] Energy consumed for RAM : 0.001153 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:27:27] Energy consumed for all CPUs : 0.017723 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:27:27] 0.018876 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:27:42] Energy consumed for RAM : 0.001165 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:27:42] Energy consumed for all CPUs : 0.017900 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:27:42] 0.019065 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:27:57] Energy consumed for RAM : 0.001176 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:27:57] Energy consumed for all CPUs : 0.018077 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:27:57] 0.019254 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:28:12] Energy consumed for RAM : 0.001188 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:28:12] Energy consumed for all CPUs : 0.018254 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:28:12] 0.019442 kWh of electricity used since the beginning.
+
+Evaluating:  45%|████▌     | 46/102 [25:18<30:51, 33.06s/it][A[codecarbon INFO @ 10:28:27] Energy consumed for RAM : 0.001199 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:28:27] Energy consumed for all CPUs : 0.018431 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:28:27] 0.019631 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:28:27] 0.000705 g.CO2eq/s mean an estimation of 22.222880524147396 kg.CO2eq/year
+
+Evaluating:  45%|████▌     | 46/102 [25:38<30:51, 33.06s/it][A[codecarbon INFO @ 10:28:42] Energy consumed for RAM : 0.001211 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:28:42] Energy consumed for all CPUs : 0.018609 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:28:42] 0.019820 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:28:57] Energy consumed for RAM : 0.001223 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:28:57] Energy consumed for all CPUs : 0.018786 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:28:57] 0.020008 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:29:12] Energy consumed for RAM : 0.001234 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:29:12] Energy consumed for all CPUs : 0.018963 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:29:12] 0.020197 kWh of electricity used since the beginning.
+
+Evaluating:  47%|████▋     | 48/102 [26:24<29:41, 33.00s/it][A[codecarbon INFO @ 10:29:27] Energy consumed for RAM : 0.001246 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:29:27] Energy consumed for all CPUs : 0.019140 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:29:27] 0.020385 kWh of electricity used since the beginning.
+
+Evaluating:  47%|████▋     | 48/102 [26:38<29:41, 33.00s/it][A[codecarbon INFO @ 10:29:42] Energy consumed for RAM : 0.001257 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:29:42] Energy consumed for all CPUs : 0.019317 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:29:42] 0.020574 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:29:57] Energy consumed for RAM : 0.001269 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:29:57] Energy consumed for all CPUs : 0.019494 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:29:57] 0.020763 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:30:12] Energy consumed for RAM : 0.001280 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:30:12] Energy consumed for all CPUs : 0.019671 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:30:12] 0.020951 kWh of electricity used since the beginning.
+
+Evaluating:  49%|████▉     | 50/102 [27:30<28:34, 32.98s/it][A[codecarbon INFO @ 10:30:27] Energy consumed for RAM : 0.001292 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:30:27] Energy consumed for all CPUs : 0.019848 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:30:27] 0.021140 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:30:27] 0.000705 g.CO2eq/s mean an estimation of 22.222776286435263 kg.CO2eq/year
+[codecarbon INFO @ 10:30:42] Energy consumed for RAM : 0.001303 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:30:42] Energy consumed for all CPUs : 0.020025 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:30:42] 0.021329 kWh of electricity used since the beginning.
+
+Evaluating:  49%|████▉     | 50/102 [27:48<28:34, 32.98s/it][A[codecarbon INFO @ 10:30:57] Energy consumed for RAM : 0.001315 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:30:57] Energy consumed for all CPUs : 0.020202 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:30:57] 0.021517 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:31:12] Energy consumed for RAM : 0.001326 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:31:12] Energy consumed for all CPUs : 0.020379 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:31:12] 0.021706 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:31:27] Energy consumed for RAM : 0.001338 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:31:27] Energy consumed for all CPUs : 0.020557 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:31:27] 0.021895 kWh of electricity used since the beginning.
+
+Evaluating:  51%|█████     | 52/102 [28:35<27:26, 32.92s/it][A[codecarbon INFO @ 10:31:42] Energy consumed for RAM : 0.001350 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:31:42] Energy consumed for all CPUs : 0.020734 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:31:42] 0.022083 kWh of electricity used since the beginning.
+
+Evaluating:  51%|█████     | 52/102 [28:48<27:26, 32.92s/it][A[codecarbon INFO @ 10:31:57] Energy consumed for RAM : 0.001361 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:31:57] Energy consumed for all CPUs : 0.020911 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:31:57] 0.022272 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:32:12] Energy consumed for RAM : 0.001373 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:32:12] Energy consumed for all CPUs : 0.021088 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:32:12] 0.022461 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:32:27] Energy consumed for RAM : 0.001384 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:32:27] Energy consumed for all CPUs : 0.021265 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:32:27] 0.022649 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:32:27] 0.000705 g.CO2eq/s mean an estimation of 22.221971094104134 kg.CO2eq/year
+
+Evaluating:  53%|█████▎    | 54/102 [29:42<26:23, 33.00s/it][A[codecarbon INFO @ 10:32:42] Energy consumed for RAM : 0.001396 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:32:42] Energy consumed for all CPUs : 0.021442 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:32:42] 0.022838 kWh of electricity used since the beginning.
+
+Evaluating:  53%|█████▎    | 54/102 [29:58<26:23, 33.00s/it][A[codecarbon INFO @ 10:32:57] Energy consumed for RAM : 0.001407 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:32:57] Energy consumed for all CPUs : 0.021619 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:32:57] 0.023026 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:33:12] Energy consumed for RAM : 0.001419 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:33:12] Energy consumed for all CPUs : 0.021796 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:33:12] 0.023215 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:33:27] Energy consumed for RAM : 0.001430 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:33:27] Energy consumed for all CPUs : 0.021973 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:33:27] 0.023404 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:33:42] Energy consumed for RAM : 0.001442 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:33:42] Energy consumed for all CPUs : 0.022150 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:33:42] 0.023592 kWh of electricity used since the beginning.
+
+Evaluating:  55%|█████▍    | 56/102 [30:48<25:20, 33.04s/it][A[codecarbon INFO @ 10:33:57] Energy consumed for RAM : 0.001453 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:33:57] Energy consumed for all CPUs : 0.022327 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:33:57] 0.023781 kWh of electricity used since the beginning.
+
+Evaluating:  55%|█████▍    | 56/102 [31:08<25:20, 33.04s/it][A[codecarbon INFO @ 10:34:12] Energy consumed for RAM : 0.001465 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:34:12] Energy consumed for all CPUs : 0.022505 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:34:12] 0.023970 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:34:27] Energy consumed for RAM : 0.001477 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:34:27] Energy consumed for all CPUs : 0.022682 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:34:27] 0.024158 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:34:27] 0.000705 g.CO2eq/s mean an estimation of 22.222768755757002 kg.CO2eq/year
+[codecarbon INFO @ 10:34:42] Energy consumed for RAM : 0.001488 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:34:42] Energy consumed for all CPUs : 0.022859 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:34:42] 0.024347 kWh of electricity used since the beginning.
+
+Evaluating:  57%|█████▋    | 58/102 [31:54<24:11, 32.99s/it][A[codecarbon INFO @ 10:34:57] Energy consumed for RAM : 0.001500 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:34:57] Energy consumed for all CPUs : 0.023036 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:34:57] 0.024535 kWh of electricity used since the beginning.
+
+Evaluating:  57%|█████▋    | 58/102 [32:08<24:11, 32.99s/it][A[codecarbon INFO @ 10:35:12] Energy consumed for RAM : 0.001511 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:35:12] Energy consumed for all CPUs : 0.023213 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:35:12] 0.024724 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:35:27] Energy consumed for RAM : 0.001523 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:35:27] Energy consumed for all CPUs : 0.023390 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:35:27] 0.024913 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:35:42] Energy consumed for RAM : 0.001534 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:35:42] Energy consumed for all CPUs : 0.023567 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:35:42] 0.025101 kWh of electricity used since the beginning.
+
+Evaluating:  59%|█████▉    | 60/102 [32:59<23:01, 32.88s/it][A[codecarbon INFO @ 10:35:57] Energy consumed for RAM : 0.001546 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:35:57] Energy consumed for all CPUs : 0.023744 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:35:57] 0.025290 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:36:12] Energy consumed for RAM : 0.001557 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:36:12] Energy consumed for all CPUs : 0.023921 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:36:12] 0.025479 kWh of electricity used since the beginning.
+
+Evaluating:  59%|█████▉    | 60/102 [33:18<23:01, 32.88s/it][A[codecarbon INFO @ 10:36:27] Energy consumed for RAM : 0.001569 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:36:27] Energy consumed for all CPUs : 0.024098 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:36:27] 0.025667 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:36:27] 0.000705 g.CO2eq/s mean an estimation of 22.222788999941248 kg.CO2eq/year
+[codecarbon INFO @ 10:36:42] Energy consumed for RAM : 0.001580 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:36:42] Energy consumed for all CPUs : 0.024275 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:36:42] 0.025856 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:36:57] Energy consumed for RAM : 0.001592 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:36:57] Energy consumed for all CPUs : 0.024453 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:36:57] 0.026044 kWh of electricity used since the beginning.
+
+Evaluating:  61%|██████    | 62/102 [34:05<21:55, 32.89s/it][A[codecarbon INFO @ 10:37:12] Energy consumed for RAM : 0.001603 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:37:12] Energy consumed for all CPUs : 0.024630 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:37:12] 0.026233 kWh of electricity used since the beginning.
+
+Evaluating:  61%|██████    | 62/102 [34:18<21:55, 32.89s/it][A[codecarbon INFO @ 10:37:27] Energy consumed for RAM : 0.001615 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:37:27] Energy consumed for all CPUs : 0.024807 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:37:27] 0.026422 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:37:42] Energy consumed for RAM : 0.001627 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:37:42] Energy consumed for all CPUs : 0.024984 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:37:42] 0.026610 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:37:57] Energy consumed for RAM : 0.001638 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:37:57] Energy consumed for all CPUs : 0.025161 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:37:57] 0.026799 kWh of electricity used since the beginning.
+
+Evaluating:  63%|██████▎   | 64/102 [35:11<20:50, 32.91s/it][A[codecarbon INFO @ 10:38:12] Energy consumed for RAM : 0.001650 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:38:12] Energy consumed for all CPUs : 0.025338 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:38:12] 0.026988 kWh of electricity used since the beginning.
+
+Evaluating:  63%|██████▎   | 64/102 [35:28<20:50, 32.91s/it][A[codecarbon INFO @ 10:38:27] Energy consumed for RAM : 0.001661 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:38:27] Energy consumed for all CPUs : 0.025515 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:38:27] 0.027176 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:38:27] 0.000705 g.CO2eq/s mean an estimation of 22.21966286650339 kg.CO2eq/year
+[codecarbon INFO @ 10:38:42] Energy consumed for RAM : 0.001673 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:38:42] Energy consumed for all CPUs : 0.025692 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:38:42] 0.027365 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:38:57] Energy consumed for RAM : 0.001684 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:38:57] Energy consumed for all CPUs : 0.025869 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:38:57] 0.027553 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:39:12] Energy consumed for RAM : 0.001696 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:39:12] Energy consumed for all CPUs : 0.026046 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:39:12] 0.027742 kWh of electricity used since the beginning.
+
+Evaluating:  65%|██████▍   | 66/102 [36:17<19:46, 32.95s/it][A
+Evaluating:  65%|██████▍   | 66/102 [36:28<19:46, 32.95s/it][A[codecarbon INFO @ 10:39:27] Energy consumed for RAM : 0.001707 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:39:27] Energy consumed for all CPUs : 0.026223 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:39:27] 0.027931 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:39:42] Energy consumed for RAM : 0.001719 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:39:42] Energy consumed for all CPUs : 0.026400 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:39:42] 0.028119 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:39:57] Energy consumed for RAM : 0.001730 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:39:57] Energy consumed for all CPUs : 0.026577 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:39:57] 0.028308 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:40:12] Energy consumed for RAM : 0.001742 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:40:12] Energy consumed for all CPUs : 0.026755 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:40:12] 0.028496 kWh of electricity used since the beginning.
+
+Evaluating:  67%|██████▋   | 68/102 [37:23<18:40, 32.97s/it][A[codecarbon INFO @ 10:40:27] Energy consumed for RAM : 0.001754 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:40:27] Energy consumed for all CPUs : 0.026932 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:40:27] 0.028685 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:40:27] 0.000705 g.CO2eq/s mean an estimation of 22.222800608054875 kg.CO2eq/year
+
+Evaluating:  67%|██████▋   | 68/102 [37:38<18:40, 32.97s/it][A[codecarbon INFO @ 10:40:42] Energy consumed for RAM : 0.001765 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:40:42] Energy consumed for all CPUs : 0.027109 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:40:42] 0.028874 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:40:57] Energy consumed for RAM : 0.001777 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:40:57] Energy consumed for all CPUs : 0.027286 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:40:57] 0.029062 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:41:12] Energy consumed for RAM : 0.001788 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:41:12] Energy consumed for all CPUs : 0.027463 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:41:12] 0.029251 kWh of electricity used since the beginning.
+
+Evaluating:  69%|██████▊   | 70/102 [38:29<17:37, 33.04s/it][A[codecarbon INFO @ 10:41:27] Energy consumed for RAM : 0.001800 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:41:27] Energy consumed for all CPUs : 0.027640 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:41:27] 0.029440 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:41:42] Energy consumed for RAM : 0.001811 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:41:42] Energy consumed for all CPUs : 0.027817 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:41:42] 0.029628 kWh of electricity used since the beginning.
+
+Evaluating:  69%|██████▊   | 70/102 [38:48<17:37, 33.04s/it][A[codecarbon INFO @ 10:41:57] Energy consumed for RAM : 0.001823 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:41:57] Energy consumed for all CPUs : 0.027994 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:41:57] 0.029817 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:42:12] Energy consumed for RAM : 0.001834 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:42:12] Energy consumed for all CPUs : 0.028171 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:42:12] 0.030006 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:42:27] Energy consumed for RAM : 0.001846 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:42:27] Energy consumed for all CPUs : 0.028348 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:42:27] 0.030194 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:42:27] 0.000705 g.CO2eq/s mean an estimation of 22.222909585539316 kg.CO2eq/year
+
+Evaluating:  71%|███████   | 72/102 [39:35<16:28, 32.95s/it][A[codecarbon INFO @ 10:42:42] Energy consumed for RAM : 0.001857 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:42:42] Energy consumed for all CPUs : 0.028525 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:42:42] 0.030383 kWh of electricity used since the beginning.
+
+Evaluating:  71%|███████   | 72/102 [39:48<16:28, 32.95s/it][A[codecarbon INFO @ 10:42:57] Energy consumed for RAM : 0.001869 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:42:57] Energy consumed for all CPUs : 0.028703 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:42:57] 0.030571 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:43:12] Energy consumed for RAM : 0.001880 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:43:12] Energy consumed for all CPUs : 0.028880 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:43:12] 0.030760 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:43:27] Energy consumed for RAM : 0.001892 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:43:27] Energy consumed for all CPUs : 0.029057 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:43:27] 0.030949 kWh of electricity used since the beginning.
+
+Evaluating:  73%|███████▎  | 74/102 [40:41<15:23, 33.00s/it][A[codecarbon INFO @ 10:43:42] Energy consumed for RAM : 0.001904 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:43:42] Energy consumed for all CPUs : 0.029234 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:43:42] 0.031137 kWh of electricity used since the beginning.
+
+Evaluating:  73%|███████▎  | 74/102 [40:58<15:23, 33.00s/it][A[codecarbon INFO @ 10:43:57] Energy consumed for RAM : 0.001915 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:43:57] Energy consumed for all CPUs : 0.029411 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:43:57] 0.031326 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:44:12] Energy consumed for RAM : 0.001927 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:44:12] Energy consumed for all CPUs : 0.029588 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:44:12] 0.031515 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:44:27] Energy consumed for RAM : 0.001938 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:44:27] Energy consumed for all CPUs : 0.029765 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:44:27] 0.031703 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:44:27] 0.000705 g.CO2eq/s mean an estimation of 22.222887452992275 kg.CO2eq/year
+[codecarbon INFO @ 10:44:42] Energy consumed for RAM : 0.001950 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:44:42] Energy consumed for all CPUs : 0.029942 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:44:42] 0.031892 kWh of electricity used since the beginning.
+
+Evaluating:  75%|███████▍  | 76/102 [41:47<14:19, 33.05s/it][A
+Evaluating:  75%|███████▍  | 76/102 [41:58<14:19, 33.05s/it][A[codecarbon INFO @ 10:44:57] Energy consumed for RAM : 0.001961 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:44:57] Energy consumed for all CPUs : 0.030119 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:44:57] 0.032080 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:45:12] Energy consumed for RAM : 0.001973 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:45:12] Energy consumed for all CPUs : 0.030296 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:45:12] 0.032269 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:45:27] Energy consumed for RAM : 0.001984 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:45:27] Energy consumed for all CPUs : 0.030473 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:45:27] 0.032458 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:45:42] Energy consumed for RAM : 0.001996 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:45:42] Energy consumed for all CPUs : 0.030650 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:45:42] 0.032646 kWh of electricity used since the beginning.
+
+Evaluating:  76%|███████▋  | 78/102 [42:53<13:13, 33.04s/it][A[codecarbon INFO @ 10:45:57] Energy consumed for RAM : 0.002007 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:45:57] Energy consumed for all CPUs : 0.030828 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:45:57] 0.032835 kWh of electricity used since the beginning.
+
+Evaluating:  76%|███████▋  | 78/102 [43:08<13:13, 33.04s/it][A[codecarbon INFO @ 10:46:12] Energy consumed for RAM : 0.002019 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:46:12] Energy consumed for all CPUs : 0.031005 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:46:12] 0.033024 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:46:27] Energy consumed for RAM : 0.002031 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:46:27] Energy consumed for all CPUs : 0.031182 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:46:27] 0.033212 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:46:27] 0.000705 g.CO2eq/s mean an estimation of 22.222881257407646 kg.CO2eq/year
+[codecarbon INFO @ 10:46:42] Energy consumed for RAM : 0.002042 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:46:42] Energy consumed for all CPUs : 0.031359 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:46:42] 0.033401 kWh of electricity used since the beginning.
+
+Evaluating:  78%|███████▊  | 80/102 [44:00<12:07, 33.08s/it][A[codecarbon INFO @ 10:46:57] Energy consumed for RAM : 0.002054 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:46:57] Energy consumed for all CPUs : 0.031536 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:46:57] 0.033590 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:47:12] Energy consumed for RAM : 0.002065 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:47:12] Energy consumed for all CPUs : 0.031713 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:47:12] 0.033778 kWh of electricity used since the beginning.
+
+Evaluating:  78%|███████▊  | 80/102 [44:18<12:07, 33.08s/it][A[codecarbon INFO @ 10:47:27] Energy consumed for RAM : 0.002077 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:47:27] Energy consumed for all CPUs : 0.031890 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:47:27] 0.033967 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:47:42] Energy consumed for RAM : 0.002088 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:47:42] Energy consumed for all CPUs : 0.032067 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:47:42] 0.034155 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:47:57] Energy consumed for RAM : 0.002100 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:47:57] Energy consumed for all CPUs : 0.032244 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:47:57] 0.034344 kWh of electricity used since the beginning.
+
+Evaluating:  80%|████████  | 82/102 [45:07<11:04, 33.24s/it][A[codecarbon INFO @ 10:48:12] Energy consumed for RAM : 0.002111 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:48:12] Energy consumed for all CPUs : 0.032421 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:48:12] 0.034533 kWh of electricity used since the beginning.
+
+Evaluating:  80%|████████  | 82/102 [45:18<11:04, 33.24s/it][A[codecarbon INFO @ 10:48:27] Energy consumed for RAM : 0.002123 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:48:27] Energy consumed for all CPUs : 0.032599 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:48:27] 0.034721 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:48:27] 0.000705 g.CO2eq/s mean an estimation of 22.222577886383068 kg.CO2eq/year
+[codecarbon INFO @ 10:48:42] Energy consumed for RAM : 0.002134 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:48:42] Energy consumed for all CPUs : 0.032776 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:48:42] 0.034910 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:48:57] Energy consumed for RAM : 0.002146 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:48:57] Energy consumed for all CPUs : 0.032953 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:48:57] 0.035099 kWh of electricity used since the beginning.
+
+Evaluating:  82%|████████▏ | 84/102 [46:13<09:58, 33.26s/it][A[codecarbon INFO @ 10:49:12] Energy consumed for RAM : 0.002157 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:49:12] Energy consumed for all CPUs : 0.033130 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:49:12] 0.035287 kWh of electricity used since the beginning.
+
+Evaluating:  82%|████████▏ | 84/102 [46:28<09:58, 33.26s/it][A[codecarbon INFO @ 10:49:27] Energy consumed for RAM : 0.002169 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:49:27] Energy consumed for all CPUs : 0.033307 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:49:27] 0.035476 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:49:42] Energy consumed for RAM : 0.002181 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:49:42] Energy consumed for all CPUs : 0.033484 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:49:42] 0.035664 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:49:57] Energy consumed for RAM : 0.002192 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:49:57] Energy consumed for all CPUs : 0.033661 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:49:57] 0.035853 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:50:12] Energy consumed for RAM : 0.002204 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:50:12] Energy consumed for all CPUs : 0.033838 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:50:12] 0.036042 kWh of electricity used since the beginning.
+
+Evaluating:  84%|████████▍ | 86/102 [47:19<08:50, 33.14s/it][A[codecarbon INFO @ 10:50:27] Energy consumed for RAM : 0.002215 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:50:27] Energy consumed for all CPUs : 0.034015 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:50:27] 0.036230 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:50:27] 0.000705 g.CO2eq/s mean an estimation of 22.222949234949937 kg.CO2eq/year
+
+Evaluating:  84%|████████▍ | 86/102 [47:38<08:50, 33.14s/it][A[codecarbon INFO @ 10:50:42] Energy consumed for RAM : 0.002227 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:50:42] Energy consumed for all CPUs : 0.034192 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:50:42] 0.036419 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:50:57] Energy consumed for RAM : 0.002238 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:50:57] Energy consumed for all CPUs : 0.034369 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:50:57] 0.036608 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:51:12] Energy consumed for RAM : 0.002250 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:51:12] Energy consumed for all CPUs : 0.034546 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:51:12] 0.036796 kWh of electricity used since the beginning.
+
+Evaluating:  86%|████████▋ | 88/102 [48:25<07:42, 33.06s/it][A[codecarbon INFO @ 10:51:27] Energy consumed for RAM : 0.002261 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:51:27] Energy consumed for all CPUs : 0.034724 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:51:27] 0.036985 kWh of electricity used since the beginning.
+
+Evaluating:  86%|████████▋ | 88/102 [48:38<07:42, 33.06s/it][A[codecarbon INFO @ 10:51:42] Energy consumed for RAM : 0.002273 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:51:42] Energy consumed for all CPUs : 0.034901 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:51:42] 0.037174 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:51:57] Energy consumed for RAM : 0.002284 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:51:57] Energy consumed for all CPUs : 0.035078 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:51:57] 0.037362 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:52:12] Energy consumed for RAM : 0.002296 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:52:12] Energy consumed for all CPUs : 0.035255 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:52:12] 0.037551 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:52:27] Energy consumed for RAM : 0.002308 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:52:27] Energy consumed for all CPUs : 0.035432 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:52:27] 0.037739 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:52:27] 0.000705 g.CO2eq/s mean an estimation of 22.222970632030865 kg.CO2eq/year
+
+Evaluating:  88%|████████▊ | 90/102 [49:31<06:37, 33.09s/it][A[codecarbon INFO @ 10:52:42] Energy consumed for RAM : 0.002319 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:52:42] Energy consumed for all CPUs : 0.035609 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:52:42] 0.037928 kWh of electricity used since the beginning.
+
+Evaluating:  88%|████████▊ | 90/102 [49:48<06:37, 33.09s/it][A[codecarbon INFO @ 10:52:57] Energy consumed for RAM : 0.002331 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:52:57] Energy consumed for all CPUs : 0.035786 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:52:57] 0.038117 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:53:12] Energy consumed for RAM : 0.002342 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:53:12] Energy consumed for all CPUs : 0.035963 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:53:12] 0.038305 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:53:27] Energy consumed for RAM : 0.002354 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:53:27] Energy consumed for all CPUs : 0.036140 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:53:27] 0.038494 kWh of electricity used since the beginning.
+
+Evaluating:  90%|█████████ | 92/102 [50:37<05:30, 33.04s/it][A[codecarbon INFO @ 10:53:42] Energy consumed for RAM : 0.002365 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:53:42] Energy consumed for all CPUs : 0.036317 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:53:42] 0.038683 kWh of electricity used since the beginning.
+
+Evaluating:  90%|█████████ | 92/102 [50:48<05:30, 33.04s/it][A[codecarbon INFO @ 10:53:57] Energy consumed for RAM : 0.002377 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:53:57] Energy consumed for all CPUs : 0.036494 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:53:57] 0.038871 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:54:12] Energy consumed for RAM : 0.002388 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:54:12] Energy consumed for all CPUs : 0.036672 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:54:12] 0.039060 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:54:27] Energy consumed for RAM : 0.002400 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:54:27] Energy consumed for all CPUs : 0.036849 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:54:27] 0.039249 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:54:27] 0.000705 g.CO2eq/s mean an estimation of 22.222355319600663 kg.CO2eq/year
+
+Evaluating:  92%|█████████▏| 94/102 [51:44<04:24, 33.10s/it][A[codecarbon INFO @ 10:54:42] Energy consumed for RAM : 0.002411 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:54:42] Energy consumed for all CPUs : 0.037026 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:54:42] 0.039437 kWh of electricity used since the beginning.
+
+Evaluating:  92%|█████████▏| 94/102 [51:58<04:24, 33.10s/it][A[codecarbon INFO @ 10:54:57] Energy consumed for RAM : 0.002423 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:54:57] Energy consumed for all CPUs : 0.037203 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:54:57] 0.039626 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:55:12] Energy consumed for RAM : 0.002434 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:55:12] Energy consumed for all CPUs : 0.037380 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:55:12] 0.039814 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:55:27] Energy consumed for RAM : 0.002446 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:55:27] Energy consumed for all CPUs : 0.037557 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:55:27] 0.040003 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:55:42] Energy consumed for RAM : 0.002458 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:55:42] Energy consumed for all CPUs : 0.037734 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:55:42] 0.040192 kWh of electricity used since the beginning.
+
+Evaluating:  94%|█████████▍| 96/102 [52:50<03:19, 33.19s/it][A[codecarbon INFO @ 10:55:57] Energy consumed for RAM : 0.002469 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:55:57] Energy consumed for all CPUs : 0.037911 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:55:57] 0.040380 kWh of electricity used since the beginning.
+
+Evaluating:  94%|█████████▍| 96/102 [53:08<03:19, 33.19s/it][A[codecarbon INFO @ 10:56:12] Energy consumed for RAM : 0.002481 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:56:12] Energy consumed for all CPUs : 0.038088 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:56:12] 0.040569 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:56:27] Energy consumed for RAM : 0.002492 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:56:27] Energy consumed for all CPUs : 0.038265 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:56:27] 0.040758 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:56:27] 0.000705 g.CO2eq/s mean an estimation of 22.222933281907682 kg.CO2eq/year
+[codecarbon INFO @ 10:56:42] Energy consumed for RAM : 0.002504 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:56:42] Energy consumed for all CPUs : 0.038443 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:56:42] 0.040946 kWh of electricity used since the beginning.
+
+Evaluating:  96%|█████████▌| 98/102 [53:56<02:12, 33.06s/it][A[codecarbon INFO @ 10:56:57] Energy consumed for RAM : 0.002515 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:56:57] Energy consumed for all CPUs : 0.038620 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:56:57] 0.041135 kWh of electricity used since the beginning.
+
+Evaluating:  96%|█████████▌| 98/102 [54:08<02:12, 33.06s/it][A[codecarbon INFO @ 10:57:12] Energy consumed for RAM : 0.002527 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:57:12] Energy consumed for all CPUs : 0.038797 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:57:12] 0.041323 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:57:27] Energy consumed for RAM : 0.002538 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:57:27] Energy consumed for all CPUs : 0.038974 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:57:27] 0.041512 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:57:42] Energy consumed for RAM : 0.002550 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:57:42] Energy consumed for all CPUs : 0.039151 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:57:42] 0.041701 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:57:57] Energy consumed for RAM : 0.002561 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:57:57] Energy consumed for all CPUs : 0.039328 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:57:57] 0.041889 kWh of electricity used since the beginning.
+
+Evaluating:  98%|█████████▊| 100/102 [55:02<01:05, 33.00s/it][A[codecarbon INFO @ 10:58:12] Energy consumed for RAM : 0.002573 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:58:12] Energy consumed for all CPUs : 0.039505 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:58:12] 0.042078 kWh of electricity used since the beginning.
+
+Evaluating:  98%|█████████▊| 100/102 [55:18<01:05, 33.00s/it][A[codecarbon INFO @ 10:58:27] Energy consumed for RAM : 0.002585 kWh. RAM Power : 2.770139694213867 W
+[codecarbon INFO @ 10:58:27] Energy consumed for all CPUs : 0.039682 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 10:58:27] 0.042267 kWh of electricity used since the beginning.
+[codecarbon INFO @ 10:58:27] 0.000705 g.CO2eq/s mean an estimation of 22.222499689587547 kg.CO2eq/year
+Evaluating: 100%|██████████| 102/102 [55:37<00:00, 32.72s/it]
+Traceback (most recent call last):
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 674, in <module>
+    main()
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 660, in main
+    train(args, train_dataset, model, tokenizer)
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 191, in train
+    results_init = do_eval_and_save(Path(args.output_dir) / f'checkpoint-epoch--1')
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 173, in do_eval_and_save
+    eval_results = evaluate(
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/exp_glue.py", line 442, in evaluate
+    auc_pr = auc_binary_precison_recall_curve(probas_pred, out_label_ids, positive_label=1)
+  File "/home/ambroise012/projet_3A/robustness_to_spurious_correlation/utils_glue.py", line 987, in auc_binary_precison_recall_curve
+    precision, recall, _ = precision_recall_curve(labels, probas_pred, positive_label)
+  File "/home/ambroise012/projet_3A/env_spurious/lib/python3.10/site-packages/sklearn/utils/_param_validation.py", line 194, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/usr/lib/python3.10/inspect.py", line 3186, in bind
+    return self._bind(args, kwargs)
+  File "/usr/lib/python3.10/inspect.py", line 3112, in _bind
+    raise TypeError(
+TypeError: too many positional arguments
+Epoch:   0%|          | 0/3 [55:44<?, ?it/s]
+{'data_dir': '~/projet_3A/robustness_to_spurious_correlation/qqp',
+ 'decay_learning_rate': 'True',
+ 'do_lower_case': 'True',
+ 'do_train': '',
+ 'eval_tasks': 'qqp qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val',
+ 'fp16': '',
+ 'learning_rate': '5e-5',
+ 'model_name_or_path': 'bert-base-uncased',
+ 'model_type': 'bert',
+ 'num_train_epochs': '3',
+ 'output_dir': 'qqp_bert_base/',
+ 'overwrite_output_dir': '',
+ 'per_gpu_eval_batch_size': '400',
+ 'per_gpu_train_batch_size': '32',
+ 'seed': 0,
+ 'task_name': 'qqp',
+ 'weight_decay': '0.0'}
+python exp_glue.py --per_gpu_eval_batch_size 400 --per_gpu_train_batch_size 32 --num_train_epochs 3 --decay_learning_rate True --do_lower_case True --learning_rate 5e-5 --model_name_or_path bert-base-uncased --model_type bert --data_dir ~/projet_3A/robustness_to_spurious_correlation/qqp --fp16  --task_name qqp --do_train  --overwrite_output_dir  --eval_tasks qqp qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val --weight_decay 0.0 --output_dir qqp_bert_base/ --seed 0

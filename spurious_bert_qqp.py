@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI")
 FEVER_DATA_PATH = os.getenv("FEVER_PATH", "~/mygit/jiant/data/FEVER/")
-PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/projet_3A/robustness_to_spurious_correlation/qqp")
+PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/projet_3A/robustness_to_spurious_correlation/paws-qqp")
 
 class settings(type):
     def __new__(self, name, bases, classdict):
@@ -55,10 +55,10 @@ class mnli_defaults(metaclass=settings):
 class pawsqqp_defaults(metaclass=settings):
     data_dir = f'{PAWSQQP_DATA_PATH}'
     fp16 = ''
-    task_name = 'qqp'
+    task_name = 'paws-qqp'
     do_train = ''
     overwrite_output_dir = ''
-    eval_tasks = 'qqp qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val'
+    eval_tasks = 'qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val'
     learning_rate = '5e-5'
     num_train_epochs = 3
     weight_decay = 0.0
