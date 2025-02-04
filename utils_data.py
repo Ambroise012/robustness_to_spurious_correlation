@@ -99,31 +99,31 @@ def load_and_cache_examples(
     return features, dataset
 
 
-# class TensorDatasetFilter(Dataset):
-#     def __init__(self, tensor_dataset, examples_ids):
-#         self._data = tensor_dataset
-#         self._ids = examples_ids if (examples_ids is not None and len(examples_ids)) else np.arange(len(self._data))
-#         self._ids_to_row = {}
-#         # map from guid to row
-#         for num_row, example in enumerate(self._data):
-#             example_id = example[-1]
-#             self._ids_to_row[example_id.item()] = num_row
+class TensorDatasetFilter(Dataset):
+    def __init__(self, tensor_dataset, examples_ids):
+        self._data = tensor_dataset
+        self._ids = examples_ids if (examples_ids is not None and len(examples_ids)) else np.arange(len(self._data))
+        self._ids_to_row = {}
+        # map from guid to row
+        for num_row, example in enumerate(self._data):
+            example_id = example[-1]
+            self._ids_to_row[example_id.item()] = num_row
 
-#     def __len__(self):
-#         return self._ids.shape[0]
+    def __len__(self):
+        return self._ids.shape[0]
 
-#     # def __getitem__(self, idx):
-#     #     example_id = self._ids[idx]
-#     #     example_row = self._ids_to_row[example_id]
-#     #     return self._data[example_row]
-#     def __getitem__(self, idx):
-#         example_id = int(self._ids[idx])  # Conversion en int natif
-#         if example_id not in self._ids_to_row:
-#             print(f"KeyError: example_id {example_id} is missing.")
-#             print(f"Available IDs (sample): {list(self._ids_to_row.keys())[:10]}")
-#             raise KeyError(example_id)
-#         example_row = self._ids_to_row[example_id]
-#         return self._data[example_row]  
+    # def __getitem__(self, idx):
+    #     example_id = self._ids[idx]
+    #     example_row = self._ids_to_row[example_id]
+    #     return self._data[example_row]
+    def __getitem__(self, idx):
+        example_id = int(self._ids[idx])  # Conversion en int natif
+        if example_id not in self._ids_to_row:
+            print(f"KeyError: example_id {example_id} is missing.")
+            print(f"Available IDs (sample): {list(self._ids_to_row.keys())[:10]}")
+            raise KeyError(example_id)
+        example_row = self._ids_to_row[example_id]
+        return self._data[example_row]  
 
 # class TensorDatasetFilter(Dataset):
 #     def __init__(self, tensor_dataset, examples_ids):
@@ -157,34 +157,34 @@ def load_and_cache_examples(
 #             return None  # Retourne None pour être filtré lors de l'entraînement
 #         return self._data[example_row]
 
-class TensorDatasetFilter(Dataset):
-    def __init__(self, tensor_dataset, examples_ids):
-        self._data = tensor_dataset
-        self._ids_to_row = {}
+# class TensorDatasetFilter(Dataset):
+#     def __init__(self, tensor_dataset, examples_ids):
+#         self._data = tensor_dataset
+#         self._ids_to_row = {}
 
-        # Mapping des IDs à leurs indices dans le dataset
-        for num_row, example in enumerate(self._data):
-            example_id = int(example[-1].item())  # Conversion en int natif
-            self._ids_to_row[example_id] = num_row
+#         # Mapping des IDs à leurs indices dans le dataset
+#         for num_row, example in enumerate(self._data):
+#             example_id = int(example[-1].item())  # Conversion en int natif
+#             self._ids_to_row[example_id] = num_row
 
-        # Filtrage des IDs invalides
-        all_valid_ids = set(self._ids_to_row.keys())
-        if examples_ids is not None and len(examples_ids):
-            # On conserve uniquement les IDs valides
-            self._ids = [int(eid) for eid in examples_ids if int(eid) in all_valid_ids]
-            missing_ids = set(map(int, examples_ids)) - all_valid_ids
-            if missing_ids:
-                print(f"Warning: {len(missing_ids)} IDs are missing and will be skipped.")
-        else:
-            self._ids = list(all_valid_ids)  # Utiliser directement les IDs valides
+#         # Filtrage des IDs invalides
+#         all_valid_ids = set(self._ids_to_row.keys())
+#         if examples_ids is not None and len(examples_ids):
+#             # On conserve uniquement les IDs valides
+#             self._ids = [int(eid) for eid in examples_ids if int(eid) in all_valid_ids]
+#             missing_ids = set(map(int, examples_ids)) - all_valid_ids
+#             if missing_ids:
+#                 print(f"Warning: {len(missing_ids)} IDs are missing and will be skipped.")
+#         else:
+#             self._ids = list(all_valid_ids)  # Utiliser directement les IDs valides
 
-    def __len__(self):
-        return len(self._ids)
+#     def __len__(self):
+#         return len(self._ids)
 
-    def __getitem__(self, idx):
-        example_id = self._ids[idx]
-        example_row = self._ids_to_row[example_id]
-        return self._data[example_row]
+#     def __getitem__(self, idx):
+#         example_id = self._ids[idx]
+#         example_row = self._ids_to_row[example_id]
+#         return self._data[example_row]
 
 
 # class TensorDatasetFilter(Dataset):

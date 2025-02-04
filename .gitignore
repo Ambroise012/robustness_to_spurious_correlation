@@ -1,5 +1,7 @@
 mnli
 mnli_bert_base
+mnli_bert_base_fbert_forget_ex
+mnli_bert_base_fbert_important_samples
 fever
 __pycache__
 qqp_bert_base/
