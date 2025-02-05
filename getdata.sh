@@ -30,7 +30,7 @@ then
     wget https://raw.githubusercontent.com/tommccoy1/hans/master/heuristics_train_set.txt
     cd ..
     cd ..
-    export MNLI_DATA_PATH=$PWD/mnli/MNLI/
+    export MNLI_DATA_PATH=$PWD/mnli/
 fi
 
 # qqp and paws need to be downloaded / built manually

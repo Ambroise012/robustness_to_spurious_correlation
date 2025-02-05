@@ -173,24 +173,17 @@ class DataProcessor(object):
         raise NotImplementedError()
 
     @classmethod
-    # def _read_tsv(cls, input_file, quotechar=None):
-    #     """Reads a tab separated value file."""
-    #     with open(input_file, "r", encoding="utf-8-sig") as f:
-    #         reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
-    #         lines = []
-    #         for line in reader:
-    #             if sys.version_info[0] == 2:
-    #                 # line = {key: unicode(value, 'utf-8') for key, value in line.items()}
-    #                 line = list(unicode(cell, 'utf-8') for cell in line)
-    #             lines.append(line)
-    #         return lines
-    def _read_tsv(self, input_file):
-        """Reads a tab-separated value file as dictionaries."""
-        with open(input_file, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f, delimiter="\t")
-            return list(reader)
-
-        
+    def _read_tsv(cls, input_file, quotechar=None):
+        """Reads a tab separated value file."""
+        with open(input_file, "r", encoding="utf-8-sig") as f:
+            reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
+            lines = []
+            for line in reader:
+                if sys.version_info[0] == 2:
+                    line = list(unicode(cell, 'utf-8') for cell in line)
+                lines.append(line)
+            return lines
+    
     @classmethod
     def _read_json(cls, input_file, quotechar=None):
         """Reads a json value file."""
@@ -269,7 +262,7 @@ class MrpcProcessor(DataProcessor):
 
 class MnliProcessor(DataProcessor):
     """Processor for the MultiNLI data set (GLUE version)."""
-
+    
     def get_train_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
@@ -470,7 +463,7 @@ class QqpProcessor(DataProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "dev_and_test.tsv")), "dev")
+            self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
 
     def get_labels(self):
         """See base class."""
@@ -567,63 +560,41 @@ class QqpWangProcessor(DataProcessor):
     def get_train_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+            self._read_tsv(os.path.join(data_dir, "shuffled_train.tsv")), "train")
 
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "dev_and_test.tsv")), "dev")
+            self._read_tsv(os.path.join(data_dir, "dev_qqp.tsv")), "dev")
 
     def get_labels(self):
         """See base class."""
         return ["0", "1"]
 
-    # def _create_examples(self, lines, set_type):
-    #     """Creates examples for the training and dev sets."""
-    #     examples = []
-    #     for (i, line) in enumerate(lines):
-    #         #if i == 0:
-    #         #    continue
-    #         guid = "%s-%s" % (set_type, i)
-    #         try:
-    #             text_a = line[1]
-    #             text_b = line[2]
-    #             label = line[3]
-    #         except IndexError:
-    #             continue
-    #         examples.append(
-    #             InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
-    #     return examples
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
         examples = []
-        for i, line in enumerate(lines):
+        for (i, line) in enumerate(lines):
+            #if i == 0:
+            #    continue
+            guid = "%s-%s" % (set_type, i)
             try:
-                guid = f"{set_type}-{i}"
-                text_a = line["sentence1"]  # Accès direct par le nom de la colonne
-                text_b = line["sentence2"]
-                label = line["label"]
-
-                # Vérification que le label est bien dans les valeurs attendues
-                if label not in self.get_labels():
-                    print(f"Label inattendu à la ligne {i}: {label}")
-                    continue
-
-                examples.append(
-                    InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
-                )
-            except KeyError as e:
-                print(f"Clé manquante à la ligne {i}: {e}")
+                text_a = line[1]
+                text_b = line[2]
+                label = line[0]
+            except IndexError:
                 continue
-        return examples 
+            examples.append(
+                InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+        return examples
 
 class QqpWangTestProcessor(QqpWangProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "dev_and_test.tsv")), "test")
+            self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
 
-# PAWS - QQP
+
 class PawsQqpProcessor(DataProcessor):
     """ PAWS-QQP task class, a subset of PAWS dataset.
 	Used in experiments in PAWS paper (https://github.com/google-research-datasets/paws).
@@ -632,7 +603,7 @@ class PawsQqpProcessor(DataProcessor):
     def get_train_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+            self._read_tsv(os.path.join(data_dir, "shuffled_train.tsv")), "train")
 
     def get_dev_examples(self, data_dir):
         """See base class."""
@@ -643,43 +614,21 @@ class PawsQqpProcessor(DataProcessor):
         """See base class."""
         return ["0", "1"]
 
-    # def _create_examples(self, lines, set_type):
-    #     """Creates examples for the training and dev sets."""
-    #     examples = []
-    #     for (i, line) in enumerate(lines):
-    #         if i == 0:
-    #             continue
-    #         guid = "%s-%s" % (set_type, i - 1)
-    #         try:
-    #             text_a = line[1]
-    #             text_b = line[2]
-    #             label = line[3]
-    #         except IndexError:
-    #             continue
-    #         examples.append(
-    #             InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
-    #     return examples
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
         examples = []
-        for i, line in enumerate(lines):
-            try:
-                guid = f"{set_type}-{i}"
-                text_a = line["sentence1"]
-                text_b = line["sentence2"]
-                label = line["label"]
-
-                # Vérifie que le label est bien dans les labels attendus
-                if label not in self.get_labels():
-                    print(f"Label inattendu à la ligne {i}: {label}")
-                    continue
-
-                examples.append(
-                    InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
-                )
-            except KeyError as e:
-                print(f"Clé manquante à la ligne {i}: {e}")
+        for (i, line) in enumerate(lines):
+            if i == 0:
                 continue
+            guid = "%s-%s" % (set_type, i - 1)
+            try:
+                text_a = line[1]
+                text_b = line[2]
+                label = line[3]
+            except IndexError:
+                continue
+            examples.append(
+                InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
         return examples
 
 
@@ -687,14 +636,14 @@ class PawsQqpAllValProcessor(PawsQqpProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "train.tsv")), "dev")
+            self._read_tsv(os.path.join(data_dir, "shuffled_train_dev_and_test.tsv")), "dev")
 
 
 class PawsWikiProcessor(PawsQqpProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "dev_and_test.tsv")), "dev")
+            self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
 
 
 class WnliProcessor(DataProcessor):
@@ -1035,8 +984,7 @@ def acc_and_f1(preds, labels, avg="binary"):
 
 def auc_binary_precison_recall_curve(probas_pred, labels, positive_label=None):
     """x-axis recall (monotonically increasing or decreasing), y-axis corresponing precision."""
-    # precision, recall, _ = precision_recall_curve(labels, probas_pred, positive_label)
-    precision, recall, _ = precision_recall_curve(labels, probas_pred, pos_label=positive_label)
+    precision, recall, _ = precision_recall_curve(labels, probas_pred, positive_label)
     # recall: Decreasing recall values such that element i is the recall of predictions with
     # score >= thresholds[i] and the last element is 0.
     return auc(recall, precision)

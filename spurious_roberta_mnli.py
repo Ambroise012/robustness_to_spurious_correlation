@@ -13,8 +13,7 @@ logger = logging.getLogger(__name__)
 
 # MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/Documents/robustness_to_spurious_correlation/robustness_to_spurious_correlation/mnli/MNLI/MNLI")
 MNLI_DATA_PATH = os.getenv("MNLI_PATH", "~/mnli")
-FEVER_DATA_PATH = os.getenv("FEVER_PATH", "~/mygit/jiant/data/FEVER/")
-PAWSQQP_DATA_PATH = os.getenv("PAWS_QQP_PATH", "~/mygit/jiant/data/soroush_data/extra/datasets/glue/paws/paws-qqp")
+
 
 class settings(type):
     def __new__(self, name, bases, classdict):
@@ -33,6 +32,17 @@ class bert_defaults(metaclass=settings):
     model_name_or_path = 'bert-base-uncased'
     model_type = 'bert'
 
+class roberta_defaults(metaclass=settings):
+    per_gpu_eval_batch_size = 32
+    per_gpu_train_batch_size = 32
+    num_train_epochs = 10
+    decay_learning_rate = 'True'
+    do_lower_case = 'False' 
+    learning_rate = 5e-5
+    model_name_or_path = 'roberta-base'
+    model_type = 'roberta'
+
+
 class bert_large_defaults(metaclass=settings):
     per_gpu_eval_batch_size = 32
     per_gpu_train_batch_size = 32
@@ -42,53 +52,6 @@ class bert_large_defaults(metaclass=settings):
     learning_rate = 5e-5
     model_name_or_path = 'bert-large-uncased'
     model_type = 'bert'
-
-class xlnet_defaults(metaclass=settings):
-    model_type = 'xlnet',
-    num_train_epochs = 10
-    model_name_or_path = "xlnet-base-cased"
-    learning_rate = 3e-5
-    per_gpu_train_batch_size = 16,
-    do_lower_case = "False"
-
-
-class xlnet_large_defaults(metaclass=settings):
-    model_type = 'xlnet',
-    num_train_epochs = 10
-    model_name_or_path = "xlnet-large-cased"
-    learning_rate = 1e-5
-    per_gpu_train_batch_size = 16
-    do_lower_case = "False"
-
-
-class lstmatt_defaults(metaclass=settings):
-    model_type = 'baseline'
-    model_name_or_path = 'lstm-att'
-    learning_rate = 0.0005
-    num_train_epochs = 5
-    per_gpu_train_batch_size = 256
-    do_lower_case = 'False'
-    config_name = './config/lstmatt_small_config.json'
-
-
-class bilstm_defaults(metaclass=settings):
-    model_type = 'baseline'
-    model_name_or_path = 'bilstm'
-    learning_rate = 0.0005
-    num_train_epochs = 5
-    per_gpu_train_batch_size = 256
-    do_lower_case = 'False'
-    config_name = './config/lstmatt_small_config.json'
-
-
-class bow_defaults(metaclass=settings):
-    model_type = 'baseline'
-    model_name_or_path = 'bow'
-    learning_rate = 0.001
-    num_train_epochs = 5
-    per_gpu_train_batch_size = 256
-    do_lower_case = 'False'
-    config_name = './config/lstmatt_small_config.json'
 
 
 class mnli_defaults(metaclass=settings):
@@ -100,45 +63,6 @@ class mnli_defaults(metaclass=settings):
     per_gpu_eval_batch_size = 32
     num_train_epochs = 4
 
-class pawsqqp_defaults(metaclass=settings):
-    data_dir = f'{PAWSQQP_DATA_PATH}'
-    fp16 = ''
-    task_name = 'qqp'
-    do_train = ''
-    overwrite_output_dir = ''
-    eval_tasks = 'qqp-wang qqp-wang-test paws-qqp paws-wiki paws-qqp-all-val'
-    learning_rate = '5e-5'
-    num_train_epochs = 3
-    weight_decay = 0.0
-    per_gpu_train_batch_size = 32
-    per_gpu_eval_batch_size = 400
-
-
-class fever_defaults(metaclass=settings):
-    data_dir = f'{FEVER_DATA_PATH}'
-    fp16 = ''
-    task_name = 'fever'
-    do_train = ''
-    overwrite_output_dir = ''
-    eval_tasks = 'fever fever-symmetric-r1 fever-symmetric-r2'
-    learning_rate = '2e-5'
-    num_train_epochs = 2
-    max_seq_length = 128
-    weight_decay = 0.0
-    per_gpu_train_batch_size = 32
-    per_gpu_eval_batch_size = 200
-    warmup_proportion = 0.
-
-
-class fever_test_defaults(metaclass=settings):
-    data_dir = f'{FEVER_DATA_PATH}'
-    fp16 = ''
-    task_name = 'fever'
-    overwrite_output_dir = ''
-    eval_tasks = 'fever fever-symmetric-r1 fever-symmetric-r2'
-    per_gpu_eval_batch_size = 400
-
-
 def execute(entry_point, kwargs):
     pprint(kwargs)
     args = ' '.join(f'--{str(k)} {str(v)}' for k, v in kwargs.items())
@@ -149,7 +73,7 @@ def execute(entry_point, kwargs):
 class Main():
     def extract_subset_from_glove(self, glove_path, dictionary, output_dir):
         """Extracts a subset of vectors from the full glove dictionary
-           and stores them in output_dir/embeddings.pkl
+        and stores them in output_dir/embeddings.pkl
         """
         from models_weak import extract_subset_from_glove
         extract_subset_from_glove(glove_path, dictionary, output_dir)
@@ -185,20 +109,15 @@ class Main():
                 id, label = line.strip().split()
                 labels_dict[int(id)] = int(label)
         if train_path:
-            if task == 'mnli':
-                df = pd.read_csv(
-                        train_path,
-                        delimiter='\t',
-                        on_bad_lines='skip', 
-                        skiprows=0,
-                        quoting=3,
-                        keep_default_na=False,
-                        encoding="utf-8",)
-            elif task == 'fever':
-                import json
-                with open(train_path, 'r') as f:
-                    data = [json.loads(s.strip()) for s in f.readlines()]
-                df = pd.DataFrame(data)
+            df = pd.read_csv(
+                    train_path,
+                    delimiter='\t',
+                    on_bad_lines='skip', 
+                    skiprows=0,
+                    quoting=3,
+                    keep_default_na=False,
+                    encoding="utf-8",)
+        
             labels_dict = dict()
             for id, label in enumerate(df.gold_label):
                 labels_dict[int(id)] = label
@@ -289,20 +208,14 @@ class Main():
                 id, label = line.strip().split()
                 labels_dict[int(id)] = int(label)
         if train_path:
-            if task == 'mnli':
-                df = pd.read_csv(
-                        train_path,
-                        delimiter='\t',
-                        on_bad_lines='skip', 
-                        skiprows=0,
-                        quoting=3,
-                        keep_default_na=False,
-                        encoding="utf-8",)
-            elif task == 'fever':
-                import json
-                with open(train_path, 'r') as f:
-                    data = [json.loads(s.strip()) for s in f.readlines()]
-                df = pd.DataFrame(data)
+            df = pd.read_csv(
+                    train_path,
+                    delimiter='\t',
+                    on_bad_lines='skip', 
+                    skiprows=0,
+                    quoting=3,
+                    keep_default_na=False,
+                    encoding="utf-8",)
             labels_dict = dict()
             for id, label in enumerate(df.gold_label):
                 labels_dict[int(id)] = label
@@ -466,20 +379,14 @@ class Main():
                 id, label = line.strip().split()
                 labels_dict[int(id)] = int(label)
         if train_path:
-            if task == 'mnli':
-                df = pd.read_csv(
-                        train_path,
-                        delimiter='\t',
-                        on_bad_lines='skip', 
-                        skiprows=0,
-                        quoting=3,
-                        keep_default_na=False,
-                        encoding="utf-8",)
-            elif task == 'fever':
-                import json
-                with open(train_path, 'r') as f:
-                    data = [json.loads(s.strip()) for s in f.readlines()]
-                df = pd.DataFrame(data)
+            df = pd.read_csv(
+                    train_path,
+                    delimiter='\t',
+                    on_bad_lines='skip', 
+                    skiprows=0,
+                    quoting=3,
+                    keep_default_na=False,
+                    encoding="utf-8",)
             labels_dict = dict()
             for id, label in enumerate(df.gold_label):
                 labels_dict[int(id)] = label
@@ -559,20 +466,14 @@ class Main():
                 id, label = line.strip().split()
                 labels_dict[int(id)] = int(label)
         if train_path:
-            if task == 'mnli':
-                df = pd.read_csv(
-                        train_path,
-                        delimiter='\t',
-                        on_bad_lines='skip', 
-                        skiprows=0,
-                        quoting=3,
-                        keep_default_na=False,
-                        encoding="utf-8",)
-            elif task == 'fever':
-                import json
-                with open(train_path, 'r') as f:
-                    data = [json.loads(s.strip()) for s in f.readlines()]
-                df = pd.DataFrame(data)
+            df = pd.read_csv(
+                    train_path,
+                    delimiter='\t',
+                    on_bad_lines='skip', 
+                    skiprows=0,
+                    quoting=3,
+                    keep_default_na=False,
+                    encoding="utf-8",)
             labels_dict = dict()
             for id, label in enumerate(df.gold_label):
                 labels_dict[int(id)] = label
@@ -648,26 +549,8 @@ class Main():
         print(f"Important and LID examples saved to {output_path}")
         
     ###########
-    #   MNLI  #
+    #  Train  #
     ###########
-    def train_mnli_bow(self, output_dir, config_name="./config/lstmatt_small_config.json", seed=0):
-        """You want to probably run first:
-           python exp_cli.py extract_subset_from_glove glove.txt config/dictionary.txt config/
-        """
-        args = bow_defaults.fields
-        args.update(mnli_defaults.fields)
-        args.update(num_train_epochs=3)
-        args.update(dict(config_name=config_name, output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
-    
-    def train_mnli_lstmatt(self, output_dir, config_name="./config/lstmatt_small_config.json", seed=0):
-        """You want to probably run first:
-           python exp_cli.py extract_subset_from_glove glove.txt config/dictionary.txt config/
-        """
-        args = lstmatt_defaults.fields
-        args.update(mnli_defaults.fields)
-        args.update(dict(config_name=config_name, output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
 
     def train_mnli_bert_base(self, output_dir, seed=0):
         args = bert_defaults.fields
@@ -675,71 +558,28 @@ class Main():
         args.update(dict(output_dir=output_dir, seed=seed))
         execute("exp_glue.py", args)
 
-    def train_mnli_xlnet_base(self, output_dir, seed=0):
-        args = xlnet_defaults.fields
+    def train_mnli_roberta_base(self, output_dir, seed=0):
+        args = roberta_defaults.fields
         args.update(mnli_defaults.fields)
         args.update(dict(output_dir=output_dir, seed=seed))
         execute("exp_glue.py", args)
-
-    def train_mnli_xlnet_large(self, output_dir, seed=0):
-        args = xlnet_large_defaults.fields
-        args.update(mnli_defaults.fields)
-        args.update(dict(output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
-    
-    ###########
-    #  FEVER  #
-    ###########
-    def train_fever_bow(self, output_dir, config_name="./config/lstmatt_small_config.json", seed=0):
-        """You want to probably run first:
-           python exp_cli.py extract_subset_from_glove glove.txt config/dictionary.txt config/
-        """
-        args = bow_defaults.fields
-        args.update(fever_defaults.fields)
-        args.update(num_train_epochs=5)
-        args.update(dict(config_name=config_name, output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
-        
-    def train_fever_bilstm(self, output_dir, config_name="./config/lstmatt_small_config.json", seed=0):
-        """You want to probably run first:
-           python exp_cli.py extract_subset_from_glove glove.txt config/dictionary.txt config/
-        """
-        args = bilstm_defaults.fields
-        args.update(fever_defaults.fields)
-        args.update(num_train_epochs=5)
-        args.update(dict(config_name=config_name, output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
-    
-    def train_fever_bert_base(self, output_dir, seed=0):
-        args = bert_defaults.fields
-        args.update(fever_defaults.fields)
-        args.update(dict(output_dir=output_dir, seed=seed))
-        execute("exp_glue.py", args)
-
    
     def finetune_hard_examples(
         self,
         base_model_path,
         output_dir,
-        base_model_type="bert_base",
+        base_model_type="roberta_base",
         hard_path="",
         hard_type="forgettables_b",
         training_examples_ids=None,
         seed=0,
         task='mnli'
     ):
-        """Finetune a base model, e.g. bert, on hard examples
-           from a weaker model, e.g. bow.
-        """
-        from pathlib import Path
-
-        if base_model_type == "bert_base":
-            args = bert_defaults.fields
+        if base_model_type == "roberta_base":
+            args = roberta_defaults.fields
         else:
             assert False
 
-        # if task == 'fever':
-        #     args.update(fever_defaults.fields)
         if task == 'mnli':
             args.update(mnli_defaults.fields)
 
@@ -750,33 +590,21 @@ class Main():
         if hard_path:
             args.update(dict(hard_examples=hard_path, hard_type=hard_type))
 
-        # fine-tune base model on hard examples
         execute("exp_glue.py", args)
-        
+
     def test(
             self, base_model_path,
-            base_model_type="bert_base",
-            task='fever', dev=False
+            base_model_type="roberta_base",
+            task='mnli', dev=False
         ):
-        from pathlib import Path
-        if base_model_type == "bert_base":
-            args = bert_defaults.fields
-        elif base_model_type == "bert_large":
-            args = bert_large_defaults.fields
-        elif base_model_type == "xlnet_base":
-            args = xlnet_defaults.fields
-        elif base_model_type == "xlnet_large":
-            args = xlnet_large_defaults.fields
+        if base_model_type == "roberta_base":
+            args = roberta_defaults.fields
         else:
             assert "Base model not valid: %s" % base_model_type
-        if task == 'mnli':
-            args.update(mnli_defaults.fields)
-        elif 'fever' in task:
-            args.update(fever_test_defaults.fields)
 
+        args.update(mnli_defaults.fields)
         args.update(dict(eval_tasks=task))
         args.update(dict(load_model=base_model_path))
-        args.update(dict(output_dir=base_model_path))
         args.update(dict(output_dir=base_model_path))
         if 'do_train' in args:
             args.pop('do_train')
@@ -784,7 +612,6 @@ class Main():
             args.update(dict(test=""))
         args.update(dict(per_gpu_eval_batch_size="32"))
 
-        # train base model on hard examples
         execute("exp_glue.py", args)
 
 
