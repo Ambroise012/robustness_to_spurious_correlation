@@ -678,6 +678,46 @@ class WnliProcessor(DataProcessor):
         return examples
 
 
+# class FeverProcessor(DataProcessor):
+#     """Processor for the FEVER data set."""
+
+#     def get_train_examples(self, data_dir):
+#         """See base class."""
+#         return self._create_examples(
+#             self._read_json(os.path.join(data_dir, "fever.train.jsonl")), "train")
+
+#     def get_dev_examples(self, data_dir):
+#         """See base class."""
+#         return self._create_examples(
+#             self._read_json(os.path.join(data_dir, "fever.dev.jsonl")), "dev_fever")
+    
+#     def get_test_examples(self, data_dir):
+#         """See base class."""
+#         return self._create_examples(
+#             self._read_json(os.path.join(data_dir, "fever_symmetric_generated.jsonl")),
+#             "test_symmetric")
+
+#     def get_labels(self):
+#         """See base class."""
+#         return ["REFUTES", "SUPPORTS", "NOT ENOUGH INFO"]
+
+#     def _create_examples(self, lines, set_type):
+#         """Creates examples for the training and dev sets."""
+#         examples = []
+#         for i, (_, line) in enumerate(lines):
+#             guid = "%s-%s" % (set_type, i)
+#             guid_num = i
+#             text_a = line['evidence_sentence']
+#             text_b = line['claim']
+#             if 'label' in line:
+#                 label = line['label']
+#             elif 'gold_label' in line:
+#                 label = line['gold_label']
+#             examples.append(
+#                 InputExample(guid=guid, guid_num=guid_num,  
+#                              text_a=text_a, text_b=text_b, label=label))
+#         return examples
+
 class FeverProcessor(DataProcessor):
     """Processor for the FEVER data set."""
 
@@ -704,19 +744,17 @@ class FeverProcessor(DataProcessor):
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
         examples = []
-        for i, (_, line) in enumerate(lines):
+        for i, (_, line) in enumerate(lines):  # Extract value from tuple
             guid = "%s-%s" % (set_type, i)
             guid_num = i
-            text_a = line['evidence_sentence']
-            text_b = line['claim']
-            if 'label' in line:
-                label = line['label']
-            elif 'gold_label' in line:
-                label = line['gold_label']
+            text_a = line['evidence']  # Corrected key
+            text_b = line['claim']  # Corrected key
+            label = line.get('gold_label', "NOT ENOUGH INFO")  # Ensuring a default label
             examples.append(
                 InputExample(guid=guid, guid_num=guid_num,  
                              text_a=text_a, text_b=text_b, label=label))
         return examples
+
 
 
 class FeverSymmetricProcessor(FeverProcessor):

@@ -10,11 +10,11 @@ then
     # get fever
     mkdir fever/
     cd fever/
-    wget https://dl.dropboxusercontent.com/s/v1a0depfg7jp90f/fever.train.jsonl
-    wget https://dl.dropboxusercontent.com/s/bdwf46sa2gcuf6j/fever.dev.jsonl
-    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.1/fever_symmetric_generated.jsonl
-    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.2/fever_symmetric_dev.jsonl
-    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.2/fever_symmetric_test.jsonl
+    wget https://dl.dropboxusercontent.com/s/v1a0depfg7jp90f/fever.train.jsonl # pas la
+    wget https://dl.dropboxusercontent.com/s/bdwf46sa2gcuf6j/fever.dev.jsonl # pas la
+    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.1/fever_symmetric_generated.jsonl # yes
+    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.2/fever_symmetric_dev.jsonl # yes
+    wget https://raw.githubusercontent.com/TalSchuster/FeverSymmetric/master/symmetric_v0.2/fever_symmetric_test.jsonl # yes
     cd ..
     export FEVER_DATA_PATH=$PWD/fever
 fi
