@@ -130,13 +130,115 @@ class Main():
     ##########################
     ######   Spurious   ######
     ##########################
+    def extract_forget_examples(
+            self,
+            example_stats_path,
+            labels_file=None,
+            train_path=None,
+            task='fever'
+        ):
+        """Given a model examples stats, filter all examples if unlearnt after epoch_num,
+        and store an example file in the specified directory.
+        """ 
 
+        import pickle
+        import numpy as np
+        from pathlib import Path
+        import pandas as pd 
+
+        output_path = example_stats_path + 'forget_examples.pkl'
+        examples_stats = pickle.load(open(example_stats_path + '/example_stats.pkl', 'rb'))
+        n_epochs = examples_stats['accuracy'].shape[1]
+        print("Loaded example stats,", examples_stats.keys())
+
+        if labels_file:
+            labels = open(labels_file, 'r').readlines()
+            labels_dict = dict()
+            for line in labels:
+                id, label = line.strip().split()
+                labels_dict[int(id)] = int(label)
+        if train_path:
+            if task == 'mnli':
+                df = pd.read_csv(
+                        train_path,
+                        delimiter='\t',
+                        on_bad_lines='skip', 
+                        skiprows=0,
+                        quoting=3,
+                        keep_default_na=False,
+                        encoding="utf-8",)
+            elif task == 'fever':
+                import json
+                with open(train_path, 'r') as f:
+                    data = [json.loads(s.strip()) for s in f.readlines()]
+                df = pd.DataFrame(data)
+            labels_dict = dict()
+            for id, label in enumerate(df.gold_label):
+                labels_dict[int(id)] = label
+
+        def balance_by_class(hard_ids, labels_dict):
+            """Balances the examples by class."""
+            by_label = dict()
+            for id in hard_ids:
+                label = labels_dict[id]
+                arr = by_label.get(label, [])
+                arr.append(id)
+                by_label[label] = arr
+            min_num = np.min([len(arr) for arr in by_label.values()])
+            balanced_ids = []
+            for arr in by_label.values():
+                balanced_ids.extend(arr[:min_num])
+            return np.array(balanced_ids)
+
+        def select_unlearnt_after_n_epochs(n_epoch):
+            accuracy = examples_stats['accuracy'][:, n_epoch:]
+            accuracy_min = np.min(accuracy, 1)
+            hard_indices = np.where(accuracy_min == 0)[0]
+            return hard_indices
+
+        def select_by_loss():
+            end_loss = examples_stats['loss'][:, -1]
+            indices_by_loss = np.argsort(end_loss)[::-1]
+            return indices_by_loss
+
+        def select_forgettables():
+            from utils_forgetting import compute_forgetting
+            forgetting, _, max_correct = compute_forgetting(examples_stats['accuracy'])
+            never_learnt = np.where(forgetting == max_correct)[0]
+            return forgetting, never_learnt
+
+        # Select forgettable examples
+        selected_indices, _ = select_forgettables()
+
+        # Select examples unlearnt after the last epoch
+        unlearnt_after_last_epoch = select_unlearnt_after_n_epochs(n_epochs - 1)
+
+        # Select examples by highest loss
+        highest_loss_indices = select_by_loss()[:100]  # Select top 100 by loss
+
+        # Combine all selected indices
+        combined_selected_indices = np.unique(np.concatenate((selected_indices, unlearnt_after_last_epoch, highest_loss_indices)))
+
+        # Balance the combined selected examples by class
+        balanced_selected_indices = balance_by_class(combined_selected_indices, labels_dict)
+
+        # Save the results in a pickle file
+        results = {
+            'selected_examples': combined_selected_indices,
+            'forgettables_b': balanced_selected_indices
+        }
+
+        with open(output_path, "wb") as f:
+            pickle.dump(results, f)
+
+        print(f"Forgettable examples saved to {output_path}")
+    
     def extract_important_examples(
             self,
             example_stats_path,
             labels_file=None,
             train_path=None,
-            task='mnli'
+            task='fever'
         ):
         
         """Given a model examples stats, compute importance scores, select examples
@@ -227,7 +329,7 @@ class Main():
             example_stats_path,
             labels_file=None,
             train_path=None,
-            task='mnli'
+            task='fever'
         ):
         
         import pickle
@@ -320,7 +422,7 @@ class Main():
             example_stats_path,
             labels_file=None,
             train_path=None,
-            task='mnli'
+            task='fever'
         ):
         
         """Given a model examples stats, compute importance scores based on probs, select examples
@@ -413,7 +515,7 @@ class Main():
             example_stats_path,
             labels_file=None,
             train_path=None,
-            task='mnli'
+            task='fever'
         ):
         
         """Given a model examples stats, compute importance scores based on probs, select examples
