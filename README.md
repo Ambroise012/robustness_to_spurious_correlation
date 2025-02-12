@@ -68,7 +68,7 @@ nohup python spurious_bert_fever.py train_fever_bert_base --output_dir fever_ber
 # extract forgettables from bert model
 python spurious_bert_fever.py extract_forget_examples fever_bert_base/ -train_path fever/fever.train.jsonl --task fever 
 
-nohup python spurious_bert_fever.py finetune_hard_examples fever_bert_base/checkpoint-last/ fever_bert_forget/ --hard_path fever_bert_base/hard_examples.pkl &>output_log/out_fever/out_ft_forget.log
+nohup python spurious_bert_fever.py finetune_hard_examples fever_bert_base/checkpoint-last/ fever_bert_forget/ --hard_path fever_bert_base/forget_examples.pkl &>output_log/out_fever/out_ft_forget.log
 ```
 
 ### Important examples
