@@ -569,30 +569,141 @@ def to_pandas(results):
 import torch
 import torch.nn.functional as F
 
+# def pgd_attack(model, inputs, epsilon=0.1, alpha=0.01, num_steps=3):
+#     """
+#     Applique le PGD (Projected Gradient Descent) pour générer des exemples adversariaux.
+#     """
+#     inputs = {k: v.clone().detach().float().requires_grad_() for k, v in inputs.items()}
+
+#     # inputs = {k: v.clone().detach().requires_grad_() for k, v in inputs.items()}
+#     original_inputs = {k: v.clone().detach() for k, v in inputs.items()}
+    
+#     # Entraîner pendant num_steps
+#     for _ in range(num_steps):
+#         outputs = model(**inputs)
+#         loss = outputs[0]  # Récupère la perte
+#         loss.backward()
+
+#         # Perturbation des embeddings avec le gradient
+#         with torch.no_grad():
+#             for k, v in inputs.items():
+#                 if v.requires_grad:
+#                     # Appliquer la perturbation avec un epsilon
+#                     perturbation = epsilon * v.grad.sign()
+#                     inputs[k] = torch.clamp(v + perturbation, 0, 1)  # Assurer que les valeurs restent dans [0, 1]
+#                     inputs[k] = torch.min(torch.max(inputs[k], original_inputs[k] - epsilon), original_inputs[k] + epsilon)
+#                     inputs[k].requires_grad_()
+
+#         # Réinitialisation du gradient
+#         model.zero_grad()
+
+#     return inputs
+
+# def pgd_attack(model, inputs, epsilon=0.1, alpha=0.01, num_steps=3):
+#     """
+#     Applique le PGD (Projected Gradient Descent) pour générer des exemples adversariaux.
+#     """
+
+#     # Vérifier que input_ids est présent
+#     if 'input_ids' not in inputs:
+#         raise ValueError("L'entrée 'input_ids' est manquante dans inputs.")
+
+#     # Cloner les entrées et gérer les types de tenseurs correctement
+#     new_inputs = {}
+#     for k, v in inputs.items():
+#         if k in ['input_ids', 'token_type_ids']:
+#             new_inputs[k] = v.clone().detach().long()  # Reste en int64
+#         else:
+#             new_inputs[k] = v.clone().detach().float().requires_grad_()  # Float avec gradients activés
+
+#     # Conserver les entrées originales pour la projection
+#     original_inputs = {k: v.clone().detach() for k, v in new_inputs.items()}
+
+#     print("Entrées originales et clonées :")
+#     for k, v in original_inputs.items():
+#         print(f"{k}: {v.shape}, {v.dtype}")
+
+#     # PGD sur plusieurs étapes
+#     for step in range(num_steps):
+#         print(f"\n--- Étape {step + 1} ---")
+
+#         # Forward pass
+#         outputs = model(**new_inputs)  # Assurer que new_inputs est bien passé
+#         loss = outputs[0]  # Supposition que la perte est la première sortie
+#         print(f"Perte au début de l'étape {step + 1}: {loss.item()}")
+
+#         # Calcul des gradients
+#         loss.backward()
+
+#         # Perturbation des embeddings avec le gradient
+#         with torch.no_grad():
+#             for k, v in new_inputs.items():
+#                 if v.dtype == torch.float and v.requires_grad:
+#                     perturbation = alpha * v.grad.sign()
+#                     new_inputs[k] = torch.clamp(v + perturbation, 0, 1)  # Contrainte sur [0, 1]
+#                     print(f"Perturbation appliquée pour {k}: {perturbation.mean().item()}")
+
+#                     # Projection dans la plage [original_input - epsilon, original_input + epsilon]
+#                     new_inputs[k] = torch.min(torch.max(new_inputs[k], original_inputs[k] - epsilon), original_inputs[k] + epsilon)
+#                     print(f"Entrée mise à jour pour {k}: {new_inputs[k].mean().item()}")
+
+#                     # Réactiver les gradients pour les entrées mises à jour
+#                     new_inputs[k].requires_grad_()
+
+#         # Réinitialisation des gradients
+#         model.zero_grad()
+
+#     return new_inputs
+
 def pgd_attack(model, inputs, epsilon=0.1, alpha=0.01, num_steps=3):
     """
     Applique le PGD (Projected Gradient Descent) pour générer des exemples adversariaux.
     """
-    inputs = {k: v.clone().detach().requires_grad_() for k, v in inputs.items()}
-    original_inputs = {k: v.clone().detach() for k, v in inputs.items()}
-    
-    # Entraîner pendant num_steps
-    for _ in range(num_steps):
+
+    # Cloner les entrées et assurer le bon type
+    inputs = {
+        k: (v.clone().detach().float().requires_grad_() if k in ['attention_mask'] 
+            else v.clone().detach().long())  # Pas de requires_grad_() pour les entiers
+        for k, v in inputs.items()
+    }
+
+    original_inputs = {k: v.clone().detach() for k, v in inputs.items()}  # Sauvegarde des entrées originales
+
+    print("Entrées originales et clonées :")
+    for k, v in original_inputs.items():
+        print(f"{k}: {v.shape}, {v.dtype}")
+
+    # PGD Loop
+    for step in range(num_steps):
+        print(f"\n--- Étape {step + 1} ---")
+
+        # S'assurer que labels est bien de type long
+        if 'labels' in inputs:
+            inputs['labels'] = inputs['labels'].long()
+
+        # Propagation avant
         outputs = model(**inputs)
-        loss = outputs[0]  # Récupère la perte
+        loss = outputs[0]  # La perte est supposée être en première sortie
+        print(f"Perte au début de l'étape {step + 1}: {loss.item()}")
+
+        # Calcul des gradients
         loss.backward()
 
-        # Perturbation des embeddings avec le gradient
+        # Perturbation
         with torch.no_grad():
             for k, v in inputs.items():
-                if v.requires_grad:
-                    # Appliquer la perturbation avec un epsilon
+                if v.dtype == torch.float and v.requires_grad:
                     perturbation = epsilon * v.grad.sign()
-                    inputs[k] = torch.clamp(v + perturbation, 0, 1)  # Assurer que les valeurs restent dans [0, 1]
-                    inputs[k] = torch.min(torch.max(inputs[k], original_inputs[k] - epsilon), original_inputs[k] + epsilon)
-                    inputs[k].requires_grad_()
+                    inputs[k] = torch.clamp(v + perturbation, 0, 1)
+                    print(f"Perturbation appliquée pour {k}: {perturbation.mean().item()}")
 
-        # Réinitialisation du gradient
+                    # Clip pour rester dans la plage autorisée
+                    inputs[k] = torch.min(torch.max(inputs[k], original_inputs[k] - epsilon), original_inputs[k] + epsilon)
+                    print(f"Entrée mise à jour pour {k}: {inputs[k].mean().item()}")
+
+                    inputs[k].requires_grad_()  # Réactiver les gradients
+
+        # Reset gradients
         model.zero_grad()
 
     return inputs
@@ -689,9 +800,9 @@ def train(args, train_dataset, model, tokenizer, eval_dataset=None, eval_feature
         logger.info("Saving model checkpoint to %s", output_dir)
         return eval_results
 
-    results_init = do_eval_and_save(Path(args.output_dir) / f'checkpoint-epoch--1')
-    all_results = [results_init]
-    print(to_pandas(all_results))
+    # results_init = do_eval_and_save(Path(args.output_dir) / f'checkpoint-epoch--1')
+    # all_results = [results_init]
+    # print(to_pandas(all_results))
 
     for epoch in train_iterator:
         epoch_iterator = tqdm(train_dataloader, desc="Iteration", mininterval=10,
@@ -926,290 +1037,110 @@ def evaluate(
     return results
 
 
-# def main():
-#     parser = argparse.ArgumentParser()
-
-#     ## Required parameters
-#     parser.add_argument("--data_dir", default=None, type=str, required=True,
-#                         help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
-#     parser.add_argument("--training_examples_ids", default=None, type=str)
-#     parser.add_argument("--hard_examples", default=None, type=str)
-#     parser.add_argument("--hard_type", default=None, type=str)
-#     parser.add_argument("--model_type", default=None, type=str, required=True,
-#                         help="Model type selected in the list: " + ", ".join(MODEL_CLASSES.keys()))
-#     parser.add_argument("--model_name_or_path", default=None, type=str, required=True,
-#                         help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
-#     parser.add_argument("--do_lower_case", type=str,
-#                         help="Set this flag if you are using an uncased model.",
-#                         required=True)
-#     ## Loading options
-#     parser.add_argument("--avg_models", type=str, required=False,
-#                         help="Path to avg model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
-#     parser.add_argument("--load_model", type=str, required=False,
-#                         help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
-#     ##
-#     parser.add_argument("--proportion", default=0., type=float)
-#     parser.add_argument("--adam_beta0", default=0.9, type=float)
-#     parser.add_argument("--task_name", default=None, type=str, required=True,
-#                         help="The name of the task to train selected in the list: " + ", ".join(processors.keys()))
-#     parser.add_argument("--stress_subtask", default=None, type=str, required=False,
-#                         help="The name of the stress test")
-#     parser.add_argument("--output_dir", default=None, type=str, required=False,
-#                         help="The output directory where the model predictions and checkpoints will be written.")
-#     ## Other parameters
-#     parser.add_argument("--config_name", default="", type=str,
-#                         help="Pretrained config name or path if not the same as model_name")
-#     parser.add_argument("--tokenizer_name", default="", type=str,
-#                         help="Pretrained tokenizer name or path if not the same as model_name")
-#     parser.add_argument("--cache_dir", default="", type=str,
-#                         help="Where do you want to store the pre-trained models downloaded from s3")
-#     parser.add_argument("--max_seq_length", default=128, type=int,
-#                         help="The maximum total input sequence length after tokenization. Sequences longer "
-#                              "than this will be truncated, sequences shorter will be padded.")
-#     parser.add_argument("--do_train", action='store_true',
-#                         help="Whether to run training.")
-#     parser.add_argument("--do_eval", action='store_true',
-#                         help="Whether to run eval on the dev set.")
-#     parser.add_argument("--evaluate_during_training", action='store_true',
-#                         help="Rul evaluation during training at each logging step.")
-#     parser.add_argument("--per_gpu_train_batch_size", default=8, type=int,
-#                         help="Batch size per GPU/CPU for training.")
-#     parser.add_argument("--per_gpu_eval_batch_size", default=8, type=int,
-#                         help="Batch size per GPU/CPU for evaluation.")
-#     parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
-#                         help="Number of updates steps to accumulate before performing a backward/update pass.")
-#     parser.add_argument("--learning_rate", default=5e-5, type=float,
-#                         help="The initial learning rate for Adam.")
-#     parser.add_argument("--weight_decay", default=0.0, type=float,
-#                         help="Weight deay if we apply some.")
-#     parser.add_argument("--adam_epsilon", default=1e-8, type=float,
-#                         help="Epsilon for Adam optimizer.")
-#     parser.add_argument("--decay_learning_rate", default="True", type=str)
-#     parser.add_argument("--max_grad_norm", default=1.0, type=float,
-#                         help="Max gradient norm.")
-#     parser.add_argument("--num_train_epochs", default=3.0, type=float,
-#                         help="Total number of training epochs to perform.")
-#     parser.add_argument("--max_steps", default=-1, type=int,
-#                         help="If > 0: set total number of training steps to perform. Override num_train_epochs.")
-#     parser.add_argument("--warmup_proportion", default=0., type=float,
-#                         help="Linear warmup over warmup_steps.")
-#     parser.add_argument('--logging_steps', type=int, default=50,
-#                         help="Log every X updates steps.")
-#     parser.add_argument('--save_steps', type=int, default=500,
-#                         help="Save checkpoint every X updates steps.")
-#     parser.add_argument("--eval_all_checkpoints", action='store_true',
-#                         help="Evaluate all checkpoints starting with the same prefix as model_name ending and ending with step number")
-#     parser.add_argument("--no_cuda", action='store_true',
-#                         help="Avoid using CUDA when available")
-#     parser.add_argument('--overwrite_output_dir', action='store_true',
-#                         help="Overwrite the content of the output directory")
-#     parser.add_argument('--overwrite_cache', action='store_true',
-#                         help="Overwrite the cached training and evaluation sets")
-#     parser.add_argument('--seed', type=int, default=42,
-#                         help="random seed for initialization")
-#     parser.add_argument('--fp16', action='store_true',
-#                         help="Whether to use 16-bit (mixed) precision (through NVIDIA apex) instead of 32-bit")
-#     parser.add_argument('--fp16_opt_level', type=str, default='O1',
-#                         help="For fp16: Apex AMP optimization level selected in ['O0', 'O1', 'O2', and 'O3']."
-#                              "See details at https://nvidia.github.io/apex/amp.html")
-#     parser.add_argument("--local_rank", type=int, default=-1,
-#                         help="For distributed training: local_rank")
-#     parser.add_argument("--eval_tasks", default=['mnli', 'hans'], nargs='+', required=False,
-#                         help="The name of the tasks to evaluate during training selected in the list: " + ", ".join(processors.keys()))
-#     parser.add_argument("--test", action='store_true',
-#                         help="use test set to evaluate")
-#     args = parser.parse_args()
-
-#     args.do_lower_case = eval(args.do_lower_case)
-#     args.decay_learning_rate = eval(args.decay_learning_rate)
-
-#     if args.output_dir and \
-#             os.path.exists(args.output_dir) and \
-#             os.listdir(args.output_dir) and \
-#             args.do_train and \
-#             not args.overwrite_output_dir:
-#         raise ValueError("Output directory ({}) already exists. Use --overwrite_output_dir.".format(
-#             args.output_dir))
-
-#     # Setup CUDA, GPU & distributed training
-#     if args.local_rank == -1 or args.no_cuda:
-#         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
-#         args.n_gpu = torch.cuda.device_count()
-#     else:
-#         torch.cuda.set_device(args.local_rank)
-#         device = torch.device("cuda", args.local_rank)
-#         torch.distributed.init_process_group(backend='nccl')
-#         args.n_gpu = 1
-#     args.device = device
-#     set_seed(args)
-
-#     # Setup logging
-#     logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
-#                         datefmt = '%m/%d/%Y %H:%M:%S',
-#                         level = logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
-#     logger.warning("Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
-#                     args.local_rank, device, args.n_gpu, bool(args.local_rank != -1), args.fp16)
-
-#     # Set seed
-#     set_seed(args)
-
-#     # Prepare GLUE task
-#     args.task_name = args.task_name.lower()
-#     if args.task_name not in processors:
-#         raise ValueError("Task not found: %s" % (args.task_name))
-#     processor = processors[args.task_name]()
-#     args.output_mode = output_modes[args.task_name]
-#     label_list = processor.get_labels()
-#     num_labels = len(label_list)
-
-#     # Load pretrained model and tokenizer
-#     if args.local_rank not in [-1, 0]:
-#         torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
-
-#     args.model_type = args.model_type.lower()
-#     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
-
-#     if args.load_model:
-#         # Load model from checkpoint here
-#         config = config_class.from_pretrained(
-#             args.load_model, num_labels=num_labels, finetuning_task=args.task_name)
-#         tokenizer = tokenizer_class.from_pretrained(args.load_model, do_lower_case=args.do_lower_case)
-#         model = model_class.from_pretrained(args.load_model, from_tf=False, config=config)
-#     else:
-#         config = config_class.from_pretrained(
-#             args.config_name if args.config_name else args.model_name_or_path,
-#             num_labels=num_labels, finetuning_task=args.task_name)
-#         tokenizer_kwargs = dict(vocab_file=config.vocab_file) if args.model_type == 'baseline' else dict()
-#         tokenizer = tokenizer_class.from_pretrained(
-#             args.tokenizer_name if args.tokenizer_name else args.model_name_or_path, do_lower_case=args.do_lower_case,
-#             **tokenizer_kwargs)
-#         model = model_class.from_pretrained(args.model_name_or_path, from_tf=False, config=config)
-
-#     if args.local_rank == 0:
-#         torch.distributed.barrier()
-
-#     model.to(args.device)
-
-#     ### CodeCarbon ###
-#     tracker = EmissionsTracker(project_name="Spurious_QQP") # or EmissionsTracker()
-#     tracker.start()
-
-#     logger.info("Training/evaluation parameters %s", args)
-
-#     # Prepare training
-#     if args.do_train:
-#         _, train_dataset = load_and_cache_examples(args.data_dir, args.model_name_or_path, args.model_type,
-#                                                    args.max_seq_length, args.task_name, tokenizer, evaluate=False)
-#         hard_examples_ids = None
-#         if args.hard_examples:
-#             # filter training dataset with hard examples ids
-#             with open(args.hard_examples, 'rb') as f:
-#                 hard_examples_stats = pickle.load(f)
-#                 hard_examples_ids = hard_examples_stats[args.hard_type]
-                
-#         # if args.hard_examples:
-#         #     # Lecture du fichier .pkl
-#         #     with open(args.hard_examples, 'rb') as f:
-#         #         hard_examples_stats = pickle.load(f)
-#         #         # Utilisation directe de tout le contenu
-#         #         hard_examples_ids = np.array(hard_examples_stats, dtype='int64')
-                
-#         elif args.training_examples_ids:
-#             # other format of training examples ids
-#             with open(args.training_examples_ids, 'r') as f:
-#                 hard_examples_ids = np.array(f.read().strip().split(','), dtype='int64')
-
-#         train_dataset = TensorDatasetFilter(train_dataset, hard_examples_ids)
-#         if hard_examples_ids is not None:
-#             logger.info("Filtering dataset using hard examples: %s", len(train_dataset))
-#         train(args, train_dataset, model, tokenizer)
-#     else:
-#         eval_results = evaluate(
-#             args, model, tokenizer,
-#             stress_subtask=args.stress_subtask,
-#             eval_task_names=args.eval_tasks,
-#             eval_output_dir=args.load_model,)
-#         all_results = [eval_results]
-#         print(to_pandas(all_results))
-#     # end code carbon
-#     tracker.stop()
-#     return
-
-import argparse
-import os
-import torch
-import logging
-import pickle
-import numpy as np
-from distutils.util import strtobool
-from codecarbon import EmissionsTracker
-
-# Ajoutez ici vos imports manquants pour `MODEL_CLASSES`, `ALL_MODELS`, `processors`, `output_modes`, `set_seed`,
-# `load_and_cache_examples`, `train`, `evaluate`, `TensorDatasetFilter`, `to_pandas`
-
 def main():
     parser = argparse.ArgumentParser()
 
     ## Required parameters
-    parser.add_argument("--data_dir", type=str, required=True, help="The input data dir containing .tsv files.")
-    parser.add_argument("--training_examples_ids", type=str, default=None)
-    parser.add_argument("--hard_examples", type=str, default=None)
-    parser.add_argument("--hard_type", type=str, default=None)
-    parser.add_argument("--model_type", type=str, required=True, help="Model type selected from: " + ", ".join(MODEL_CLASSES.keys()))
-    parser.add_argument("--model_name_or_path", type=str, required=True, help="Pre-trained model path or shortcut name from: " + ", ".join(ALL_MODELS))
-    parser.add_argument("--do_lower_case", type=str, required=True, help="Set this flag if using an uncased model.")
-
+    parser.add_argument("--data_dir", default=None, type=str, required=True,
+                        help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
+    parser.add_argument("--training_examples_ids", default=None, type=str)
+    parser.add_argument("--hard_examples", default=None, type=str)
+    parser.add_argument("--hard_type", default=None, type=str)
+    parser.add_argument("--model_type", default=None, type=str, required=True,
+                        help="Model type selected in the list: " + ", ".join(MODEL_CLASSES.keys()))
+    parser.add_argument("--model_name_or_path", default=None, type=str, required=True,
+                        help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
+    parser.add_argument("--do_lower_case", type=str,
+                        help="Set this flag if you are using an uncased model.",
+                        required=True)
     ## Loading options
-    parser.add_argument("--avg_models", type=str, default=None)
-    parser.add_argument("--load_model", type=str, default=None)
-
-    ## Additional parameters
-    parser.add_argument("--proportion", type=float, default=0.0)
-    parser.add_argument("--adam_beta0", type=float, default=0.9)
-    parser.add_argument("--task_name", type=str, required=True, help="Task name selected from: " + ", ".join(processors.keys()))
-    parser.add_argument("--stress_subtask", type=str, default=None)
-    parser.add_argument("--output_dir", type=str, default=None, help="Output directory for model predictions and checkpoints.")
-
+    parser.add_argument("--avg_models", type=str, required=False,
+                        help="Path to avg model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
+    parser.add_argument("--load_model", type=str, required=False,
+                        help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS))
+    ##
+    parser.add_argument("--proportion", default=0., type=float)
+    parser.add_argument("--adam_beta0", default=0.9, type=float)
+    parser.add_argument("--task_name", default=None, type=str, required=True,
+                        help="The name of the task to train selected in the list: " + ", ".join(processors.keys()))
+    parser.add_argument("--stress_subtask", default=None, type=str, required=False,
+                        help="The name of the stress test")
+    parser.add_argument("--output_dir", default=None, type=str, required=False,
+                        help="The output directory where the model predictions and checkpoints will be written.")
     ## Other parameters
-    parser.add_argument("--config_name", type=str, default="")
-    parser.add_argument("--tokenizer_name", type=str, default="")
-    parser.add_argument("--cache_dir", type=str, default="")
-    parser.add_argument("--max_seq_length", type=int, default=128)
-    parser.add_argument("--do_train", action='store_true')
-    parser.add_argument("--do_eval", action='store_true')
-    parser.add_argument("--evaluate_during_training", action='store_true')
-    parser.add_argument("--per_gpu_train_batch_size", type=int, default=8)
-    parser.add_argument("--per_gpu_eval_batch_size", type=int, default=8)
-    parser.add_argument("--gradient_accumulation_steps", type=int, default=1)
-    parser.add_argument("--learning_rate", type=float, default=5e-5)
-    parser.add_argument("--weight_decay", type=float, default=0.0)
-    parser.add_argument("--adam_epsilon", type=float, default=1e-8)
-    parser.add_argument("--decay_learning_rate", type=str, default="True")
-    parser.add_argument("--max_grad_norm", type=float, default=1.0)
-    parser.add_argument("--num_train_epochs", type=float, default=3.0)
-    parser.add_argument("--max_steps", type=int, default=-1)
-    parser.add_argument("--warmup_proportion", type=float, default=0.0)
-    parser.add_argument("--logging_steps", type=int, default=50)
-    parser.add_argument("--save_steps", type=int, default=500)
-    parser.add_argument("--eval_all_checkpoints", action='store_true')
-    parser.add_argument("--no_cuda", action='store_true')
-    parser.add_argument("--overwrite_output_dir", action='store_true')
-    parser.add_argument("--overwrite_cache", action='store_true')
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--fp16", action='store_true')
-    parser.add_argument("--fp16_opt_level", type=str, default='O1')
-    parser.add_argument("--local_rank", type=int, default=-1)
-    parser.add_argument("--eval_tasks", nargs='+', default=['mnli', 'hans'], help="Tasks for evaluation.")
-    parser.add_argument("--test", action='store_true')
-
+    parser.add_argument("--config_name", default="", type=str,
+                        help="Pretrained config name or path if not the same as model_name")
+    parser.add_argument("--tokenizer_name", default="", type=str,
+                        help="Pretrained tokenizer name or path if not the same as model_name")
+    parser.add_argument("--cache_dir", default="", type=str,
+                        help="Where do you want to store the pre-trained models downloaded from s3")
+    parser.add_argument("--max_seq_length", default=128, type=int,
+                        help="The maximum total input sequence length after tokenization. Sequences longer "
+                             "than this will be truncated, sequences shorter will be padded.")
+    parser.add_argument("--do_train", action='store_true',
+                        help="Whether to run training.")
+    parser.add_argument("--do_eval", action='store_true',
+                        help="Whether to run eval on the dev set.")
+    parser.add_argument("--evaluate_during_training", action='store_true',
+                        help="Rul evaluation during training at each logging step.")
+    parser.add_argument("--per_gpu_train_batch_size", default=8, type=int,
+                        help="Batch size per GPU/CPU for training.")
+    parser.add_argument("--per_gpu_eval_batch_size", default=8, type=int,
+                        help="Batch size per GPU/CPU for evaluation.")
+    parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
+                        help="Number of updates steps to accumulate before performing a backward/update pass.")
+    parser.add_argument("--learning_rate", default=5e-5, type=float,
+                        help="The initial learning rate for Adam.")
+    parser.add_argument("--weight_decay", default=0.0, type=float,
+                        help="Weight deay if we apply some.")
+    parser.add_argument("--adam_epsilon", default=1e-8, type=float,
+                        help="Epsilon for Adam optimizer.")
+    parser.add_argument("--decay_learning_rate", default="True", type=str)
+    parser.add_argument("--max_grad_norm", default=1.0, type=float,
+                        help="Max gradient norm.")
+    parser.add_argument("--num_train_epochs", default=3.0, type=float,
+                        help="Total number of training epochs to perform.")
+    parser.add_argument("--max_steps", default=-1, type=int,
+                        help="If > 0: set total number of training steps to perform. Override num_train_epochs.")
+    parser.add_argument("--warmup_proportion", default=0., type=float,
+                        help="Linear warmup over warmup_steps.")
+    parser.add_argument('--logging_steps', type=int, default=50,
+                        help="Log every X updates steps.")
+    parser.add_argument('--save_steps', type=int, default=500,
+                        help="Save checkpoint every X updates steps.")
+    parser.add_argument("--eval_all_checkpoints", action='store_true',
+                        help="Evaluate all checkpoints starting with the same prefix as model_name ending and ending with step number")
+    parser.add_argument("--no_cuda", action='store_true',
+                        help="Avoid using CUDA when available")
+    parser.add_argument('--overwrite_output_dir', action='store_true',
+                        help="Overwrite the content of the output directory")
+    parser.add_argument('--overwrite_cache', action='store_true',
+                        help="Overwrite the cached training and evaluation sets")
+    parser.add_argument('--seed', type=int, default=42,
+                        help="random seed for initialization")
+    parser.add_argument('--fp16', action='store_true',
+                        help="Whether to use 16-bit (mixed) precision (through NVIDIA apex) instead of 32-bit")
+    parser.add_argument('--fp16_opt_level', type=str, default='O1',
+                        help="For fp16: Apex AMP optimization level selected in ['O0', 'O1', 'O2', and 'O3']."
+                             "See details at https://nvidia.github.io/apex/amp.html")
+    parser.add_argument("--local_rank", type=int, default=-1,
+                        help="For distributed training: local_rank")
+    parser.add_argument("--eval_tasks", default=['mnli', 'hans'], nargs='+', required=False,
+                        help="The name of the tasks to evaluate during training selected in the list: " + ", ".join(processors.keys()))
+    parser.add_argument("--test", action='store_true',
+                        help="use test set to evaluate")
     args = parser.parse_args()
 
-    # Convert boolean string arguments safely
-    args.do_lower_case = bool(strtobool(args.do_lower_case))
-    args.decay_learning_rate = bool(strtobool(args.decay_learning_rate))
+    args.do_lower_case = eval(args.do_lower_case)
+    args.decay_learning_rate = eval(args.decay_learning_rate)
 
-    if args.output_dir and os.path.exists(args.output_dir) and os.listdir(args.output_dir) and args.do_train and not args.overwrite_output_dir:
-        raise ValueError(f"Output directory ({args.output_dir}) already exists. Use --overwrite_output_dir.")
+    if args.output_dir and \
+            os.path.exists(args.output_dir) and \
+            os.listdir(args.output_dir) and \
+            args.do_train and \
+            not args.overwrite_output_dir:
+        raise ValueError("Output directory ({}) already exists. Use --overwrite_output_dir.".format(
+            args.output_dir))
 
     # Setup CUDA, GPU & distributed training
     if args.local_rank == -1 or args.no_cuda:
@@ -1221,43 +1152,49 @@ def main():
         torch.distributed.init_process_group(backend='nccl')
         args.n_gpu = 1
     args.device = device
-
     set_seed(args)
 
     # Setup logging
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-                        datefmt='%m/%d/%Y %H:%M:%S',
-                        level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
-    
-    logger = logging.getLogger(__name__)
-    logger.warning(f"Process rank: {args.local_rank}, device: {device}, n_gpu: {args.n_gpu}, "
-                   f"distributed training: {args.local_rank != -1}, 16-bit training: {args.fp16}")
+    logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
+                        datefmt = '%m/%d/%Y %H:%M:%S',
+                        level = logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
+    logger.warning("Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
+                    args.local_rank, device, args.n_gpu, bool(args.local_rank != -1), args.fp16)
 
-    # Prepare task
+    # Set seed
+    set_seed(args)
+
+    # Prepare GLUE task
     args.task_name = args.task_name.lower()
     if args.task_name not in processors:
-        raise ValueError(f"Task not found: {args.task_name}")
-
+        raise ValueError("Task not found: %s" % (args.task_name))
     processor = processors[args.task_name]()
     args.output_mode = output_modes[args.task_name]
     label_list = processor.get_labels()
     num_labels = len(label_list)
 
-    # Load model and tokenizer
+    # Load pretrained model and tokenizer
     if args.local_rank not in [-1, 0]:
-        torch.distributed.barrier()
+        torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
 
     args.model_type = args.model_type.lower()
     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
 
     if args.load_model:
-        config = config_class.from_pretrained(args.load_model, num_labels=num_labels, finetuning_task=args.task_name)
+        # Load model from checkpoint here
+        config = config_class.from_pretrained(
+            args.load_model, num_labels=num_labels, finetuning_task=args.task_name)
         tokenizer = tokenizer_class.from_pretrained(args.load_model, do_lower_case=args.do_lower_case)
-        model = model_class.from_pretrained(args.load_model, config=config)
+        model = model_class.from_pretrained(args.load_model, from_tf=False, config=config)
     else:
-        config = config_class.from_pretrained(args.config_name or args.model_name_or_path, num_labels=num_labels)
-        tokenizer = tokenizer_class.from_pretrained(args.tokenizer_name or args.model_name_or_path, do_lower_case=args.do_lower_case)
-        model = model_class.from_pretrained(args.model_name_or_path, config=config)
+        config = config_class.from_pretrained(
+            args.config_name if args.config_name else args.model_name_or_path,
+            num_labels=num_labels, finetuning_task=args.task_name)
+        tokenizer_kwargs = dict(vocab_file=config.vocab_file) if args.model_type == 'baseline' else dict()
+        tokenizer = tokenizer_class.from_pretrained(
+            args.tokenizer_name if args.tokenizer_name else args.model_name_or_path, do_lower_case=args.do_lower_case,
+            **tokenizer_kwargs)
+        model = model_class.from_pretrained(args.model_name_or_path, from_tf=False, config=config)
 
     if args.local_rank == 0:
         torch.distributed.barrier()
@@ -1265,30 +1202,204 @@ def main():
     model.to(args.device)
 
     ### CodeCarbon ###
-    tracker = EmissionsTracker(project_name="Spurious_QQP")
+    tracker = EmissionsTracker(project_name="Spurious_QQP") # or EmissionsTracker()
     tracker.start()
 
-    logger.info(f"Training/evaluation parameters {args}")
+    logger.info("Training/evaluation parameters %s", args)
 
-    # Training
+    # Prepare training
     if args.do_train:
-        _, train_dataset = load_and_cache_examples(args.data_dir, args.model_name_or_path, args.model_type, args.max_seq_length, args.task_name, tokenizer, evaluate=False)
-        
+        _, train_dataset = load_and_cache_examples(args.data_dir, args.model_name_or_path, args.model_type,
+                                                   args.max_seq_length, args.task_name, tokenizer, evaluate=False)
+        hard_examples_ids = None
         if args.hard_examples:
+            # filter training dataset with hard examples ids
             with open(args.hard_examples, 'rb') as f:
                 hard_examples_stats = pickle.load(f)
                 hard_examples_ids = hard_examples_stats[args.hard_type]
+                
+        # if args.hard_examples:
+        #     # Lecture du fichier .pkl
+        #     with open(args.hard_examples, 'rb') as f:
+        #         hard_examples_stats = pickle.load(f)
+        #         # Utilisation directe de tout le contenu
+        #         hard_examples_ids = np.array(hard_examples_stats, dtype='int64')
+                
         elif args.training_examples_ids:
+            # other format of training examples ids
             with open(args.training_examples_ids, 'r') as f:
                 hard_examples_ids = np.array(f.read().strip().split(','), dtype='int64')
 
         train_dataset = TensorDatasetFilter(train_dataset, hard_examples_ids)
+        if hard_examples_ids is not None:
+            logger.info("Filtering dataset using hard examples: %s", len(train_dataset))
         train(args, train_dataset, model, tokenizer)
     else:
-        eval_results = evaluate(args, model, tokenizer, stress_subtask=args.stress_subtask, eval_task_names=args.eval_tasks)
-        print(to_pandas([eval_results]))
-
+        eval_results = evaluate(
+            args, model, tokenizer,
+            stress_subtask=args.stress_subtask,
+            eval_task_names=args.eval_tasks,
+            eval_output_dir=args.load_model,)
+        all_results = [eval_results]
+        print(to_pandas(all_results))
+    # end code carbon
     tracker.stop()
+    return
+
+# import argparse
+# import os
+# import torch
+# import logging
+# import pickle
+# import numpy as np
+# from distutils.util import strtobool
+# from codecarbon import EmissionsTracker
+
+# # Ajoutez ici vos imports manquants pour `MODEL_CLASSES`, `ALL_MODELS`, `processors`, `output_modes`, `set_seed`,
+# # `load_and_cache_examples`, `train`, `evaluate`, `TensorDatasetFilter`, `to_pandas`
+
+# def main():
+#     parser = argparse.ArgumentParser()
+
+#     ## Required parameters
+#     parser.add_argument("--data_dir", type=str, required=True, help="The input data dir containing .tsv files.")
+#     parser.add_argument("--training_examples_ids", type=str, default=None)
+#     parser.add_argument("--hard_examples", type=str, default=None)
+#     parser.add_argument("--hard_type", type=str, default=None)
+#     parser.add_argument("--model_type", type=str, required=True, help="Model type selected from: " + ", ".join(MODEL_CLASSES.keys()))
+#     parser.add_argument("--model_name_or_path", type=str, required=True, help="Pre-trained model path or shortcut name from: " + ", ".join(ALL_MODELS))
+#     parser.add_argument("--do_lower_case", type=str, required=True, help="Set this flag if using an uncased model.")
+
+#     ## Loading options
+#     parser.add_argument("--avg_models", type=str, default=None)
+#     parser.add_argument("--load_model", type=str, default=None)
+
+#     ## Additional parameters
+#     parser.add_argument("--proportion", type=float, default=0.0)
+#     parser.add_argument("--adam_beta0", type=float, default=0.9)
+#     parser.add_argument("--task_name", type=str, required=True, help="Task name selected from: " + ", ".join(processors.keys()))
+#     parser.add_argument("--stress_subtask", type=str, default=None)
+#     parser.add_argument("--output_dir", type=str, default=None, help="Output directory for model predictions and checkpoints.")
+
+#     ## Other parameters
+#     parser.add_argument("--config_name", type=str, default="")
+#     parser.add_argument("--tokenizer_name", type=str, default="")
+#     parser.add_argument("--cache_dir", type=str, default="")
+#     parser.add_argument("--max_seq_length", type=int, default=128)
+#     parser.add_argument("--do_train", action='store_true')
+#     parser.add_argument("--do_eval", action='store_true')
+#     parser.add_argument("--evaluate_during_training", action='store_true')
+#     parser.add_argument("--per_gpu_train_batch_size", type=int, default=8)
+#     parser.add_argument("--per_gpu_eval_batch_size", type=int, default=8)
+#     parser.add_argument("--gradient_accumulation_steps", type=int, default=1)
+#     parser.add_argument("--learning_rate", type=float, default=5e-5)
+#     parser.add_argument("--weight_decay", type=float, default=0.0)
+#     parser.add_argument("--adam_epsilon", type=float, default=1e-8)
+#     parser.add_argument("--decay_learning_rate", type=str, default="True")
+#     parser.add_argument("--max_grad_norm", type=float, default=1.0)
+#     parser.add_argument("--num_train_epochs", type=float, default=3.0)
+#     parser.add_argument("--max_steps", type=int, default=-1)
+#     parser.add_argument("--warmup_proportion", type=float, default=0.0)
+#     parser.add_argument("--logging_steps", type=int, default=50)
+#     parser.add_argument("--save_steps", type=int, default=500)
+#     parser.add_argument("--eval_all_checkpoints", action='store_true')
+#     parser.add_argument("--no_cuda", action='store_true')
+#     parser.add_argument("--overwrite_output_dir", action='store_true')
+#     parser.add_argument("--overwrite_cache", action='store_true')
+#     parser.add_argument("--seed", type=int, default=42)
+#     parser.add_argument("--fp16", action='store_true')
+#     parser.add_argument("--fp16_opt_level", type=str, default='O1')
+#     parser.add_argument("--local_rank", type=int, default=-1)
+#     parser.add_argument("--eval_tasks", nargs='+', default=['mnli', 'hans'], help="Tasks for evaluation.")
+#     parser.add_argument("--test", action='store_true')
+
+#     args = parser.parse_args()
+
+#     # Convert boolean string arguments safely
+#     args.do_lower_case = bool(strtobool(args.do_lower_case))
+#     args.decay_learning_rate = bool(strtobool(args.decay_learning_rate))
+
+#     if args.output_dir and os.path.exists(args.output_dir) and os.listdir(args.output_dir) and args.do_train and not args.overwrite_output_dir:
+#         raise ValueError(f"Output directory ({args.output_dir}) already exists. Use --overwrite_output_dir.")
+
+#     # Setup CUDA, GPU & distributed training
+#     if args.local_rank == -1 or args.no_cuda:
+#         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
+#         args.n_gpu = torch.cuda.device_count()
+#     else:
+#         torch.cuda.set_device(args.local_rank)
+#         device = torch.device("cuda", args.local_rank)
+#         torch.distributed.init_process_group(backend='nccl')
+#         args.n_gpu = 1
+#     args.device = device
+
+#     set_seed(args)
+
+#     # Setup logging
+#     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+#                         datefmt='%m/%d/%Y %H:%M:%S',
+#                         level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
+    
+#     logger = logging.getLogger(__name__)
+#     logger.warning(f"Process rank: {args.local_rank}, device: {device}, n_gpu: {args.n_gpu}, "
+#                    f"distributed training: {args.local_rank != -1}, 16-bit training: {args.fp16}")
+
+#     # Prepare task
+#     args.task_name = args.task_name.lower()
+#     if args.task_name not in processors:
+#         raise ValueError(f"Task not found: {args.task_name}")
+
+#     processor = processors[args.task_name]()
+#     args.output_mode = output_modes[args.task_name]
+#     label_list = processor.get_labels()
+#     num_labels = len(label_list)
+
+#     # Load model and tokenizer
+#     if args.local_rank not in [-1, 0]:
+#         torch.distributed.barrier()
+
+#     args.model_type = args.model_type.lower()
+#     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
+
+#     if args.load_model:
+#         config = config_class.from_pretrained(args.load_model, num_labels=num_labels, finetuning_task=args.task_name)
+#         tokenizer = tokenizer_class.from_pretrained(args.load_model, do_lower_case=args.do_lower_case)
+#         model = model_class.from_pretrained(args.load_model, config=config)
+#     else:
+#         config = config_class.from_pretrained(args.config_name or args.model_name_or_path, num_labels=num_labels)
+#         tokenizer = tokenizer_class.from_pretrained(args.tokenizer_name or args.model_name_or_path, do_lower_case=args.do_lower_case)
+#         model = model_class.from_pretrained(args.model_name_or_path, config=config)
+
+#     if args.local_rank == 0:
+#         torch.distributed.barrier()
+
+#     model.to(args.device)
+
+#     ### CodeCarbon ###
+#     tracker = EmissionsTracker(project_name="Spurious_QQP")
+#     tracker.start()
+
+#     logger.info(f"Training/evaluation parameters {args}")
+
+#     # Training
+#     if args.do_train:
+#         _, train_dataset = load_and_cache_examples(args.data_dir, args.model_name_or_path, args.model_type, args.max_seq_length, args.task_name, tokenizer, evaluate=False)
+        
+#         if args.hard_examples:
+#             with open(args.hard_examples, 'rb') as f:
+#                 hard_examples_stats = pickle.load(f)
+#                 hard_examples_ids = hard_examples_stats[args.hard_type]
+#         elif args.training_examples_ids:
+#             with open(args.training_examples_ids, 'r') as f:
+#                 hard_examples_ids = np.array(f.read().strip().split(','), dtype='int64')
+
+#         train_dataset = TensorDatasetFilter(train_dataset, hard_examples_ids)
+#         train(args, train_dataset, model, tokenizer)
+#     else:
+#         eval_results = evaluate(args, model, tokenizer, stress_subtask=args.stress_subtask, eval_task_names=args.eval_tasks)
+#         print(to_pandas([eval_results]))
+
+#     tracker.stop()
 
 if __name__ == "__main__":
     main()
