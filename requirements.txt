@@ -1,25 +1,44 @@
-# PyTorch
-torch>=1.0.0
-#
-scikit-learn
-quadprog
-fire
-# progress bars in model download and training scripts
-tqdm
-# Accessing files from S3 directly.
-boto3
-# Install tensorboard
-tensorboard
-# for math
-scipy
-# Used for downloading models over HTTP
-requests
-# For OpenAI GPT
-regex
-pandas
-# For XLNet
-sentencepiece
-# For XLM
-sacremoses
+mpmath==1.3.0
+numpy==2.2.2
+pandas==2.2.3
+# pynvml==12.0.0
+quadprog==0.1.13
+regex==2024.11.6
+requests==2.32.3
+sacremoses==0.1.1
+scikit-learn==1.6.1
+scipy==1.15.1
+sentencepiece==0.2.0
+# sympy==1.13.1
+tensorboard==2.18.0
+torch==2.5.1
+tqdm==4.67.1
+
+####################################
+###################################
+# # PyTorch
+# torch>=1.0.0
+
+# #
+# scikit-learn
+# quadprog
+# fire
+# # progress bars in model download and training scripts
+# tqdm
+# # Accessing files from S3 directly.
+# boto3
+# # Install tensorboard
+# tensorboard
+# # for math
+# scipy
+# # Used for downloading models over HTTP
+# requests
+# # For OpenAI GPT
+# regex
+# pandas
+# # For XLNet
+# sentencepiece
+# # For XLM
+# sacremoses
+# # codecarbon
 # codecarbon
-codecarbon
